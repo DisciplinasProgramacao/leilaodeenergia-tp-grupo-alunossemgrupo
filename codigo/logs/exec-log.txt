@@ -1,0 +1,5 @@
+Algoritmo                 | Data de execução                    | Quantidade dados          | Tempo execução (seg)      | Cores disponíveis         | Memória total (GB)        | Memória máxima (GB)       | Memória liberada (GB)    
+Backtrackiong             | 2024-05-07T08:43:49.978366300       | 10                        | 10.0                      | 12                        | 268435456                 | 4278190080                | 265413456                
+Backtrackiong             | 2024-05-07T08:44:33.801774700       | 10                        | 10.0                      | 12.0                      | 268435456                 | 4278190080                | 265413456                
+Backtrackiong             | 2024-05-07T08:45:01.419182          | 10                        | 10.0                      | 12                        | 0                         | 4                         | 0                        
+Backtrackiong             | 2024-05-07T08:45:32.134359400       | 10                        | 10.0                      | 12                        | 268                       | 4278                      | 265                      
