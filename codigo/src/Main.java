@@ -31,6 +31,11 @@ public class Main {
          * Qualquer dúvida, pode me chamar no whatsapp
          */
 
+        /*
+        * Lista de tarefas:
+        * todo: adicionar novo log mostrando os lances analisados e qual foi o MelhorResultado -> vai ajudar a conferir os resultados
+        * */
+
         List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
 
         algoritmosImplementados.forEach(algoritmo ->
