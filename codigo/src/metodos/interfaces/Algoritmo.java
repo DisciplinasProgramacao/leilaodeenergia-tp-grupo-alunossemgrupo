@@ -22,6 +22,7 @@ public interface Algoritmo {
 
     String algoritmo();
 
+    //    Caso a implementação de algum algoritmo não use os mesmos parâmetros para execução, me chame que ajudo a ver como adaptar essa interface
     void executar(MelhorResultado resultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int indice, int lucroAtual);
 
     /**
