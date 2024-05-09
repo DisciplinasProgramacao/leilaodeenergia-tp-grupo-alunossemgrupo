@@ -4,8 +4,6 @@ import metodos.interfaces.Algoritmo;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
-import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
 
 public class Main {
     public static void main(String[] args) {
