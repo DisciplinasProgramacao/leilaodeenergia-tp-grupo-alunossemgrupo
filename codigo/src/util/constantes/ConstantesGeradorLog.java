@@ -8,7 +8,7 @@ public class ConstantesGeradorLog {
     public static final String CONFIGURACAO_COLUNAS = "%-25s | %-25s | %-25s | %-25s | %-25s | %-25s | %-25s | %-25s";
 
     public static final String[] COLUNAS = {
-            "Algoritmo", "Data de execução", "Quantidade dados", "Tempo execução (seg)",
+            "Algoritmo", "Data de execução", "Quantidade lances", "Tempo execução (seg)",
             "Cores disponíveis", "Memória total (Mb)", "Memória máxima (Mb)", "Memória liberada (Mb)"
     };
 

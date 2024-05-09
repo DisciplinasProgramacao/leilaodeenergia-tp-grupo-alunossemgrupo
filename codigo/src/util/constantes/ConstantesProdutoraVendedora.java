@@ -23,7 +23,7 @@ public class ConstantesProdutoraVendedora {
     public static final Integer QUANTIDADE_DISPONIVEL_PRODUTORA = CINQUENTA;
 
     // Quantidade de compradoras que serão geradas
-    public static final Integer QUANTIDADE_COMPRADORAS = 16;
+    public static final Integer QUANTIDADE_COMPRADORAS = QUINZE;
 
     // Quantidade máxima de lances que uma compradora pode ter
     public static final Integer QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA = TRES;
