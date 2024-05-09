@@ -11,12 +11,13 @@ public class Main {
     public static void main(String[] args) {
 
         /*
-         * Para ver as configurações nas quais os algoritmos vão ser executados, acessar arquivo: ConstantesProdutoraVendedora
-         * Caminho: src > util > constantes > ConstantesProdutoraVendedora
+         * INSTRUÇÕES:
+         * - Para ver as configurações nas quais os algoritmos vão ser executados, acessar arquivo: ConstantesProdutoraVendedora
+         *   Caminho: src > util > constantes > ConstantesProdutoraVendedora
+         * - Para cada algoritmo criado, basta adicionar ele à lista abaixo, exemplo: asList(new Backtracking(), new Guloso())
+         * - Caso deseje executar apenas um algoritmo, basta usar o construtor: Algoritmo algoritmo = new Backtracking(), e chamar o método algoritmo.executar()
          */
 
-//        Lista de algoritmos implementados, para cada algoritmo criado, basta adicionar ele à lista abaixo, exemplo: asList(new Backtracking(), new Guloso())
-//        Caso deseje executar apenas um algoritmo, basta usar o construtor: Algoritmo algoritmo = new Backtracking(), e chamar o método algoritmo.executar()
         List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
 
         algoritmosImplementados.forEach(algoritmo ->
