@@ -6,6 +6,9 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 public class Main {
+
+    public static List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
+
     public static void main(String[] args) {
 
         /*
@@ -33,8 +36,6 @@ public class Main {
          * Lista de tarefas:
          * todo: adicionar novo log mostrando os lances analisados e qual foi o MelhorResultado -> vai ajudar a conferir os resultados
          */
-
-        List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
 
         algoritmosImplementados.forEach(Algoritmo::executarAlgoritmo);
 
