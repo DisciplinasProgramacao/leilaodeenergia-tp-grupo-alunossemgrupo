@@ -32,9 +32,9 @@ public class Main {
          */
 
         /*
-        * Lista de tarefas:
-        * todo: adicionar novo log mostrando os lances analisados e qual foi o MelhorResultado -> vai ajudar a conferir os resultados
-        */
+         * Lista de tarefas:
+         * todo: adicionar novo log mostrando os lances analisados e qual foi o MelhorResultado -> vai ajudar a conferir os resultados
+         */
 
         List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
 
