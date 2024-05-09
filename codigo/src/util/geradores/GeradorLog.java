@@ -11,7 +11,9 @@ import java.io.PrintWriter;
 
 import static entidades.Sistema.instancia;
 import static java.lang.String.format;
+import static java.lang.String.join;
 import static java.time.LocalDateTime.now;
+import static java.util.Locale.US;
 import static util.constantes.ConstantesErros.MSG_ERRO_ARQUIVO;
 import static util.constantes.ConstantesFormatos.FORMATO_DATA;
 import static util.constantes.ConstantesGeradorLog.*;
@@ -28,7 +30,7 @@ public class GeradorLog {
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
     public static void gerarLog(String algoritmo, int qtdeDados, double tempoExec) throws IOException {
-        File arquivo = new File(CAMINHO_ARQUIVO);
+        File arquivo = new File(CAMINHO_ARQUIVO + EXTENSAO_CSV);
         Sistema sistema = instancia();
 
         try {
@@ -48,8 +50,8 @@ public class GeradorLog {
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
     private static void criarArquivoECabecalho() throws IOException {
-        try (PrintWriter escritorArquivo = new PrintWriter(CAMINHO_ARQUIVO)) {
-            escritorArquivo.println(format(CONFIGURACAO_COLUNAS, (Object[]) COLUNAS));
+        try (PrintWriter escritorArquivo = new PrintWriter(CAMINHO_ARQUIVO + EXTENSAO_CSV)) {
+            escritorArquivo.println(join(VIRGULA, COLUNAS));
         }
     }
 
@@ -59,8 +61,8 @@ public class GeradorLog {
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
     private static void escreverNoArquivo(String algoritmo, int qtdeDados, double tempoExec, @NotNull Sistema sistema) throws IOException {
-        try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO, true))) {
-            escritorArquivo.println(format(CONFIGURACAO_COLUNAS,
+        try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO + EXTENSAO_CSV, true))) {
+            escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV,
                     algoritmo,
                     now().format(FORMATO_DATA),
                     qtdeDados,
@@ -72,5 +74,4 @@ public class GeradorLog {
             ));
         }
     }
-
 }
