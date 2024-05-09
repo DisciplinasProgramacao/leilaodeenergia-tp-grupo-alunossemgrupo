@@ -9,5 +9,5 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 @UtilityClass
 public class ConstantesFormatos {
 
-    public static final DateTimeFormatter FORMATO_DATA = ofPattern("dd-MM-yyyy hh:mm:ss");
+    public static final DateTimeFormatter FORMATO_DATA = ofPattern("dd-MM-yyyy HH:mm:ss");
 }

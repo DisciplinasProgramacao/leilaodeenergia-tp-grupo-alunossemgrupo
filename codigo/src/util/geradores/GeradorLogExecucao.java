@@ -19,7 +19,7 @@ import static util.constantes.ConstantesFormatos.FORMATO_DATA;
 import static util.constantes.ConstantesGeradorLog.*;
 
 @UtilityClass
-public class GeradorLog {
+public class GeradorLogExecucao {
 
     /**
      * Gera o log de execução do algoritmo
@@ -29,15 +29,13 @@ public class GeradorLog {
      * @param tempoExec tempo de execução
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
-    public static void gerarLog(String algoritmo, int qtdeDados, double tempoExec) throws IOException {
-        File arquivo = new File(CAMINHO_ARQUIVO + EXTENSAO_CSV);
+    public static void gerarLogExecucao(String algoritmo, int qtdeDados, double tempoExec) throws IOException {
+        File arquivo = new File(CAMINHO_ARQUIVO_EXECUCAO + EXTENSAO_CSV);
         Sistema sistema = instancia();
 
         try {
-            if (!arquivo.exists()) {
+            if (!arquivo.exists())
                 criarArquivoECabecalho();
-            }
-
             escreverNoArquivo(algoritmo, qtdeDados, tempoExec, sistema);
         } catch (IOException e) {
             throw new IOException(MSG_ERRO_ARQUIVO);
@@ -45,13 +43,13 @@ public class GeradorLog {
     }
 
     /**
-     * Cria cabeçalho do arquivo de logs
+     * Cria cabeçalho do arquivo de log de execução
      *
-     * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
+     * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de log
      */
     private static void criarArquivoECabecalho() throws IOException {
-        try (PrintWriter escritorArquivo = new PrintWriter(CAMINHO_ARQUIVO + EXTENSAO_CSV)) {
-            escritorArquivo.println(join(VIRGULA, COLUNAS));
+        try (PrintWriter escritorArquivo = new PrintWriter(CAMINHO_ARQUIVO_EXECUCAO + EXTENSAO_CSV)) {
+            escritorArquivo.println(join(VIRGULA, COLUNAS_EXECUCAO));
         }
     }
 
@@ -61,8 +59,8 @@ public class GeradorLog {
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
     private static void escreverNoArquivo(String algoritmo, int qtdeDados, double tempoExec, @NotNull Sistema sistema) throws IOException {
-        try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO + EXTENSAO_CSV, true))) {
-            escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV,
+        try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO_EXECUCAO + EXTENSAO_CSV, true))) {
+            escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_EXECUCAO,
                     algoritmo,
                     now().format(FORMATO_DATA),
                     qtdeDados,

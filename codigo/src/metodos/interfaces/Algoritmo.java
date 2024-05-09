@@ -15,7 +15,8 @@ import static util.constantes.ConstantesNumeros.UM;
 import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
 import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
 import static util.geradores.GeradorCompradoras.gerarCompradoras;
-import static util.geradores.GeradorLog.gerarLog;
+import static util.geradores.GeradorLogExecucao.gerarLogExecucao;
+import static util.geradores.GeradorLogHistorico.gerarLogHistorico;
 
 /**
  * Interface relacionada a cada um dos algoritmos implementados no trabalho
@@ -48,8 +49,10 @@ public interface Algoritmo {
         relacionarCompradoras(melhorResultado, compradoras);
         relacionarQuantidadeVendida(melhorResultado);
 
+//        Gera os logs de análise. Esses logs ficam registrados no caminho logs/execucao e logs/historico
         try {
-            gerarLog(algoritmo(), lancesRelacionados.size(), melhorResultado.getContador().getTempoExecucao());
+            gerarLogExecucao(algoritmo(), lancesRelacionados.size(), melhorResultado.getContador().getTempoExecucao());
+            gerarLogHistorico(lancesRelacionados, melhorResultado);
         } catch (Exception e) {
             Logger.getLogger(Algoritmo.class.getName()).warning(e.getLocalizedMessage());
         }
