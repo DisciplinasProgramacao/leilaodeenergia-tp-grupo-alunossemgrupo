@@ -1,4 +1,4 @@
-package util;
+package util.conversores;
 
 import lombok.experimental.UtilityClass;
 

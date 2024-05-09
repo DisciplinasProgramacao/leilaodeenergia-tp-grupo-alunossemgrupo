@@ -5,13 +5,12 @@ import lombok.Data;
 
 import static java.lang.Runtime.getRuntime;
 import static java.util.Objects.isNull;
-import static util.ConversorUnidades.bytesParaMegabytes;
+import static util.conversores.ConversorUnidades.bytesParaMegabytes;
 
 @Data
 @Builder
 public class Sistema {
 
-//    Utilizado padrão Singleton, pois apenas uma instância de Sistema deve ser utilizado por vez
     private static Sistema INSTANCIA;
 
     private int coresDisponiveis;

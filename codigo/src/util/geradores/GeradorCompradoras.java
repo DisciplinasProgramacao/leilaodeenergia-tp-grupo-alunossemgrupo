@@ -1,4 +1,4 @@
-package util;
+package util.geradores;
 
 import entidades.Compradora;
 import lombok.experimental.UtilityClass;
@@ -10,7 +10,7 @@ import java.util.List;
 import static java.lang.String.format;
 import static java.util.concurrent.ThreadLocalRandom.current;
 import static util.constantes.ConstantesProdutoraVendedora.*;
-import static util.GeradorLances.gerarLances;
+import static util.geradores.GeradorLances.gerarLances;
 import static util.constantes.ConstantesNumeros.UM;
 
 @UtilityClass
@@ -27,7 +27,7 @@ public class GeradorCompradoras {
         List<Compradora> compradoras = new ArrayList<>();
         do {
             Long id = (long) compradoras.size();
-            Integer qtdeDisponivel = current().nextInt(QUANTIDADE_MINIMA, QUANTIDADE_MAXIMA + UM);
+            Integer qtdeDisponivel = current().nextInt(QUANTIDADE_MINIMA_COMPRADORA, QUANTIDADE_MAXIMA_COMPRADORA + UM);
             compradoras.add(
                     Compradora.builder()
                             .id(id)

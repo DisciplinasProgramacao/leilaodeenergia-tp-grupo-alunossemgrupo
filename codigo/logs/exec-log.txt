@@ -1,2 +1,5 @@
 Algoritmo                 | Data de execução          | Quantidade dados          | Tempo execução (seg)      | Cores disponíveis         | Memória total (Mb)        | Memória máxima (Mb)       | Memória liberada (Mb)    
-teste                     | 07-05-2024                | 10                        | 10.0                      | 12                        | 268                       | 4278                      | 265                      
+BACKTRACKING              | 09-05-2024 08:06:23       | 39                        | 0.0                       | 12                        | 335                       | 4278                      | 246                      
+BACKTRACKING              | 09-05-2024 08:06:31       | 41                        | 0.0                       | 12                        | 398                       | 4278                      | 163                      
+BACKTRACKING              | 09-05-2024 08:06:45       | 47                        | 7.0                       | 12                        | 484                       | 4278                      | 195                      
+BACKTRACKING              | 09-05-2024 08:08:59       | 47                        | 114.0                     | 12                        | 476                       | 4278                      | 269                      

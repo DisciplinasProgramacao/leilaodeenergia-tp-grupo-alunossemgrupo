@@ -1,4 +1,4 @@
-package util;
+package util.geradores;
 
 import entidades.Lance;
 import lombok.experimental.UtilityClass;
@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.concurrent.ThreadLocalRandom.current;
-import static util.constantes.ConstantesNumeros.CEM;
-import static util.constantes.ConstantesNumeros.UM;
+import static util.constantes.ConstantesNumeros.*;
 
 @UtilityClass
 public class GeradorLances {
@@ -32,7 +31,7 @@ public class GeradorLances {
                             .build()
             );
             qtdeRemanescente -= lances.get(lances.size() - UM).quantidade();
-        } while (lances.size() != qtdeMaximaLances && qtdeRemanescente > 0);
+        } while (lances.size() != qtdeMaximaLances && qtdeRemanescente > ZERO);
         return lances;
     }
 }
