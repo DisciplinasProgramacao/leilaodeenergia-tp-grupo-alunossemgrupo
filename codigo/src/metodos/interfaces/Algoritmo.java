@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import static entidades.Compradora.encontrarPorId;
 import static java.util.stream.Collectors.toSet;
 import static util.constantes.ConstantesNumeros.UM;
+import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
+import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
 import static util.geradores.GeradorCompradoras.gerarCompradoras;
 import static util.geradores.GeradorLog.gerarLog;
 
@@ -28,13 +30,11 @@ public interface Algoritmo {
     /**
      * Executa um algoritmo
      *
-     * @param qtdeCompradoras              quantidade de empresas compradoras
-     * @param qtdeMaximaLancePorCompradora quantidade máxima de lances que cada compradora pode ter
      * @return objeto do tipo MelhorResultado
      */
-    default MelhorResultado executarAlgoritmo(int qtdeCompradoras, int qtdeMaximaLancePorCompradora) {
+    default MelhorResultado executarAlgoritmo() {
         MelhorResultado melhorResultado = new MelhorResultado();
-        List<Compradora> compradoras = gerarCompradoras(qtdeCompradoras, qtdeMaximaLancePorCompradora);
+        List<Compradora> compradoras = gerarCompradoras(QUANTIDADE_COMPRADORAS, QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA);
         List<Lance> lancesRelacionados = compradoras.stream()
                 .flatMap(compradora -> compradora.lances().stream())
                 .toList();

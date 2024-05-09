@@ -38,8 +38,7 @@ public class Main {
 
         List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
 
-        algoritmosImplementados.forEach(algoritmo ->
-                algoritmo.executarAlgoritmo(QUANTIDADE_COMPRADORAS, QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA));
+        algoritmosImplementados.forEach(Algoritmo::executarAlgoritmo);
 
     }
 }
