@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import metodos.interfaces.Algoritmo;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class Backtracking implements Algoritmo {
         if (indice == todosLances.size()) {
             if (lucroAtual > melhorResultado.getLucroMaximizado()) {
                 melhorResultado.setLucroMaximizado(lucroAtual);
-                melhorResultado.setLancesSelecionados(new HashSet<>(lancesSelecionados));
+                melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
             }
             return;
         }

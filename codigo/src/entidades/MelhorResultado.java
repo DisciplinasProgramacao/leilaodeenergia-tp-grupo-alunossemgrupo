@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 import static util.constantes.ConstantesProdutoraVendedora.*;
@@ -16,7 +17,7 @@ public class MelhorResultado {
     private Produtora produtora;
     private Contador contador;
     private Set<Compradora> compradoras;
-    private Set<Lance> lancesSelecionados;
+    private List<Lance> lancesSelecionados;
     private int lucroMaximizado;
     private int quantidadeVendida;
 

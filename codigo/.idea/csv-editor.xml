@@ -66,6 +66,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\logs\historico\hist-11.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\logs\historico\hist-2.csv">
           <value>
             <Attribute>
@@ -81,6 +88,20 @@
           </value>
         </entry>
         <entry key="\logs\historico\hist-4.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\logs\historico\hist-6.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\logs\historico\hist-7.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

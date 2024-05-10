@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import static entidades.Compradora.encontrarPorId;
 import static java.util.stream.Collectors.toSet;
 import static util.constantes.ConstantesNumeros.UM;
+import static util.constantes.ConstantesNumeros.ZERO;
 import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
 import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
 import static util.geradores.GeradorCompradoras.gerarCompradoras;
@@ -42,7 +43,7 @@ public interface Algoritmo {
 
 //        Marca tempo de execução e executa o algoritmo de referência
         melhorResultado.getContador().iniciarContador();
-        executar(melhorResultado, lancesRelacionados, new ArrayList<>(), UM, UM);
+        executar(melhorResultado, lancesRelacionados, new ArrayList<>(), ZERO, ZERO);
         melhorResultado.getContador().finalizarContator();
 
 //        Relaciona campos para análise do melhor resultado
