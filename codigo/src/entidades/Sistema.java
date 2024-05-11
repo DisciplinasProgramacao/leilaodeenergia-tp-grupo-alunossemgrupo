@@ -5,7 +5,7 @@ import lombok.Data;
 
 import static java.lang.Runtime.getRuntime;
 import static java.util.Objects.isNull;
-import static util.conversores.ConversorUnidades.bytesParaMegabytes;
+import static utils.conversores.ConversorUnidades.bytesParaMegabytes;
 
 @Data
 @Builder

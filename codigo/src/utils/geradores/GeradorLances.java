@@ -1,4 +1,4 @@
-package util.geradores;
+package utils.geradores;
 
 import entidades.Lance;
 import lombok.experimental.UtilityClass;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.concurrent.ThreadLocalRandom.current;
-import static util.constantes.ConstantesNumeros.*;
+import static utils.constantes.ConstantesNumeros.*;
 
 @UtilityClass
 public class GeradorLances {

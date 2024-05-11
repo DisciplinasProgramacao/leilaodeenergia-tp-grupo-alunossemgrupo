@@ -1,5 +1,22 @@
 # Código do Projeto
 
-Mantenha neste diretório todo o código fonte do projeto. 
+Nesse diretório está armazenado o código-fonte do projeto.
 
-Se necessário, descreva neste arquivo aspectos relevantes da estrutura de diretórios criada para organização do código.
+O hierarquia de pacotes do código está segregado da seguinte forma:
+
+- `logs`: arquivos de logs, gerados a cada execução do código.
+    - `execucao`: logs de execução, guarda a informação sobre o algoritmo executado, data de execução, quantidade de
+      lances utilizados, tempo de execução em segundos, cores disponível do SO, memória total (mb), memória máxima (mb)
+      e memória liberada (mb).
+    - `historico`: logs de histórico de execução, registra a quantidade relacionada a cada lance, e o valor ofertado.
+      Informa também os lances selecionados para encontrar o maior lucro, e o seu valor.
+- `src`: código raiz do projeto.
+    - `entidades`: armazena todas as entidades do projeto (Compradora, Contador, Lance, dentre outras).
+    - `enums`: enumerações do projeto.
+    - `metodos`: métodos implementados,
+        - `interfaces`: armazena as interfaces dos algoritmos.
+    - `utils`: classes utilitárias do código.
+        - `constantes`: constantes do projeto.
+        - `conversores`: conversores de unidades.
+        - `geradores`: geradores de execução (GeradorCompradoras, GeradorLances, GeradorLogExecucao,
+          GeradorLogHistorico).

@@ -14,13 +14,13 @@ import static entidades.Compradora.encontrarPorId;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
-import static util.constantes.ConstantesGeradorLog.FIM_ALGORITMO;
-import static util.constantes.ConstantesGeradorLog.INICIO_ALGORITMO;
-import static util.constantes.ConstantesNumeros.ZERO;
-import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
-import static util.geradores.GeradorCompradoras.gerarCompradoras;
-import static util.geradores.GeradorLogExecucao.gerarLogExecucao;
-import static util.geradores.GeradorLogHistorico.gerarLogHistorico;
+import static utils.constantes.ConstantesGeradorLog.FIM_ALGORITMO;
+import static utils.constantes.ConstantesGeradorLog.INICIO_ALGORITMO;
+import static utils.constantes.ConstantesNumeros.ZERO;
+import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
+import static utils.geradores.GeradorCompradoras.gerarCompradoras;
+import static utils.geradores.GeradorLogExecucao.gerarLogExecucao;
+import static utils.geradores.GeradorLogHistorico.gerarLogHistorico;
 
 /**
  * Interface relacionada a cada um dos algoritmos implementados no trabalho

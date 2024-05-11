@@ -1,4 +1,4 @@
-package util.geradores;
+package utils.geradores;
 
 import entidades.Compradora;
 import lombok.experimental.UtilityClass;
@@ -9,9 +9,9 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.concurrent.ThreadLocalRandom.current;
-import static util.constantes.ConstantesProdutoraVendedora.*;
-import static util.geradores.GeradorLances.gerarLances;
-import static util.constantes.ConstantesNumeros.UM;
+import static utils.constantes.ConstantesProdutoraVendedora.*;
+import static utils.geradores.GeradorLances.gerarLances;
+import static utils.constantes.ConstantesNumeros.UM;
 
 @UtilityClass
 public class GeradorCompradoras {

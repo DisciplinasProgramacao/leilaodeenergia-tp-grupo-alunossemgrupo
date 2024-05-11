@@ -1,8 +1,8 @@
-package util.conversores;
+package utils.conversores;
 
 import lombok.experimental.UtilityClass;
 
-import static util.constantes.ConstantesNumeros.UM_MILHAO_L;
+import static utils.constantes.ConstantesNumeros.UM_MILHAO_L;
 
 @UtilityClass
 public class ConversorUnidades {

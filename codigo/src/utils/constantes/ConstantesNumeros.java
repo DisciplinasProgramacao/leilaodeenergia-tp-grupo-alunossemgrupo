@@ -1,4 +1,4 @@
-package util.constantes;
+package utils.constantes;
 
 import lombok.experimental.UtilityClass;
 

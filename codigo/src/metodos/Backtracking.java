@@ -7,12 +7,11 @@ import metodos.interfaces.Algoritmo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static enums.AlgoritmosEnums.BACKTRACKING;
 import static java.util.Objects.isNull;
-import static util.constantes.ConstantesNumeros.UM;
+import static utils.constantes.ConstantesNumeros.UM;
 
 @AllArgsConstructor
 public class Backtracking implements Algoritmo {

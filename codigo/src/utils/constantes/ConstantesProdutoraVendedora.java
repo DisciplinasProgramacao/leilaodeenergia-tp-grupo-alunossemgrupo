@@ -1,8 +1,8 @@
-package util.constantes;
+package utils.constantes;
 
 import lombok.experimental.UtilityClass;
 
-import static util.constantes.ConstantesNumeros.*;
+import static utils.constantes.ConstantesNumeros.*;
 
 @UtilityClass
 public class ConstantesProdutoraVendedora {

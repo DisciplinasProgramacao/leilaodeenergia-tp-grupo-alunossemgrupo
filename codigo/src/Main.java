@@ -1,6 +1,6 @@
 import static java.util.Arrays.stream;
 import static metodos.interfaces.Algoritmo.algoritmosImplementados;
-import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
+import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
 
 public class Main {
 

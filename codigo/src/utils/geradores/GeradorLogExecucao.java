@@ -1,4 +1,4 @@
-package util.geradores;
+package utils.geradores;
 
 import entidades.Sistema;
 import lombok.experimental.UtilityClass;
@@ -14,9 +14,9 @@ import static java.lang.String.format;
 import static java.lang.String.join;
 import static java.time.LocalDateTime.now;
 import static java.util.Locale.US;
-import static util.constantes.ConstantesErros.MSG_ERRO_ARQUIVO;
-import static util.constantes.ConstantesFormatos.FORMATO_DATA;
-import static util.constantes.ConstantesGeradorLog.*;
+import static utils.constantes.ConstantesErros.MSG_ERRO_ARQUIVO;
+import static utils.constantes.ConstantesFormatos.FORMATO_DATA;
+import static utils.constantes.ConstantesGeradorLog.*;
 
 @UtilityClass
 public class GeradorLogExecucao {

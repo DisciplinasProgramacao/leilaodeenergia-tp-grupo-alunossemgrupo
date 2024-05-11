@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 import java.util.Set;
 
-import static util.constantes.ConstantesProdutoraVendedora.*;
+import static utils.constantes.ConstantesProdutoraVendedora.*;
 
 @Data
 @Builder

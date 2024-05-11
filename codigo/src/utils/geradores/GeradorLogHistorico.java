@@ -1,4 +1,4 @@
-package util.geradores;
+package utils.geradores;
 
 import entidades.Lance;
 import entidades.MelhorResultado;
@@ -21,10 +21,10 @@ import static java.util.Locale.US;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.of;
-import static util.constantes.ConstantesErros.MSG_ERRO_ARQUIVO;
-import static util.constantes.ConstantesGeradorLog.*;
-import static util.constantes.ConstantesNumeros.UM;
-import static util.constantes.ConstantesNumeros.ZERO;
+import static utils.constantes.ConstantesErros.MSG_ERRO_ARQUIVO;
+import static utils.constantes.ConstantesGeradorLog.*;
+import static utils.constantes.ConstantesNumeros.UM;
+import static utils.constantes.ConstantesNumeros.ZERO;
 
 @UtilityClass
 public class GeradorLogHistorico {
