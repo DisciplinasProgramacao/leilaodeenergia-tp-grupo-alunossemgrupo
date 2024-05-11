@@ -32,4 +32,8 @@ public class ConstantesGeradorLog {
 
     public static final String VALOR_TOTAL = "Valor total, %s";
 
+    public static final String INICIO_ALGORITMO = "Executando algoritmo: %s | Quantidade compradoras: %s";
+
+    public static final String FIM_ALGORITMO = "Algoritmo executado com sucesso!";
+
 }

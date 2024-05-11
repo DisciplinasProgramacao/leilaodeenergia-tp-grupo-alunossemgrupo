@@ -19,6 +19,8 @@ public class ConstantesNumeros {
 
     public static final int QUINZE = 15;
 
+    public static final int VINTE = 20;
+
     public static final int CINQUENTA = 50;
 
     public static final int CEM = 100;

@@ -1,20 +1,15 @@
-import metodos.Backtracking;
-import metodos.interfaces.Algoritmo;
-
-import java.util.List;
-
-import static java.util.Arrays.asList;
+import static java.util.Arrays.stream;
+import static metodos.interfaces.Algoritmo.algoritmosImplementados;
+import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
 
 public class Main {
-
-    public static List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
 
     public static void main(String[] args) {
 
         /*
          * --------------------------------------------------
          * INSTRUÇÕES E CONSIDERAÇÕES SOBRE O CÓDIGO
-         * --------------------------------------------------
+         * ----------(----------------------------------------
          *
          * Para ver as configurações nas quais os algoritmos vão ser executados, acessar arquivo: ConstantesProdutoraVendedora
          * Caminho: src > util > constantes > ConstantesProdutoraVendedora
@@ -32,7 +27,7 @@ public class Main {
          * Qualquer dúvida, pode me chamar no whatsapp
          */
 
-        algoritmosImplementados.forEach(Algoritmo::executarAlgoritmo);
-
+        stream(QUANTIDADE_COMPRADORAS).forEach(qtde ->
+                algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(qtde, algoritmo.algoritmo())));
     }
 }
