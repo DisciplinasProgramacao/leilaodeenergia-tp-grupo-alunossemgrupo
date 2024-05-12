@@ -9,7 +9,7 @@ public class Main {
         /*
          * --------------------------------------------------
          * INSTRUÇÕES E CONSIDERAÇÕES SOBRE O CÓDIGO
-         * ----------(----------------------------------------
+         * ---------------------------------------------------
          *
          * Para ver as configurações nas quais os algoritmos vão ser executados, acessar arquivo: ConstantesProdutoraVendedora
          * Caminho: src > util > constantes > ConstantesProdutoraVendedora
