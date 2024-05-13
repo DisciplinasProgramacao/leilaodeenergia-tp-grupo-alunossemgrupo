@@ -27,7 +27,7 @@ import static utils.constantes.ConstantesNumeros.UM;
 import static utils.constantes.ConstantesNumeros.ZERO;
 
 @UtilityClass
-public class GeradorHistorico {
+public class GeradorLogHistorico {
 
     /**
      * Gera o log de histórico do algoritmo

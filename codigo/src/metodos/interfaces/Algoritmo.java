@@ -14,22 +14,13 @@ import static entidades.Compradora.encontrarPorId;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
-<<<<<<< Updated upstream
 import static utils.constantes.ConstantesGeradorLog.FIM_ALGORITMO;
 import static utils.constantes.ConstantesGeradorLog.INICIO_ALGORITMO;
 import static utils.constantes.ConstantesNumeros.ZERO;
 import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
 import static utils.geradores.GeradorCompradoras.gerarCompradoras;
-import static utils.geradores.GeradorLogExecucao.gerarLogExecucao;
-import static utils.geradores.GeradorLogHistorico.gerarLogHistorico;
-=======
-import static util.constantes.ConstantesNumeros.ZERO;
-import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
-import static util.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
-import static util.geradores.GeradorCompradoras.gerarCompradoras;
-import static util.geradores.GeradorLog.gerarLogExecucao;
-import static util.geradores.GeradorHistorico.gerarHistorico;
->>>>>>> Stashed changes
+import static utils.geradores.GeradorLog.gerarLogExecucao;
+import static utils.geradores.GeradorLogHistorico.gerarHistorico;
 
 /**
  * Interface relacionada a cada um dos algoritmos implementados no trabalho
@@ -67,13 +58,8 @@ public interface Algoritmo {
         relacionarQuantidadeVendida(melhorResultado);
 //        Gera os logs de análise. Esses logs ficam registrados no caminho logs/execucao e logs/historico
         try {
-<<<<<<< Updated upstream
-            gerarLogHistorico(lancesRelacionados, melhorResultado);
-            gerarLogExecucao(algoritmo(), lancesRelacionados.size(), melhorResultado.getContador().getTempoExecucao());
-=======
-            gerarLogExecucao(algoritmo(), lancesRelacionados.size(), melhorResultado.getContador().getTempoExecucao());
             gerarHistorico(lancesRelacionados, melhorResultado);
->>>>>>> Stashed changes
+            gerarLogExecucao(algoritmo(), lancesRelacionados.size(), melhorResultado.getContador().getTempoExecucao());
         } catch (Exception e) {
             logger.warning(e.getLocalizedMessage());
         }

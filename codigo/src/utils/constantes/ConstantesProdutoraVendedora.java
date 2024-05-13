@@ -20,7 +20,7 @@ public class ConstantesProdutoraVendedora {
     public static final Integer QUANTIDADE_MAXIMA_COMPRADORA = CEM;
 
     //    Representa a capacidade que a produtora vai ter de quantidade
-    public static final Integer QUANTIDADE_DISPONIVEL_PRODUTORA = CEM;
+    public static final Integer QUANTIDADE_DISPONIVEL_PRODUTORA = CINQUENTA;
 
     // Quantidade de compradoras que serão geradas
     public static final Integer[] QUANTIDADE_COMPRADORAS = {CINCO, DEZ, QUINZE, VINTE};
