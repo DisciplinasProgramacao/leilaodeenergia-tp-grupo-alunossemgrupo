@@ -40,7 +40,7 @@ public class Backtracking implements Algoritmo {
         int qtdeSelecionada = lancesSelecionados.stream()
                 .mapToInt(Lance::quantidade).sum();
 //        Se a quantidade de lances selecionados somar uma quantidade maior do que a disponível, podar, pois não é um resultado aceitável
-        if (qtdeSelecionada >= melhorResultado.getProdutora().quantidadeDisponivel())
+        if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())
             return;
 //        Se já percorreu todos os lances em uma determinada busca, e a quantidade selecionada não ultrapassa a disponível, verifica se o lucro aumentou
         if (indice == todosLances.size()) {

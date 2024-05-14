@@ -1,0 +1,5 @@
+Algoritmo,Data de execucao,Qtde lances,Qtde lances selecionados,Melhor resultado,Tempo execucao (seg),Cores disponiveis,Memoria total (Mb),Memoria maxima (Mb),Memoria liberada (Mb)
+BACKTRACKING,14-05-2024 08:42:52,10,7,472, 0,12,268,4278,262
+BACKTRACKING,14-05-2024 08:42:52,20,14,926, 0,12,268,4278,262
+BACKTRACKING,14-05-2024 08:43:03,30,15,1055,11,12,268,4278,262
+BACKTRACKING,14-05-2024 08:44:47,40,16,1090,104,12,268,4278,262

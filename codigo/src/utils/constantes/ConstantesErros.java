@@ -9,4 +9,6 @@ import static utils.constantes.ConstantesGeradorLog.CAMINHO_ARQUIVO_EXECUCAO;
 public class ConstantesErros {
 
     public static final String MSG_ERRO_ARQUIVO = format("erro ao salvar o arquivo no caminho: %s", CAMINHO_ARQUIVO_EXECUCAO);
+
+    public static final String MSG_ARQUIVO_NAO_ENCONTRADO = "arquivo não encontrado: %s";
 }

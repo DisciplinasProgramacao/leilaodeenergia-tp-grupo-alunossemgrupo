@@ -17,9 +17,9 @@ import static java.util.stream.Collectors.toSet;
 import static utils.constantes.ConstantesGeradorLog.FIM_ALGORITMO;
 import static utils.constantes.ConstantesGeradorLog.INICIO_ALGORITMO;
 import static utils.constantes.ConstantesNumeros.ZERO;
-import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA;
+import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA;
 import static utils.geradores.GeradorCompradoras.gerarCompradoras;
-import static utils.geradores.GeradorLog.gerarLogExecucao;
+import static utils.geradores.GeradorLogExecucao.gerarLogExecucao;
 import static utils.geradores.GeradorLogHistorico.gerarHistorico;
 
 /**
@@ -45,7 +45,7 @@ public interface Algoritmo {
         logger.info(format(INICIO_ALGORITMO, algoritmo, qtdeCompradoras));
 
         MelhorResultado melhorResultado = new MelhorResultado();
-        List<Compradora> compradoras = gerarCompradoras(qtdeCompradoras, QUANTIDADE_MAXIMA_LANCE_PRO_COMPRADORA);
+        List<Compradora> compradoras = gerarCompradoras(qtdeCompradoras, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
         List<Lance> lancesRelacionados = compradoras.stream()
                 .flatMap(compradora -> compradora.lances().stream())
                 .toList();
@@ -59,7 +59,7 @@ public interface Algoritmo {
 //        Gera os logs de análise. Esses logs ficam registrados no caminho logs/execucao e logs/historico
         try {
             gerarHistorico(lancesRelacionados, melhorResultado);
-            gerarLogExecucao(algoritmo(), lancesRelacionados.size(), melhorResultado.getContador().getTempoExecucao());
+            gerarLogExecucao(melhorResultado, algoritmo(), lancesRelacionados.size());
         } catch (Exception e) {
             logger.warning(e.getLocalizedMessage());
         }
