@@ -5,29 +5,26 @@ import entidades.MelhorResultado;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import static java.lang.Integer.valueOf;
 import static java.lang.String.format;
 import static java.lang.String.join;
 import static java.util.Collections.max;
 import static java.util.Locale.US;
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toSet;
-import static java.util.stream.Stream.of;
-import static utils.constantes.ConstantesErros.MSG_ERRO_ARQUIVO;
+import static utils.constantes.ConstantesErros.MSG_ARQUIVO_NAO_ENCONTRADO;
 import static utils.constantes.ConstantesGeradorLog.*;
-import static utils.constantes.ConstantesNumeros.UM;
-import static utils.constantes.ConstantesNumeros.ZERO;
+import static utils.constantes.ConstantesNumeros.*;
 
 @UtilityClass
 public class GeradorLogHistorico {
+
+    private static final Logger logger = Logger.getLogger(GeradorLogHistorico.class.getName());
 
     /**
      * Gera o log de histórico do algoritmo
@@ -38,11 +35,11 @@ public class GeradorLogHistorico {
      */
     public static void gerarHistorico(List<Lance> lances, MelhorResultado melhorResultado) throws IOException {
         try {
-            Integer maiorIndice = buscarMaiorIndice(listarArquivos());
-            criarArquivoECabecalho(maiorIndice);
+            Integer maiorIndice = buscarMaiorIndice(listarHistoricos());
+            criarArquivoECabecalho();
             escreverNoArquivo(maiorIndice, lances, melhorResultado);
         } catch (IOException e) {
-            throw new IOException(MSG_ERRO_ARQUIVO);
+            throw new IOException(MSG_ARQUIVO_NAO_ENCONTRADO);
         }
     }
 
@@ -51,8 +48,8 @@ public class GeradorLogHistorico {
      *
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de log
      */
-    private static void criarArquivoECabecalho(Integer maiorIndice) throws IOException {
-        try (PrintWriter escritorArquivo = new PrintWriter(format(CAMINHO_ARQUIVO_HISTORICO + EXTENSAO_CSV, maiorIndice + UM))) {
+    private static void criarArquivoECabecalho() throws IOException {
+        try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO_HISTORICO + EXTENSAO_CSV, true))) {
             escritorArquivo.println(join(VIRGULA, COLUNAS_HISTORICO));
         }
     }
@@ -63,10 +60,18 @@ public class GeradorLogHistorico {
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de log
      */
     private static void escreverNoArquivo(Integer maiorIndice, @NotNull List<Lance> lances, @NotNull MelhorResultado melhorResultado) throws IOException {
-        try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(format(CAMINHO_ARQUIVO_HISTORICO + EXTENSAO_CSV, maiorIndice + UM), true))) {
-            lances.forEach(lance -> escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_HISTORICO, lance.quantidade(), lance.valor())));
-            escritorArquivo.println("-----,------");
-            melhorResultado.getLancesSelecionados().forEach(lance -> escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_HISTORICO, lance.quantidade(), lance.valor())));
+        try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO_HISTORICO + EXTENSAO_CSV, true))) {
+            lances.forEach(lance ->
+                    escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_HISTORICO,
+                            lance.quantidade(),
+                            lance.valor(),
+                            format(NOME_HISTORICO, maiorIndice + UM))));
+            escritorArquivo.println(SEPARADOR_HISTORICOS);
+            melhorResultado.getLancesSelecionados().forEach(lance ->
+                    escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_HISTORICO,
+                            lance.quantidade(),
+                            lance.valor(),
+                            format(NOME_HISTORICO, maiorIndice + UM))));
             escritorArquivo.println(format(VALOR_TOTAL, melhorResultado.getLucroMaximizado()));
         }
     }
@@ -76,11 +81,22 @@ public class GeradorLogHistorico {
      *
      * @return lista de arquivos na pasta
      */
-    private static Set<String> listarArquivos() {
-        return of(requireNonNull(new File(CAMINHO_PASTA_HISTORICO).listFiles()))
-                .filter(arquivo -> !arquivo.isDirectory())
-                .map(File::getName)
-                .collect(toSet());
+    private static @NotNull Set<String> listarHistoricos() throws IOException {
+
+        Set<String> historicos = new HashSet<>();
+        String colunasCabecalho = Arrays.toString(COLUNAS_HISTORICO)
+                .replaceAll(REGEX_REPLACE_BARRAS, SEM_ESPACO)
+                .replaceAll(REGEX_REPLACE_VIRGULA, VIRGULA);
+
+        try (BufferedReader leitorArquivo = new BufferedReader(new FileReader(CAMINHO_ARQUIVO_HISTORICO + EXTENSAO_CSV))) {
+            leitorArquivo.lines()
+                    .filter(linha -> linha != null && !linha.equals(colunasCabecalho) && !linha.equals(SEPARADOR_HISTORICOS) && !linha.contains(REGEX_VALOR_TOTAL))
+                    .map(linha -> linha.split(VIRGULA)[DOIS])
+                    .forEach(historicos::add);
+        } catch (Exception e) {
+            logger.info(format(MSG_ARQUIVO_NAO_ENCONTRADO, e.getLocalizedMessage()));
+        }
+        return historicos;
     }
 
     /**

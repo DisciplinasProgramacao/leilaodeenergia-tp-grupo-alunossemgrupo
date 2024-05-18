@@ -27,7 +27,7 @@ public class Main {
          * Qualquer dúvida, pode me chamar no whatsapp
          */
 
-        stream(QUANTIDADE_COMPRADORAS).forEach(qtde ->
-                algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(qtde, algoritmo.algoritmo())));
+            stream(QUANTIDADE_COMPRADORAS).forEach(qtde ->
+                    algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(qtde, algoritmo.algoritmo())));
     }
 }

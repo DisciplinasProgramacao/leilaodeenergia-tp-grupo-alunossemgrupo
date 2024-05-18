@@ -1,5 +1,6 @@
 package utils.geradores;
 
+import entidades.MelhorResultado;
 import entidades.Sistema;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -19,24 +20,24 @@ import static utils.constantes.ConstantesFormatos.FORMATO_DATA;
 import static utils.constantes.ConstantesGeradorLog.*;
 
 @UtilityClass
-public class GeradorLog {
+public class GeradorLogExecucao {
 
     /**
      * Gera o log de execução do algoritmo
      *
-     * @param algoritmo algoritmo implementado
-     * @param qtdeDados quantidade de dados utilizados
-     * @param tempoExec tempo de execução
+     * @param melhorResultado melhor resultado encontrado
+     * @param algoritmo       algoritmo implementado
+     * @param qtdeLances      quantidade de lances gerados
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
-    public static void gerarLogExecucao(String algoritmo, int qtdeDados, double tempoExec) throws IOException {
+    public static void gerarLogExecucao(MelhorResultado melhorResultado, String algoritmo, int qtdeLances) throws IOException {
         File arquivo = new File(CAMINHO_ARQUIVO_EXECUCAO + EXTENSAO_CSV);
         Sistema sistema = instancia();
 
         try {
             if (!arquivo.exists())
                 criarArquivoECabecalho();
-            escreverNoArquivo(algoritmo, qtdeDados, tempoExec, sistema);
+            escreverNoArquivo(algoritmo, qtdeLances, melhorResultado, sistema);
         } catch (IOException e) {
             throw new IOException(MSG_ERRO_ARQUIVO);
         }
@@ -58,13 +59,15 @@ public class GeradorLog {
      *
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
-    private static void escreverNoArquivo(String algoritmo, int qtdeDados, double tempoExec, @NotNull Sistema sistema) throws IOException {
+    private static void escreverNoArquivo(String algoritmo, int qtdeLances, @NotNull MelhorResultado melhorResultado, @NotNull Sistema sistema) throws IOException {
         try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO_EXECUCAO + EXTENSAO_CSV, true))) {
             escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_EXECUCAO,
                     algoritmo,
                     now().format(FORMATO_DATA),
-                    qtdeDados,
-                    tempoExec,
+                    qtdeLances,
+                    melhorResultado.getLancesSelecionados().size(),
+                    melhorResultado.getLucroMaximizado(),
+                    melhorResultado.getContador().getTempoExecucao(),
                     sistema.getCoresDisponiveis(),
                     sistema.getMemoriaTotal(),
                     sistema.getMemoriaMaxima(),
