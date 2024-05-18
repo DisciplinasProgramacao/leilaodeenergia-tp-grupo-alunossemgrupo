@@ -149,7 +149,7 @@ que foram feitos e os que foram escolhidos para combinar o melhor resultado.
 
 *[Figura 03 - Trecho do arquivo de log `hist-log.xls`]*
 
-O arquivo de análises que compila as execuções realizadas pode ser verificado no caminho: **==@@@@@==**
+O arquivo de análises que compila as execuções realizadas pode ser verificado no caminho: (Analise backtracking)[https://github.com/DisciplinasProgramacao/leilaodeenergia-tp-grupo-alunossemgrupo/tree/master/analises]
 
 ## Análise do resultado
 
