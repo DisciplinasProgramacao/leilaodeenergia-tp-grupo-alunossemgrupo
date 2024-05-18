@@ -1,6 +1,12 @@
+import entidades.Compradora;
+
+import java.util.List;
+
 import static java.util.Arrays.stream;
 import static metodos.interfaces.Algoritmo.algoritmosImplementados;
 import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
+import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA;
+import static utils.geradores.GeradorCompradoras.gerarCompradoras;
 
 public class Main {
 
@@ -14,7 +20,7 @@ public class Main {
          * Para ver as configurações nas quais os algoritmos vão ser executados, acessar arquivo: ConstantesProdutoraVendedora
          * Caminho: src > util > constantes > ConstantesProdutoraVendedora
          *
-         * Para cada algoritmo criado, basta adicionar ele à lista abaixo, exemplo: asList(new Backtracking(), new Guloso())
+         * Para cada algoritmo criado, basta adicionar ele à lista de algoritmos implementados na interface Algoritmo, exemplo: asList(new Backtracking(), new Guloso())
          *
          * Caso deseje executar apenas um algoritmo, basta usar o construtor: Algoritmo algoritmo = new Backtracking(), e chamar o método algoritmo.executar()
          *
@@ -24,10 +30,12 @@ public class Main {
          *
          * Quando implementar o algoritmo, lembrar de colocar o nome correto no método algoritmo() do Algoritmo implementado, para exemplo, ver arquivo Backtracking.java
          *
-         * Qualquer dúvida, pode me chamar no whatsapp
          */
 
-            stream(QUANTIDADE_COMPRADORAS).forEach(qtde ->
-                    algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(qtde, algoritmo.algoritmo())));
+        stream(QUANTIDADE_COMPRADORAS).forEach(qtde -> {
+                    List<Compradora> compradoras = gerarCompradoras(qtde, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
+                    algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(compradoras, qtde, algoritmo.algoritmo()));
+                }
+        );
     }
 }

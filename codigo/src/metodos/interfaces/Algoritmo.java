@@ -39,13 +39,12 @@ public interface Algoritmo {
      *
      * @return objeto do tipo MelhorResultado
      */
-    default MelhorResultado executarAlgoritmo(int qtdeCompradoras, String algoritmo) {
+    default MelhorResultado executarAlgoritmo(@NotNull List<Compradora> compradoras,int qtdeCompradoras, String algoritmo) {
 
         Logger logger = Logger.getLogger(Algoritmo.class.getName());
         logger.info(format(INICIO_ALGORITMO, algoritmo, qtdeCompradoras));
 
         MelhorResultado melhorResultado = new MelhorResultado();
-        List<Compradora> compradoras = gerarCompradoras(qtdeCompradoras, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
         List<Lance> lancesRelacionados = compradoras.stream()
                 .flatMap(compradora -> compradora.lances().stream())
                 .toList();
@@ -89,7 +88,8 @@ public interface Algoritmo {
     private void relacionarQuantidadeVendida(@NotNull MelhorResultado melhorResultado) {
         melhorResultado.setQuantidadeVendida(
                 melhorResultado.getLancesSelecionados().stream()
-                        .mapToInt(Lance::quantidade).sum()
+                        .mapToInt(Lance::quantidade)
+                        .sum()
         );
     }
 }
