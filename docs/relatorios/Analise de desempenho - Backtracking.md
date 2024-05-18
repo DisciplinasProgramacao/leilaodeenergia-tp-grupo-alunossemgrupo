@@ -141,11 +141,11 @@ planilhas: `exec-log.xls` e `hist-log.xls`. O primeiro log guarda dados gerais d
 algoritmo utilizado, recursos computacionais disponíveis, dentre outros, o segundo log guarda os dados sobre os lances
 que foram feitos e os que foram escolhidos para combinar o melhor resultado.
 
-![Figura 2.png](/docs/figuras/Figura 2.png)
+![Figura 2.png](https://github.com/DisciplinasProgramacao/leilaodeenergia-tp-grupo-alunossemgrupo/blob/master/docs/figuras/Figura%202.png)
 
 *[Figura 02 - Trecho do arquivo de log `exec-log.xls`]*
 
-![Figura 3.png](/docs/figuras/Figura 3.png)
+![Figura 3.png](https://github.com/DisciplinasProgramacao/leilaodeenergia-tp-grupo-alunossemgrupo/blob/master/docs/figuras/Figura%203.png)
 
 *[Figura 03 - Trecho do arquivo de log `hist-log.xls`]*
 
@@ -224,7 +224,7 @@ quantidades, conforme demonstrado pela linha de tendência em vermelho no gráfi
 maioria dos lances selecionados possuíam uma quantidade relacionada mais baixa, o que fez com que fossem analisados
 muitos outros lances para que o a quantidade disponibilizada (200) fosse atingida.
 
-![Grafico 1.png](/docs/figuras/Grafico 1.png)
+![Grafico 1.png](https://github.com/DisciplinasProgramacao/leilaodeenergia-tp-grupo-alunossemgrupo/blob/master/docs/figuras/Grafico%201.png)
 
 *[Gráfico 01 - Execução 7 com 40 lances]*
 
@@ -233,7 +233,7 @@ apresentou tempo igual a 83 seg, verificamos um cenário distinto. Neste cenári
 valores mais altos estão relacionados aos lances com quantidades mais altas, o que explica o porque da execução 7
 demandar mais tempo.
 
-![Grafico 2.png](/docs/figuras/Grafico 2.png)
+![Grafico 2.png](https://github.com/DisciplinasProgramacao/leilaodeenergia-tp-grupo-alunossemgrupo/blob/master/docs/figuras/Grafico%202.png)
 
 *[Gráfico 02 - Execução 1 com 40 lances]*
 
