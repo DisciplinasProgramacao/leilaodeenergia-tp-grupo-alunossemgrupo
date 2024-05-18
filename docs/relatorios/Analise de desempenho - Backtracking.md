@@ -26,7 +26,7 @@ caminho já percorrido, de modo a buscar soluções alternativas que atendam aos
 
 ### Algoritmo genérico
 
-![Figura 1.png](./docs/figuras/Figura 1.png)
+![Figura 1.png](https://github.com/DisciplinasProgramacao/leilaodeenergia-tp-grupo-alunossemgrupo/blob/master/docs/figuras/Figura%201.png)
 
 *[Figura 01 - Algoritmo genérico disponibilizado pelo Prof. João Caram]*
 
