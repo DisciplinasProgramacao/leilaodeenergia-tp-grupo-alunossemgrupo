@@ -17,8 +17,6 @@ import static java.util.stream.Collectors.toSet;
 import static utils.constantes.ConstantesGeradorLog.FIM_ALGORITMO;
 import static utils.constantes.ConstantesGeradorLog.INICIO_ALGORITMO;
 import static utils.constantes.ConstantesNumeros.ZERO;
-import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA;
-import static utils.geradores.GeradorCompradoras.gerarCompradoras;
 import static utils.geradores.GeradorLogExecucao.gerarLogExecucao;
 import static utils.geradores.GeradorLogHistorico.gerarHistorico;
 
@@ -39,15 +37,12 @@ public interface Algoritmo {
      *
      * @return objeto do tipo MelhorResultado
      */
-    default MelhorResultado executarAlgoritmo(@NotNull List<Compradora> compradoras,int qtdeCompradoras, String algoritmo) {
+    default MelhorResultado executarAlgoritmo(@NotNull List<Compradora> compradoras, List<Lance> lancesRelacionados, int qtdeCompradoras, String algoritmo) {
 
         Logger logger = Logger.getLogger(Algoritmo.class.getName());
         logger.info(format(INICIO_ALGORITMO, algoritmo, qtdeCompradoras));
 
         MelhorResultado melhorResultado = new MelhorResultado();
-        List<Lance> lancesRelacionados = compradoras.stream()
-                .flatMap(compradora -> compradora.lances().stream())
-                .toList();
 //        Marca tempo de execução e executa o algoritmo de referência
         melhorResultado.getContador().iniciarContador();
         executar(melhorResultado, lancesRelacionados, new ArrayList<>(), ZERO, ZERO);

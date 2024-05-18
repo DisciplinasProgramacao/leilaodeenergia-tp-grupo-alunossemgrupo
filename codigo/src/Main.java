@@ -1,4 +1,5 @@
 import entidades.Compradora;
+import entidades.Lance;
 
 import java.util.List;
 
@@ -34,7 +35,10 @@ public class Main {
 
         stream(QUANTIDADE_COMPRADORAS).forEach(qtde -> {
                     List<Compradora> compradoras = gerarCompradoras(qtde, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
-                    algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(compradoras, qtde, algoritmo.algoritmo()));
+                    List<Lance> lancesRelacionados = compradoras.stream()
+                            .flatMap(compradora -> compradora.lances().stream())
+                            .toList();
+                    algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(compradoras, lancesRelacionados, qtde, algoritmo.algoritmo()));
                 }
         );
     }
