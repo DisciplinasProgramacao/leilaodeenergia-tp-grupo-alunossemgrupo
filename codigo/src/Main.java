@@ -1,45 +1,45 @@
 import entidades.Compradora;
 import entidades.Lance;
+import entidades.MelhorResultado;
 
 import java.util.List;
 
+import static enums.AlgoritmosEnums.BACKTRACKING;
 import static java.util.Arrays.stream;
 import static metodos.interfaces.Algoritmo.algoritmosImplementados;
-import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_COMPRADORAS;
-import static utils.constantes.ConstantesProdutoraVendedora.QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA;
+import static utils.constantes.ConstantesExecucao.*;
+import static utils.constantes.ConstantesNumeros.DEZ;
 import static utils.geradores.GeradorCompradoras.gerarCompradoras;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        /*
-         * --------------------------------------------------
-         * INSTRUÇÕES E CONSIDERAÇÕES SOBRE O CÓDIGO
-         * ---------------------------------------------------
-         *
-         * Para ver as configurações nas quais os algoritmos vão ser executados, acessar arquivo: ConstantesProdutoraVendedora
-         * Caminho: src > util > constantes > ConstantesProdutoraVendedora
-         *
-         * Para cada algoritmo criado, basta adicionar ele à lista de algoritmos implementados na interface Algoritmo, exemplo: asList(new Backtracking(), new Guloso())
-         *
-         * Caso deseje executar apenas um algoritmo, basta usar o construtor: Algoritmo algoritmo = new Backtracking(), e chamar o método algoritmo.executar()
-         *
-         * Para criar um algoritmo, basta criar uma nova classe no package 'metodos' que implemente a interface Algoritmo e seguir a sua definição de contrato
-         * Para cada algoritmo criado, verificar se o seu nome já consta no enum AlgoritmosEnums, caso não, adicionar nome do algoritmo
-         * O nome do algoritmo é importante para definir esse dado no log gerado após a execução
-         *
-         * Quando implementar o algoritmo, lembrar de colocar o nome correto no método algoritmo() do Algoritmo implementado, para exemplo, ver arquivo Backtracking.java
-         *
-         */
+        algoritmosImplementados.forEach(algoritmo -> {
 
-        stream(QUANTIDADE_COMPRADORAS).forEach(qtde -> {
-                    List<Compradora> compradoras = gerarCompradoras(qtde, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
-                    List<Lance> lancesRelacionados = compradoras.stream()
-                            .flatMap(compradora -> compradora.lances().stream())
-                            .toList();
-                    algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(compradoras, lancesRelacionados, qtde, algoritmo.algoritmo()));
-                }
-        );
+            List<Compradora> compradoras = gerarCompradoras(DEZ, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
+
+            if (algoritmo.algoritmo().equals(BACKTRACKING)) {
+                int contador = 0;
+                boolean atingiuLimiteDeTempo = false;
+
+                do {
+                    contador = 0;
+                    for (int i = 0; i <= 10; i++) {
+                        MelhorResultado melhorResultado = algoritmo.executarAlgoritmo(compradoras, compradoras.size(), algoritmo.algoritmo(), true);
+                        contador++;
+                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > 30)
+                            atingiuLimiteDeTempo = true;
+                    }
+                } while (contador <= DEZ && !atingiuLimiteDeTempo);
+            }
+        });
+
+
+//        stream(QUANTIDADE_COMPRADORAS).forEach(qtde -> {
+//                    List<Compradora> compradoras = gerarCompradoras(qtde, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
+//                    algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(compradoras, qtde, algoritmo.algoritmo(), true));
+//                }
+//        );
     }
 }

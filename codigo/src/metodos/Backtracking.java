@@ -2,6 +2,7 @@ package metodos;
 
 import entidades.Lance;
 import entidades.MelhorResultado;
+import enums.AlgoritmosEnums;
 import lombok.AllArgsConstructor;
 import metodos.interfaces.Algoritmo;
 import org.jetbrains.annotations.NotNull;
@@ -20,8 +21,8 @@ public class Backtracking implements Algoritmo {
      * @return algoritmo de referência
      */
     @Override
-    public String algoritmo() {
-        return BACKTRACKING.toString();
+    public AlgoritmosEnums algoritmo() {
+        return BACKTRACKING;
     }
 
     /**

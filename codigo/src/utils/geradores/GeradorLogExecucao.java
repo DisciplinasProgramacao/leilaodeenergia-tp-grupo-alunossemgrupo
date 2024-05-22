@@ -2,6 +2,7 @@ package utils.geradores;
 
 import entidades.MelhorResultado;
 import entidades.Sistema;
+import enums.AlgoritmosEnums;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +31,7 @@ public class GeradorLogExecucao {
      * @param qtdeLances      quantidade de lances gerados
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
-    public static void gerarLogExecucao(MelhorResultado melhorResultado, String algoritmo, int qtdeLances) throws IOException {
+    public static void gerarLogExecucao(MelhorResultado melhorResultado, AlgoritmosEnums algoritmo, int qtdeLances) throws IOException {
         File arquivo = new File(CAMINHO_ARQUIVO_EXECUCAO + EXTENSAO_CSV);
         Sistema sistema = instancia();
 
@@ -59,10 +60,10 @@ public class GeradorLogExecucao {
      *
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
-    private static void escreverNoArquivo(String algoritmo, int qtdeLances, @NotNull MelhorResultado melhorResultado, @NotNull Sistema sistema) throws IOException {
+    private static void escreverNoArquivo(AlgoritmosEnums algoritmo, int qtdeLances, @NotNull MelhorResultado melhorResultado, @NotNull Sistema sistema) throws IOException {
         try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO_EXECUCAO + EXTENSAO_CSV, true))) {
             escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_EXECUCAO,
-                    algoritmo,
+                    algoritmo.toString(),
                     now().format(FORMATO_DATA),
                     qtdeLances,
                     melhorResultado.getLancesSelecionados().size(),

@@ -5,13 +5,16 @@ import lombok.experimental.UtilityClass;
 import static utils.constantes.ConstantesNumeros.*;
 
 @UtilityClass
-public class ConstantesProdutoraVendedora {
+public class ConstantesExecucao {
 
     public static final String NOME_COMPRADORA = "Compradora %s";
 
     public static final String NOME_PRODUTORA = "Produtora";
 
     public static final Long ID_PRODUTORA = UM_L;
+
+    //    Número de execuções que serão feitas para cada quantidade de compradoras, a fim de se obter o tempo médio de execução
+    public static final Integer EXECUCOES_POR_MASSA = DEZ;
 
     //    Representa a capacidade mínima que uma compradora pode ter de quantidade
     public static final Integer QUANTIDADE_MINIMA_COMPRADORA = DEZ;

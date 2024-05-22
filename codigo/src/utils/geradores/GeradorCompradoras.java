@@ -9,7 +9,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.concurrent.ThreadLocalRandom.current;
-import static utils.constantes.ConstantesProdutoraVendedora.*;
+import static utils.constantes.ConstantesExecucao.*;
 import static utils.geradores.GeradorLances.gerarLances;
 import static utils.constantes.ConstantesNumeros.UM;
 

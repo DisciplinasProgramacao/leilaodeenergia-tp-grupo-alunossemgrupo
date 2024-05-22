@@ -3,6 +3,7 @@ package metodos.interfaces;
 import entidades.Compradora;
 import entidades.Lance;
 import entidades.MelhorResultado;
+import enums.AlgoritmosEnums;
 import metodos.Backtracking;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,9 +28,8 @@ public interface Algoritmo {
 
     List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
 
-    String algoritmo();
+    AlgoritmosEnums algoritmo();
 
-    //    Caso a implementação de algum algoritmo não use os mesmos parâmetros para execução, me chame que ajudo a ver como adaptar essa interface
     void executar(MelhorResultado resultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int indice, int lucroAtual);
 
     /**
@@ -37,20 +37,24 @@ public interface Algoritmo {
      *
      * @return objeto do tipo MelhorResultado
      */
-    default MelhorResultado executarAlgoritmo(@NotNull List<Compradora> compradoras, List<Lance> lancesRelacionados, int qtdeCompradoras, String algoritmo) {
+    default MelhorResultado executarAlgoritmo(@NotNull List<Compradora> compradoras, int qtdeCompradoras, AlgoritmosEnums algoritmo, boolean limitarTempo) {
 
         Logger logger = Logger.getLogger(Algoritmo.class.getName());
         logger.info(format(INICIO_ALGORITMO, algoritmo, qtdeCompradoras));
 
+        List<Lance> lancesRelacionados = compradoras.stream()
+                .flatMap(compradora -> compradora.lances().stream())
+                .toList();
+
         MelhorResultado melhorResultado = new MelhorResultado();
-//        Marca tempo de execução e executa o algoritmo de referência
+
         melhorResultado.getContador().iniciarContador();
         executar(melhorResultado, lancesRelacionados, new ArrayList<>(), ZERO, ZERO);
         melhorResultado.getContador().finalizarContator();
-//        Relaciona campos para análise do melhor resultado
+
         relacionarCompradoras(melhorResultado, compradoras);
         relacionarQuantidadeVendida(melhorResultado);
-//        Gera os logs de análise. Esses logs ficam registrados no caminho logs/execucao e logs/historico
+
         try {
             gerarHistorico(lancesRelacionados, melhorResultado);
             gerarLogExecucao(melhorResultado, algoritmo(), lancesRelacionados.size());
