@@ -13,13 +13,7 @@ public class ConstantesNumeros {
 
     public static final long UM_L = 1L;
 
-    public static final int TRES = 3;
-
-    public static final int CINCO = 5;
-
     public static final int DEZ = 10;
-
-    public static final int QUINZE = 15;
 
     public static final int VINTE = 20;
 

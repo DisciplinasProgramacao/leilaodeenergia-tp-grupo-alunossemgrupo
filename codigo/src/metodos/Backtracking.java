@@ -39,7 +39,8 @@ public class Backtracking implements Algoritmo {
             @NotNull MelhorResultado melhorResultado, List<Lance> todosLances, @NotNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
 
         int qtdeSelecionada = lancesSelecionados.stream()
-                .mapToInt(Lance::quantidade).sum();
+                .mapToInt(Lance::quantidade)
+                .sum();
 //        Se a quantidade de lances selecionados somar uma quantidade maior do que a disponível, podar, pois não é um resultado aceitável
         if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())
             return;

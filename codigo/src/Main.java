@@ -8,7 +8,7 @@ import static enums.AlgoritmosEnums.BACKTRACKING;
 import static java.util.Arrays.stream;
 import static metodos.interfaces.Algoritmo.algoritmosImplementados;
 import static utils.constantes.ConstantesExecucao.*;
-import static utils.constantes.ConstantesNumeros.DEZ;
+import static utils.constantes.ConstantesNumeros.*;
 import static utils.geradores.GeradorCompradoras.gerarCompradoras;
 
 public class Main {
@@ -16,30 +16,21 @@ public class Main {
     public static void main(String[] args) {
 
         algoritmosImplementados.forEach(algoritmo -> {
-
             List<Compradora> compradoras = gerarCompradoras(DEZ, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
-
+            MelhorResultado melhorResultado;
             if (algoritmo.algoritmo().equals(BACKTRACKING)) {
-                int contador = 0;
-                boolean atingiuLimiteDeTempo = false;
+                boolean atingiuTempoLimite = false;
 
-                do {
-                    contador = 0;
-                    for (int i = 0; i <= 10; i++) {
-                        MelhorResultado melhorResultado = algoritmo.executarAlgoritmo(compradoras, compradoras.size(), algoritmo.algoritmo(), true);
-                        contador++;
-                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > 30)
-                            atingiuLimiteDeTempo = true;
+                while (!atingiuTempoLimite) {
+                    for (int i = UM; i <= DEZ; i++) {
+                        melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
+                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > TRINTA)
+                            atingiuTempoLimite = true;
                     }
-                } while (contador <= DEZ && !atingiuLimiteDeTempo);
+                    compradoras.addAll(gerarCompradoras(UM, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA));
+                }
             }
         });
 
-
-//        stream(QUANTIDADE_COMPRADORAS).forEach(qtde -> {
-//                    List<Compradora> compradoras = gerarCompradoras(qtde, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
-//                    algoritmosImplementados.forEach(algoritmo -> algoritmo.executarAlgoritmo(compradoras, qtde, algoritmo.algoritmo(), true));
-//                }
-//        );
     }
 }

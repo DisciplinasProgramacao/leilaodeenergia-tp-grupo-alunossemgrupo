@@ -20,13 +20,13 @@ public class ConstantesGeradorLog {
 
     public static final String SEPARADOR_HISTORICOS = "-----,------";
 
-    public static final String CAMINHO_ARQUIVO_EXECUCAO = "logs/execucao/exec-log";
+    public static final String CAMINHO_ARQUIVO_EXECUCAO = "logs/exec-log";
 
-    public static final String CAMINHO_ARQUIVO_HISTORICO = "logs/historico/hist-log";
+    public static final String CAMINHO_ARQUIVO_HISTORICO = "logs/hist-log";
 
     public static final String NOME_HISTORICO = "hist-%d";
 
-    public static final String EXTENSAO_CSV = ".xls";
+    public static final String EXTENSAO_CSV = ".csv";
 
     public static final String VIRGULA = ",";
 
@@ -40,7 +40,7 @@ public class ConstantesGeradorLog {
 
     public static final String SEM_ESPACO = "";
 
-    public static final String VALOR_TOTAL = "Valor total, %s";
+    public static final String VALOR_TOTAL = "Valor total,%s,%s";
 
     public static final String INICIO_ALGORITMO = "Executando algoritmo: %s | Quantidade compradoras: %s";
 

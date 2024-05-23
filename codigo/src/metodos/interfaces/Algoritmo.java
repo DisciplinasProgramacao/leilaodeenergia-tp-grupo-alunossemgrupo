@@ -37,10 +37,10 @@ public interface Algoritmo {
      *
      * @return objeto do tipo MelhorResultado
      */
-    default MelhorResultado executarAlgoritmo(@NotNull List<Compradora> compradoras, int qtdeCompradoras, AlgoritmosEnums algoritmo, boolean limitarTempo) {
+    default MelhorResultado executarAlgoritmo(@NotNull List<Compradora> compradoras, AlgoritmosEnums algoritmo) {
 
         Logger logger = Logger.getLogger(Algoritmo.class.getName());
-        logger.info(format(INICIO_ALGORITMO, algoritmo, qtdeCompradoras));
+        logger.info(format(INICIO_ALGORITMO, algoritmo, compradoras.size()));
 
         List<Lance> lancesRelacionados = compradoras.stream()
                 .flatMap(compradora -> compradora.lances().stream())

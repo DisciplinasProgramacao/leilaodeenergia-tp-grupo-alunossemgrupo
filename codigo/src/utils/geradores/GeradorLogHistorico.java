@@ -61,6 +61,7 @@ public class GeradorLogHistorico {
      */
     private static void escreverNoArquivo(Integer maiorIndice, @NotNull List<Lance> lances, @NotNull MelhorResultado melhorResultado) throws IOException {
         try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO_HISTORICO + EXTENSAO_CSV, true))) {
+            String historico =  format(NOME_HISTORICO, maiorIndice + UM);
             lances.forEach(lance ->
                     escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_HISTORICO,
                             lance.quantidade(),
@@ -71,8 +72,8 @@ public class GeradorLogHistorico {
                     escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_HISTORICO,
                             lance.quantidade(),
                             lance.valor(),
-                            format(NOME_HISTORICO, maiorIndice + UM))));
-            escritorArquivo.println(format(VALOR_TOTAL, melhorResultado.getLucroMaximizado()));
+                            historico)));
+            escritorArquivo.println(format(VALOR_TOTAL, melhorResultado.getLucroMaximizado(), historico));
         }
     }
 
