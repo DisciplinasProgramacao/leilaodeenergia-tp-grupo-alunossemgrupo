@@ -5,6 +5,7 @@ import entidades.Lance;
 import entidades.MelhorResultado;
 import enums.AlgoritmosEnums;
 import metodos.Backtracking;
+import metodos.ProgramacaoDinamica;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import static utils.geradores.GeradorLogHistorico.gerarHistorico;
  */
 public interface Algoritmo {
 
-    List<Algoritmo> algoritmosImplementados = asList(new Backtracking());
+    List<Algoritmo> algoritmosImplementados = asList(new Backtracking(), new ProgramacaoDinamica());
 
     AlgoritmosEnums algoritmo();
 
