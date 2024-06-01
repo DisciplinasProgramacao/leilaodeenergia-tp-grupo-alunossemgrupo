@@ -45,7 +45,7 @@ public class Main {
 //                todo: preencher com o seu código
             }
 
-//          Aqui, utilize os mesmos conjuntos de teste do algoritmo guloso
+//          Aqui, utilize os mesmos conjuntos de teste do algoritmo guloso.
             if (algoritmo.algoritmo().equals(PROGRAMACAO_DINAMICA)) {
 //                todo: preencher com o seu código
             }
