@@ -1,6 +1,6 @@
 # Leilão de Energia
 
-O objetivo desse projeto é resolver, por meio de quatro algoritmos diferentes (Força bruta, Backtraking, Guloso e Programação dinânica), o seguinte problema:
+O objetivo desse projeto é resolver, por meio de quatro algoritmos diferentes (Backtracking, Guloso, Divisão e Conquista e Programação dinâmica), o seguinte problema:
 
 Uma empresa produtora de energia possui uma quantidade X de energia para vender. A venda será realizada por um leilão:
 as interessadas darão lances por lotes de K MegaWatts, oferecendo um valor V por este lote. As interessadas só comprarão

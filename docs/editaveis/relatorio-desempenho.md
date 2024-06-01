@@ -10,7 +10,7 @@
 
 1. [Sobre o problema](#sobre-o-problema)
 2. [Introdução e objetivo do estudo](#introdução-e-objetivo-do-estudo)
-3. [Algoritmo de força bruta](#algoritmo-de-força-bruta) -> PENDENTE
+3. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) -> PENDENTE
 4. [Algoritmo _backtracking_](#algoritmo-_backtracking_)
     1. [Dados de execução](#dados-de-execução)
     2. [Sobre o algoritmo](#sobre-o-algoritmo)
@@ -40,7 +40,7 @@ seu desempenho, ganhos e perdas. Para fins de comparação, foram implementados 
 Nos tópicos a seguir, serão apresentados os dados de execução de cada um desses algoritmos, bem como os resultados
 obtidos. Mais adiante, esses dados serão compilados e comparados, concluindo sobre o desempenho de cada um deles.
 
-## Algoritmo de força bruta
+## Algoritmo de divisão e conquista
 
 [A SER DESENVOLVIDO]
 
@@ -121,7 +121,10 @@ parâmetro `lucroAtual`.
 O algoritmo se inicia quantificando qual é a quantidade total dos lances atualmente selecionados (*linha 4* - em
 megawatts) e o armazena na variável `qtdeSelecionada`, essa variável é utilizada para verificar, na *linha 7*, se essa
 quantidade é superior à quantidade disponível de venda. Caso a quantidade selecionada seja superior à de venda, essa
-solução não é aceitável, sendo desconsiderada no ***return*** da *linha 8*, essa foi a poda aplicada.
+solução não é aceitável, sendo desconsiderada no ***return*** da *linha 8*. Essa poda foi aplicada para garantir que o
+melhor resultado sempre fosse encontrado, como não existiam muitas variáveis no problema, apenas valor e peso, optou-se
+por essa abordagem, pois mesmo que poucas podas fossem feitas, a quantidade de variáveis ainda assim não seria alta,
+garantindo um desempenho razoável do algoritmo.
 
 Posteriormente, na condicional da *linha 10*, é verificado se o índice passado como parâmetro é igual à quantidade de
 lances total, se essa validação for verdadeira, significa não haver mais lances para avaliar nessa iteração, uma vez

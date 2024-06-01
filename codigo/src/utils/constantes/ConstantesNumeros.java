@@ -15,13 +15,7 @@ public class ConstantesNumeros {
 
     public static final int DEZ = 10;
 
-    public static final int VINTE = 20;
-
     public static final int TRINTA = 30;
-
-    public static final int QUARENTA = 40;
-
-    public static final int CINQUENTA = 50;
 
     public static final int CEM = 100;
 
