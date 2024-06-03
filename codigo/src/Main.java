@@ -1,5 +1,6 @@
 import entidades.Compradora;
 import entidades.MelhorResultado;
+import metodos.ProgramacaoDinamica;
 
 import java.util.List;
 
@@ -48,6 +49,17 @@ public class Main {
 //          Aqui, utilize os mesmos conjuntos de teste do algoritmo guloso.
             if (algoritmo.algoritmo().equals(PROGRAMACAO_DINAMICA)) {
 //                todo: preencher com o seu código
+                // Initialize the dynamic programming algorithm
+                ProgramacaoDinamica programacaoDinamica = new ProgramacaoDinamica();
+                boolean atingiuTempoLimite = false;
+                while (!atingiuTempoLimite) {
+                    for (int i = UM; i <= DEZ; i++) {
+                        melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
+                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > TRINTA)
+                            atingiuTempoLimite = true;
+                    }
+                    compradoras.addAll(gerarCompradoras(UM, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA));
+                }
             }
         });
     }
