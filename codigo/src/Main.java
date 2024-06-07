@@ -37,8 +37,24 @@ public class Main {
 //          Para este teste, utilize os mesmos conjuntos de tamanho T encontrados no backtracking. Em seguida, aumente os
 //          tamanhos dos conjuntos de T em T até atingir o tamanho 10T, sempre executando 10 testes de cada tamanho para
 //          utilizar a média.
-            if (algoritmo.algoritmo().equals(GULOSO)) {
-//                todo: preencher com o seu código
+            if (algoritmo.algoritmo().equals(GULOSO1)) {
+                int tamanhoInicialT = compradoras.size();
+                while (compradoras.size() <= tamanhoInicialT * DEZ) {
+                    for (int i = UM; i <= DEZ; i++) {
+                        melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
+                    }
+                    compradoras.addAll(gerarCompradoras(tamanhoInicialT, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA));
+                }
+            }
+
+            if (algoritmo.algoritmo().equals(GULOSO2)) {
+                int tamanhoInicialT = compradoras.size();
+                while (compradoras.size() <= tamanhoInicialT * DEZ) {
+                    for (int i = UM; i <= DEZ; i++) {
+                        melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
+                    }
+                    compradoras.addAll(gerarCompradoras(tamanhoInicialT, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA));
+                }
             }
 
 //          Neste caso, utilize os mesmos conjuntos de tamanho T utilizados no backtracking.

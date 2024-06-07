@@ -3,8 +3,9 @@ package utils.geradores;
 import entidades.MelhorResultado;
 import entidades.Sistema;
 import enums.AlgoritmosEnums;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -60,7 +61,7 @@ public class GeradorLogExecucao {
      *
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de logs
      */
-    private static void escreverNoArquivo(AlgoritmosEnums algoritmo, int qtdeLances, @NotNull MelhorResultado melhorResultado, @NotNull Sistema sistema) throws IOException {
+    private static void escreverNoArquivo(AlgoritmosEnums algoritmo, int qtdeLances, @NonNull MelhorResultado melhorResultado, @NonNull Sistema sistema) throws IOException {
         try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO_EXECUCAO + EXTENSAO_CSV, true))) {
             escritorArquivo.println(format(US, CONFIGURACAO_COLUNAS_CSV_EXECUCAO,
                     algoritmo.toString(),

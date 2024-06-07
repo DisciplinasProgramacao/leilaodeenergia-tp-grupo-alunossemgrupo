@@ -1,8 +1,9 @@
 package utils.geradores;
 
 import entidades.Compradora;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
+// import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class GeradorCompradoras {
      * @param qtdeMaximaLancePorCompradora quantidade máxima de lances por compradora
      * @return lista de compradoras
      */
-    public static @NotNull List<Compradora> gerarCompradoras(int qtdeCompradoras, int qtdeMaximaLancePorCompradora) {
+    public static @NonNull List<Compradora> gerarCompradoras(int qtdeCompradoras, int qtdeMaximaLancePorCompradora) {
         List<Compradora> compradoras = new ArrayList<>();
         do {
             Long id = (long) compradoras.size();

@@ -1,7 +1,8 @@
 package entidades;
 
 import lombok.Builder;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
+// import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public record Compradora(Long id,
      * @param id          id da compradora
      * @return compradora com id correspondente
      */
-    public static @NotNull Compradora encontrarPorId(@NotNull List<Compradora> compradoras, Long id) {
+    public static @NonNull Compradora encontrarPorId(@NonNull List<Compradora> compradoras, Long id) {
         return compradoras.stream()
                 .filter(compradora -> compradora.id.equals(id))
                 .findFirst()

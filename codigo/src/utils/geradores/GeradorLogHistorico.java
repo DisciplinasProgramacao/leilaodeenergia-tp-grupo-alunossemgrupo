@@ -2,8 +2,9 @@ package utils.geradores;
 
 import entidades.Lance;
 import entidades.MelhorResultado;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
+// import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.Arrays;
@@ -59,7 +60,7 @@ public class GeradorLogHistorico {
      *
      * @throws IOException lança exceção caso ocorra erro na escrita do arquivo de log
      */
-    private static void escreverNoArquivo(Integer maiorIndice, @NotNull List<Lance> lances, @NotNull MelhorResultado melhorResultado) throws IOException {
+    private static void escreverNoArquivo(Integer maiorIndice, @NonNull List<Lance> lances, @NonNull MelhorResultado melhorResultado) throws IOException {
         try (PrintWriter escritorArquivo = new PrintWriter(new FileWriter(CAMINHO_ARQUIVO_HISTORICO + EXTENSAO_CSV, true))) {
             String historico =  format(NOME_HISTORICO, maiorIndice + UM);
             lances.forEach(lance ->
@@ -82,7 +83,7 @@ public class GeradorLogHistorico {
      *
      * @return lista de arquivos na pasta
      */
-    private static @NotNull Set<String> listarHistoricos() throws IOException {
+    private static @NonNull Set<String> listarHistoricos() throws IOException {
 
         Set<String> historicos = new HashSet<>();
         String colunasCabecalho = Arrays.toString(COLUNAS_HISTORICO)
@@ -106,7 +107,7 @@ public class GeradorLogHistorico {
      * @param listaArquivos lista de arquivos na pasta
      * @return maior índice contido na lista de arquivos na pasta
      */
-    private static Integer buscarMaiorIndice(@NotNull Set<String> listaArquivos) {
+    private static Integer buscarMaiorIndice(@NonNull Set<String> listaArquivos) {
         Set<Integer> indices = new HashSet<>();
         listaArquivos.forEach(arquivo -> indices.add(valueOf(arquivo.split(REGEX_SPLIT)[UM])));
         return indices.isEmpty()

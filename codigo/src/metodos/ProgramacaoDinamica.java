@@ -4,8 +4,9 @@ import entidades.Lance;
 import entidades.MelhorResultado;
 import enums.AlgoritmosEnums;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import metodos.interfaces.Algoritmo;
-import org.jetbrains.annotations.NotNull;
+// import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class ProgramacaoDinamica implements Algoritmo {
      */
     @Override
     public void executar(
-            @NotNull MelhorResultado melhorResultado, List<Lance> todosLances, @NotNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
 
         // Mapa para armazenar resultados intermediários
         Map<String, Integer> memo = new HashMap<>();
@@ -49,7 +50,7 @@ public class ProgramacaoDinamica implements Algoritmo {
     }
 
     private int dp(
-            @NotNull MelhorResultado melhorResultado, List<Lance> todosLances, int indice, int qtdeSelecionada,
+            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, int indice, int qtdeSelecionada,
             Map<String, Integer> memo, List<Lance> resultado) {
 
         if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())

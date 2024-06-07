@@ -4,9 +4,12 @@ import entidades.Compradora;
 import entidades.Lance;
 import entidades.MelhorResultado;
 import enums.AlgoritmosEnums;
+import lombok.NonNull;
+import metodos.AlgoritmoGuloso1;
+import metodos.AlgoritmoGuloso2;
 import metodos.Backtracking;
 import metodos.ProgramacaoDinamica;
-import org.jetbrains.annotations.NotNull;
+// import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,7 @@ import static utils.geradores.GeradorLogHistorico.gerarHistorico;
  */
 public interface Algoritmo {
 
-    List<Algoritmo> algoritmosImplementados = asList(new Backtracking(), new ProgramacaoDinamica());
+    List<Algoritmo> algoritmosImplementados = asList(new Backtracking(), new ProgramacaoDinamica(), new AlgoritmoGuloso1(), new AlgoritmoGuloso2());
 
     AlgoritmosEnums algoritmo();
 
@@ -38,7 +41,7 @@ public interface Algoritmo {
      *
      * @return objeto do tipo MelhorResultado
      */
-    default MelhorResultado executarAlgoritmo(@NotNull List<Compradora> compradoras, AlgoritmosEnums algoritmo) {
+    default MelhorResultado executarAlgoritmo(@NonNull List<Compradora> compradoras, AlgoritmosEnums algoritmo) {
 
         Logger logger = Logger.getLogger(Algoritmo.class.getName());
         logger.info(format(INICIO_ALGORITMO, algoritmo, compradoras.size()));
@@ -72,7 +75,7 @@ public interface Algoritmo {
      * @param melhorResultado objeto do tipo MelhorResultado
      * @param compradoras     lista de compradoras cadastradas
      */
-    private void relacionarCompradoras(@NotNull MelhorResultado melhorResultado, List<Compradora> compradoras) {
+    private void relacionarCompradoras(@NonNull MelhorResultado melhorResultado, List<Compradora> compradoras) {
         melhorResultado.setCompradoras(
                 melhorResultado.getLancesSelecionados().stream()
                         .map(lance -> encontrarPorId(compradoras, lance.idCompradora()))
@@ -85,7 +88,7 @@ public interface Algoritmo {
      *
      * @param melhorResultado objeto do tipo MelhorResultado
      */
-    private void relacionarQuantidadeVendida(@NotNull MelhorResultado melhorResultado) {
+    private void relacionarQuantidadeVendida(@NonNull MelhorResultado melhorResultado) {
         melhorResultado.setQuantidadeVendida(
                 melhorResultado.getLancesSelecionados().stream()
                         .mapToInt(Lance::quantidade)

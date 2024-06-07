@@ -1,8 +1,9 @@
 package utils.geradores;
 
 import entidades.Lance;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
+// import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class GeradorLances {
      *
      * @return lista de lances
      */
-    public static @NotNull List<Lance> gerarLances(Long idCompradora, Integer qtdeDisponivel, int qtdeMaximaLances) {
+    public static @NonNull List<Lance> gerarLances(Long idCompradora, Integer qtdeDisponivel, int qtdeMaximaLances) {
         List<Lance> lances = new ArrayList<>();
         Integer qtdeRemanescente = qtdeDisponivel;
         do {

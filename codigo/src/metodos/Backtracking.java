@@ -4,8 +4,8 @@ import entidades.Lance;
 import entidades.MelhorResultado;
 import enums.AlgoritmosEnums;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import metodos.interfaces.Algoritmo;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class Backtracking implements Algoritmo {
      */
     @Override
     public void executar(
-            @NotNull MelhorResultado melhorResultado, List<Lance> todosLances, @NotNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
 
         int qtdeSelecionada = lancesSelecionados.stream()
                 .mapToInt(Lance::quantidade)
