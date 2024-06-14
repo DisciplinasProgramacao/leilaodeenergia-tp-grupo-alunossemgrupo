@@ -10,13 +10,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\logs\execucao\exec-log.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\logs\hist-log.csv">
           <value>
             <Attribute>
