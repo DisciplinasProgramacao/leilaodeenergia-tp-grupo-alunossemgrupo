@@ -252,6 +252,14 @@ crescer muito, ou uma poda pouco efetiva seja utilizada, de modo que o algoritmo
 recursivamente, sem conseguir "podar" muitos cenários, o tempo de execução deste algoritmo pode crescer muito,
 deixando de ser uma opção interessante para resolver o problema.
 
+Por se tratar de um "aperfeiçoamento" do algoritmo de força bruta, em que algumas das combinações possíveis podem ser
+descartadas por meio do critério de poda, é de suma importância que esse critério seja bem definido para a execução
+satisfatória do algoritmo. Conforme apresentado anteriormente, a técnica de poda adotada neste algoritmo foi sobre a
+quantidade somada (em megawatts) pelos lances já escolhidos durante a execução, podando posteriores iterações caso o
+valor da quantidade atual, mais o próximo lance, ultrapassassem o total disponível pela empresa Produtora. Essa
+abordagem foi adotada de modo que eventuais combinações não fossem descartadas precocemente, e sim apenas quando
+realmente não fosse mais possível selecionar nenhum lance adicional, de modo a buscar o maior lucro possível.
+
 ## Algoritmo guloso
 
 [A SER DESENVOLVIDO]
