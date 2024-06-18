@@ -1,6 +1,6 @@
 # Análise de desempenho de algoritmos
 
-**Data de entrega:** @@ de junho de 2024
+**Data de entrega:** 24 de junho de 2024
 
 **Grupo:** Breno Rosa Almeida, Guilherme Lage da Costa, Marcos Paulo Freitas da Silva e Vinícius Dias
 
@@ -10,13 +10,13 @@
 
 1. [Sobre o problema](#sobre-o-problema)
 2. [Introdução e objetivo do estudo](#introdução-e-objetivo-do-estudo)
-3. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) -> PENDENTE
-4. [Algoritmo _backtracking_](#algoritmo-_backtracking_)
+3. [Algoritmo _backtracking_](#algoritmo-_backtracking_)
     1. [Dados de execução](#dados-de-execução)
     2. [Sobre o algoritmo](#sobre-o-algoritmo)
     3. [Algoritmo implementado](#algoritmo-implementado)
     4. [Resultados obtidos](#resultados-obtidos)
-5. [Algoritmo guloso](#algoritmo-guloso) -> PENDENTE
+4. [Algoritmo guloso](#algoritmo-guloso) -> PENDENTE
+5. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) -> PENDENTE
 6. [Algoritmo por programação dinâmica](#algoritmo-por-programação-dinâmica) -> PENDENTE
 7. [Comparação dos resultados obtidos pelos algoritmos](#comparação-dos-resultados-obtidos-pelos-algoritmos)
 
@@ -32,17 +32,13 @@ interessadas só comprarão um lote do tamanho exato da oferta.
 Este trabalho visa analisar e comparar a resolução de um mesmo problema a partir de algoritmos distintos, comparando o
 seu desempenho, ganhos e perdas. Para fins de comparação, foram implementados os seguintes algoritmos:
 
-- [Algoritmo de força bruta](#algoritmo-de-força-bruta);
 - [Algoritmo _backtracking_](#algoritmo-_backtracking_);
 - [Algoritmo guloso](#algoritmo-guloso);
+- [Algoritmo de divisão e conquista](#algoritmo-de-divisão-e-conquista);
 - [Algoritmo por programação dinâmica](#algoritmo-por-programação-dinâmica).
 
 Nos tópicos a seguir, serão apresentados os dados de execução de cada um desses algoritmos, bem como os resultados
 obtidos. Mais adiante, esses dados serão compilados e comparados, concluindo sobre o desempenho de cada um deles.
-
-## Algoritmo de divisão e conquista
-
-[A SER DESENVOLVIDO]
 
 ## Algoritmo _backtracking_
 
@@ -50,7 +46,6 @@ obtidos. Mais adiante, esses dados serão compilados e comparados, concluindo so
 
 - **Responsável**: Guilherme Lage da Costa
 - **Matrícula**: 792939
-- **Data de análise**: 01 de junho de 2024
 - **JDK**: Java 17
 - **Processador**: AMD Ryzen 5 3600, 4.2 Ghz, 6 cores e 12 threads, 32mb de cache
 - **RAM**: 16GB, 3000Ghz
@@ -144,6 +139,8 @@ Se o lance não for nulo, ele é adicionado á lista de `lancesSelecionados` (*l
 é removido da lista na *linha 23* e, em seguida, chamado uma nova execução do algoritmo na próxima posição do índice,
 *linha 25*.
 
+Ao final da execução, o algoritmo retorna a melhor combinação de lances encontrada, buscando maximizar o lucro total.
+
 ### Massa de testes utilizada
 
 A massa de testes utilizada seguiu os seguintes parâmetros:
@@ -156,11 +153,13 @@ A massa de testes utilizada seguiu os seguintes parâmetros:
   possui, ou seja, que disponibiliza para leilão;
 - **Quantidade máxima de lances p/ compradora = 1** → indica a quantidade máxima de lances que cada compradora poderia
   fazer;
-- **Quantidades de compradoras = [10, ..., 37]** → foram executados 10 testes para cada quantidade de compradora,
+- **Quantidades de compradoras = [10, ..., 31]** → foram executados 10 testes para cada quantidade de lances,
   iniciado em 10 e incrementado de 1 a 1 até atingir um tamanho em que o problema não foi possível de ser resolvido em
   até 30 segundos pelo algoritmo. Quando isso aconteceu, foram executados mais 10 testes com essa massa e em seguida a
   execução foi finalizada. No caso da implementação realizada, o algoritmo conseguiu executar massa de testes com 10 até
-  37 compradoras.
+  31 lances. Para cade cenário de lances, foram criados novos conjuntos de testes para que a média fosse calculada, de
+  modo que para verificar o tempo médio gasto para executar 27 lances, por exemplo, foram criados 10 listas com 27
+  lances diferentes.
 
 Os resultados gerados após cada execução do algoritmo foram armazenados automaticamente em dois
 arquivos: `exec-log.xls` e `hist-log.xls`. O primeiro log guarda dados gerais da execução como o tempo despendido,
@@ -171,7 +170,7 @@ lances que foram feitos e os que foram escolhidos para combinar o melhor resulta
 
 <div style="text-align: center;">
 
-*[Trecho do arquivo de log `exec-log.xls`]*
+*[Exemplo de arquivo de log `exec-log.xls`]*
 
 </div>
 
@@ -179,7 +178,7 @@ lances que foram feitos e os que foram escolhidos para combinar o melhor resulta
 
 <div style="text-align: center;">
 
-*[Trecho do arquivo de log `hist-log.xls`]*
+*[Exemplo de arquivo de log `hist-log.xls`]*
 
 </div>
 
@@ -189,40 +188,37 @@ arquivo [analise backtracking](../../analises/analise-backtracking.xlsx).
 
 ### Resultados obtidos
 
-Para o algoritmo de `Backtracking`, foram realizados ao total 280 execuções, considerando as 10 iterações para cada
-cenário, que se iniciou com 10 lances (1 por compradora) e finalizou com 37. O tempo de execução médio para cada um
+Para o algoritmo de `Backtracking`, foram realizados ao total 210 execuções, considerando as 10 iterações para cada
+cenário, que se iniciou com 10 lances (1 por compradora) e finalizou com 31. O tempo de execução médio para cada um
 desses cenários é exposto na tabela a seguir.
 
-| Quantidade de lances | Tempo médio de execução (seg) |  
-|:--------------------:|:-----------------------------:|
-|          10          |             0,00              |
-|          11          |             0,00              |
-|          12          |             0,00              |
-|          13          |             0,00              |
-|          14          |             0,00              |
-|          15          |             0,00              |
-|          16          |             0,00              |
-|          17          |             0,00              |
-|          18          |             0,00              |
-|          19          |             0,00              |
-|          20          |             0,00              |
-|          21          |             0,00              |
-|          22          |             0,10              |
-|          23          |             0,00              |
-|          24          |             0,20              |
-|          25          |             0,20              |
-|          26          |             0,40              |
-|          27          |             0,50              |
-|          28          |             1,00              |
-|          29          |             1,50              |
-|          30          |             2,80              |
-|          31          |             4,00              |
-|          32          |             6,40              |
-|          33          |             9,10              |
-|          34          |             13,8              |
-|          35          |             18,6              |
-|          36          |             27,5              |
-|          37          |             38,9              |
+Os casos em que o tempo de execuçao foram menor do que 1 segundo estão indicados como 0,00, ou seja, o tempo de execução
+para esses casos não foi significante.
+
+| Quantidade de lances | Tempo execucao (seg) |
+|----------------------|----------------------|
+| 10                   | 0,00                 |
+| 11                   | 0,00                 |
+| 12                   | 0,00                 |
+| 13                   | 0,00                 |
+| 14                   | 0,00                 |
+| 15                   | 0,00                 |
+| 16                   | 0,00                 |
+| 17                   | 0,00                 |
+| 18                   | 0,10                 |
+| 19                   | 0,00                 |
+| 20                   | 0,10                 |
+| 21                   | 0,00                 |
+| 22                   | 0,20                 |
+| 23                   | 0,20                 |
+| 24                   | 0,50                 |
+| 25                   | 0,30                 |
+| 26                   | 1,00                 |
+| 27                   | 1,90                 |
+| 28                   | 2,60                 |
+| 29                   | 4,40                 |
+| 30                   | 5,50                 |
+| 31                   | 11,70                |
 
 <div style="text-align: center;">
 
@@ -234,26 +230,33 @@ Os dados indicados na tabela acima são representados no gráfico abaixo.
 
 ![grafico-backtracking.png](../figuras/grafico-backtracking.png)
 
+
 <div style="text-align: center;">
 
 *[Gráfico dos tempos médios obtidos com o algoritmo de backtracking]*
 
 </div>
 
-Conforme pode ser observado no gráfico acima, até a execuçao com 27 lances, o algoritmo de backtracking conseguia
-encontrar o melhor lucro do problema com menos de 1 segundo. A partir da execução com 28 lances, os tempos de execução
+Conforme pode ser observado no gráfico acima, até a execuçao com 26 lances, o algoritmo de backtracking conseguia
+encontrar o melhor lucro do problema com menos de 1 segundo. A partir desse cenário, os tempos de execução
 passaram a ser maiores do que 1 segundo e começaram a crescer exponencialmente, ao passo que com apenas 2 execuções a
-mais, na execução com 30 lances, o tempo de execução já estava próximo de 3 segundos, um aumento de quase 300% em
-relação à execução com 28 lances. Quando o algoritmo executou o cenário com 37 lances, os tempos médios começaram a ser
-superior a 30 segundos, fazendo com que esse fosse o último cenário analisado.
+mais, na execução com 28 lances, o tempo de execução já estava próximo de 3 segundos, um aumento de 260%. Quando o
+algoritmo executou o cenário com 31 lances, os tempos médios começaram a ser superior a 30 segundos, fazendo com que
+esse fosse o último cenário analisado. No último cenário analisado, com 31 lances, o tempo de execução foi de 11,7
+segundos, ou seja, 1170% superior ao cenário com 28 lances que demandou 1 segundo.
 
 O que se percebe pelos resultados obtidos é que em cenários com baixa quantidade de dados a serem analisados, o
-_backtracking_ pode se mostrar uma opção viável. No entanto, a partir do momento que a quantidade de dados começarem a
-crescer muito, ou uma poda muito específica seja utilizada, de modo que o algoritmo começe executar muitas operações
+_backtracking_ pode se mostrar uma opção viável, haja vista que o tempo de execução não será representativo. No entanto,
+a partir do momento que a quantidade de dados começarem a
+crescer muito, ou uma poda pouco efetiva seja utilizada, de modo que o algoritmo começe executar muitas operações
 recursivamente, sem conseguir "podar" muitos cenários, o tempo de execução deste algoritmo pode crescer muito,
 deixando de ser uma opção interessante para resolver o problema.
 
 ## Algoritmo guloso
+
+[A SER DESENVOLVIDO]
+
+## Algoritmo de divisão e conquista
 
 [A SER DESENVOLVIDO]
 
