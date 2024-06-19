@@ -150,16 +150,15 @@ A massa de testes utilizada seguiu os seguintes parâmetros:
 - **Quantidade *máxima* p/ compradora = 100** → indica a quantidade máxima que uma determinada compradora poderia
   solicitar em um lote;
 - **Quantidade disponível pela produtora = 200** → indica a quantidade total (lote total) que a empresa produtora
-  possui, ou seja, que disponibiliza para leilão;
+  possui, ou seja, que disponibiliza para leilão; 
 - **Quantidade máxima de lances p/ compradora = 1** → indica a quantidade máxima de lances que cada compradora poderia
   fazer;
 - **Quantidades de compradoras = [10, ..., 31]** → foram executados 10 testes para cada quantidade de lances,
   iniciado em 10 e incrementado de 1 a 1 até atingir um tamanho em que o problema não foi possível de ser resolvido em
   até 30 segundos pelo algoritmo. Quando isso aconteceu, foram executados mais 10 testes com essa massa e em seguida a
   execução foi finalizada. No caso da implementação realizada, o algoritmo conseguiu executar massa de testes com 10 até
-  31 lances. Para cade cenário de lances, foram criados novos conjuntos de testes para que a média fosse calculada, de
-  modo que para verificar o tempo médio gasto para executar 27 lances, por exemplo, foram criados 10 listas com 27
-  lances diferentes.
+  31 lances. Para cade cenário de lances, foram criados novos conjuntos de testes para que a média de tempo fosse
+  calculada, por exemplo, para executar 27 lances, foram criados 10 listas com 27 lances diferentes.
 
 Os resultados gerados após cada execução do algoritmo foram armazenados automaticamente em dois
 arquivos: `exec-log.xls` e `hist-log.xls`. O primeiro log guarda dados gerais da execução como o tempo despendido,
