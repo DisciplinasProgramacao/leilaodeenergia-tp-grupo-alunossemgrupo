@@ -189,36 +189,35 @@ arquivo [analise backtracking](../../analises/analise-backtracking.xlsx).
 ### Resultados obtidos
 
 Para o algoritmo de `Backtracking`, foram realizados ao total 210 execuções, considerando as 10 iterações para cada
-cenário, que se iniciou com 10 lances (1 por compradora) e finalizou com 31. O tempo de execução médio para cada um
-desses cenários é exposto na tabela a seguir.
+cenário, que se iniciou com 10 lances (1 por compradora) e finalizou com 31. O tempo de execução médio (em segundos)
+para cada um desses cenários é exposto na tabela a seguir. Os casos em que o tempo de execuçao foram menor do que 1
+segundo estão indicados como "-", ou seja, o tempo de execução para esses casos não foi significante. Além disso, as
+colunas da tabela indicam cada uma das 10 execuções realizadas para cada quantidade de lance.
 
-Os casos em que o tempo de execuçao foram menor do que 1 segundo estão indicados como 0,00, ou seja, o tempo de execução
-para esses casos não foi significante.
-
-| Quantidade de lances | Tempo execucao (seg) |
-|----------------------|----------------------|
-| 10                   | 0,00                 |
-| 11                   | 0,00                 |
-| 12                   | 0,00                 |
-| 13                   | 0,00                 |
-| 14                   | 0,00                 |
-| 15                   | 0,00                 |
-| 16                   | 0,00                 |
-| 17                   | 0,00                 |
-| 18                   | 0,10                 |
-| 19                   | 0,00                 |
-| 20                   | 0,10                 |
-| 21                   | 0,00                 |
-| 22                   | 0,20                 |
-| 23                   | 0,20                 |
-| 24                   | 0,50                 |
-| 25                   | 0,30                 |
-| 26                   | 1,00                 |
-| 27                   | 1,90                 |
-| 28                   | 2,60                 |
-| 29                   | 4,40                 |
-| 30                   | 5,50                 |
-| 31                   | 11,70                |
+| Quantidade lances | 1     | 2     | 3    | 4     | 5     | 6    | 7     | 8    | 9     | 10    | Tempo médio |
+|-------------------|-------|-------|------|-------|-------|------|-------|------|-------|-------|-------------|
+| 10                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 11                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 12                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 13                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 14                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 15                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 16                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 17                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 18                | -     | 1,00  | -    | -     | -     | -    | -     | -    | -     | -     | 0,10        |
+| 19                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 20                | -     | -     | -    | -     | -     | -    | -     | -    | 1,00  | -     | 0,10        |
+| 21                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
+| 22                | -     | 1,00  | -    | -     | -     | -    | -     | -    | 1,00  | -     | 0,20        |
+| 23                | -     | -     | -    | 1,00  | -     | -    | 1,00  | -    | -     | -     | 0,20        |
+| 24                | -     | 1,00  | -    | -     | -     | -    | 1,00  | 1,00 | 1,00  | 1,00  | 0,50        |
+| 25                | -     | -     | -    | 1,00  | -     | 1,00 | 1,00  | -    | -     | -     | 0,30        |
+| 26                | 1,00  | 1,00  | -    | 2,00  | 1,00  | -    | 1,00  | 2,00 | -     | 2,00  | 1,00        |
+| 27                | 1,00  | 6,00  | -    | 2,00  | 1,00  | 4,00 | 1,00  | 2,00 | 1,00  | 1,00  | 1,90        |
+| 28                | 5,00  | 3,00  | 4,00 | 1,00  | 6,00  | 3,00 | 2,00  | -    | -     | 2,00  | 2,60        |
+| 29                | 1,00  | 12,00 | 1,00 | 3,00  | 5,00  | -    | 2,00  | 4,00 | 13,00 | 3,00  | 4,40        |
+| 30                | 3,00  | 2,00  | 9,00 | 4,00  | 11,00 | 2,00 | 6,00  | 1,00 | 3,00  | 14,00 | 5,50        |
+| 31                | 62,00 | 10,00 | 1,00 | 10,00 | 1,00  | 9,00 | 10,00 | 8,00 | 2,00  | 4,00  | 11,70       |
 
 <div style="text-align: center;">
 
