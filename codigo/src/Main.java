@@ -1,12 +1,12 @@
 import entidades.Compradora;
 import entidades.MelhorResultado;
+import metodos.interfaces.Algoritmo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static enums.AlgoritmosEnums.*;
 import static metodos.interfaces.Algoritmo.algoritmosImplementados;
-import static utils.constantes.ConstantesExecucao.LIMITE_DE_TEMPO_PERMITIDO;
 import static utils.constantes.ConstantesExecucao.QUANTIDADE_DE_TESTES_POR_MASSA;
 import static utils.constantes.ConstantesNumeros.*;
 import static utils.geradores.GeradorCompradoras.*;
@@ -18,14 +18,14 @@ public class Main {
 //        Conjuntos específicos disponibilizados pelo prof. Caram
         List<Compradora> compradorasConjuntoUm = gerarCompradorasConjuntoUm();
         List<Compradora> compradorasConjuntoDois = gerarCompradorasConjuntoDois();
+        List<Compradora> compradoras = gerarCompradoras(DEZ);
+        List<List<Compradora>> compradorasBacktracking = new ArrayList<>();
+        List<List<Compradora>> compradorasGuloso = new ArrayList<>();
+        List<List<Compradora>> compradorasDivisaoConquista = new ArrayList<>();
+        List<List<Compradora>> compradorasProgramacaoDinamica = new ArrayList<>();
 
-        algoritmosImplementados.forEach(algoritmo -> {
+        for (Algoritmo algoritmo : algoritmosImplementados) {
 
-            List<Compradora> compradoras = gerarCompradoras(DEZ);
-            List<List<Compradora>> compradorasBacktracking = new ArrayList<>();
-            List<List<Compradora>> compradorasGuloso = new ArrayList<>();
-            List<List<Compradora>> compradorasDivisaoConquista = new ArrayList<>();
-            List<List<Compradora>> compradorasProgramacaoDinamica = new ArrayList<>();
             MelhorResultado melhorResultado;
 
 //          Gerar conjuntos de teste de tamanho crescente, a partir de 10 interessadas e incrementando de 1 em 1, até atingir
@@ -39,50 +39,30 @@ public class Main {
                     for (int i = ZERO; i < QUANTIDADE_DE_TESTES_POR_MASSA; i++) {
                         melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
                         compradorasBacktracking.add(compradoras);
-                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > LIMITE_DE_TEMPO_PERMITIDO)
+                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > 1)
                             atingiuTempoLimite = true;
                         compradoras = gerarCompradoras(compradoras.size());
                     }
                     compradoras = gerarCompradoras(compradoras.size() + UM);
                 }
-                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
-                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
+//                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
+//                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
             }
 
 //          Para este teste, utilize os mesmos conjuntos de tamanho T encontrados no backtracking. Em seguida, aumente os
 //          tamanhos dos conjuntos de T em T até atingir o tamanho 10T, sempre executando 10 testes de cada tamanho para
 //          utilizar a média.
-            if (algoritmo.algoritmo().equals(GULOSO1)) {
+            if (algoritmo.algoritmo().equals(GULOSO1) || algoritmo.algoritmo().equals(GULOSO2)) {
 
-                compradorasGuloso = compradorasBacktracking;
-                compradorasGuloso.forEach(listaCompradoras -> algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo()));
+                compradorasGuloso = new ArrayList<>(compradorasBacktracking);
+                compradorasBacktracking.forEach(listaCompradoras -> algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo()));
 
-                int limiteBacktracking = compradorasBacktracking.size() / QUANTIDADE_DE_TESTES_POR_MASSA + UM;
-                List<Compradora> compradorasComplementares = gerarCompradoras(limiteBacktracking + UM);
+                int limiteBacktracking = compradorasBacktracking.size() / QUANTIDADE_DE_TESTES_POR_MASSA + DEZ;
+                compradoras = gerarCompradoras(limiteBacktracking);
 
-                while (compradorasComplementares.size() < DEZ * limiteBacktracking) {
+                while (compradorasGuloso.size() < (QUANTIDADE_DE_TESTES_POR_MASSA * limiteBacktracking * DEZ)) {
                     for (int i = ZERO; i < QUANTIDADE_DE_TESTES_POR_MASSA; i++) {
-                        algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
-                        compradoras = gerarCompradoras(compradoras.size());
                         compradorasGuloso.add(compradoras);
-                    }
-                    compradoras = gerarCompradoras(compradoras.size() + UM);
-                }
-                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
-                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
-            }
-
-            if (algoritmo.algoritmo().equals(GULOSO2)) {
-
-                compradorasBacktracking.forEach(listaCompradoras -> {
-                    algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo());
-                });
-
-                int limiteBacktracking = compradorasBacktracking.size() / QUANTIDADE_DE_TESTES_POR_MASSA + UM;
-                List<Compradora> compradorasComplementares = gerarCompradoras(limiteBacktracking + UM);
-
-                while (compradorasComplementares.size() < DEZ * limiteBacktracking) {
-                    for (int i = ZERO; i < QUANTIDADE_DE_TESTES_POR_MASSA; i++) {
                         algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
                         compradoras = gerarCompradoras(compradoras.size());
                     }
@@ -94,15 +74,21 @@ public class Main {
 
 //          Neste caso, utilize os mesmos conjuntos de tamanho T utilizados no backtracking.
             if (algoritmo.algoritmo().equals(DIVISAO_CONQUISTA)) {
-                compradorasDivisaoConquista = compradorasBacktracking;
-                compradorasDivisaoConquista.forEach(listaCompradoras -> algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo()));
+
+                compradorasDivisaoConquista = new ArrayList<>(compradorasBacktracking);
+                compradorasBacktracking.forEach(listaCompradoras -> algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo()));
+                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
+                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
             }
 
 //          Aqui, utilize os mesmos conjuntos de teste do algoritmo guloso.
             if (algoritmo.algoritmo().equals(PROGRAMACAO_DINAMICA)) {
-                compradorasProgramacaoDinamica = compradorasGuloso;
-                compradorasProgramacaoDinamica.forEach(listaCompradoras -> algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo()));
+
+                compradorasProgramacaoDinamica = new ArrayList<>(compradorasGuloso);
+                compradorasGuloso.forEach(listaCompradoras -> algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo()));
+                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
+                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
             }
-        });
+        }
     }
 }

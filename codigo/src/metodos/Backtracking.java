@@ -37,39 +37,42 @@ public class Backtracking implements Algoritmo {
      */
     @Override
     public void executar(
-            @NonNull MelhorResultado melhorResultado, @NotNull List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+        @NonNull MelhorResultado melhorResultado, @NotNull List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
 
-        List<Lance> lancesValidos = new ArrayList<>();
+    List<Lance> lancesValidos = new ArrayList<>();
 
-        int qtdeSelecionada = lancesSelecionados.stream()
-                .mapToInt(Lance::quantidade)
-                .sum();
+    int qtdeSelecionada = lancesSelecionados.stream()
+            .mapToInt(Lance::quantidade)
+            .sum();
 
-        Integer menorValor = Integer.MAX_VALUE;
+    Integer menorValor = Integer.MAX_VALUE;
 
-        for (int i = indice; i < todosLances.size(); i++) {
-            if (todosLances.get(i).quantidade() < menorValor) {
-                menorValor = todosLances.get(i).quantidade();
-            }
-            if (qtdeSelecionada + todosLances.get(i).quantidade() < 8000) {
-                lancesValidos.add(todosLances.get(i));
-            }
+    for (int i = indice; i < todosLances.size(); i++) {
+        if (todosLances.get(i).quantidade() < menorValor) {
+            menorValor = todosLances.get(i).quantidade();
         }
-
-        if (indice == todosLances.size() || qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel() || menorValor > (8000 - qtdeSelecionada) || lancesValidos.isEmpty()) {
-            if (lucroAtual > melhorResultado.getLucroMaximizado()) {
-                melhorResultado.setLucroMaximizado(lucroAtual);
-                melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-            }
-            return;
+        if (qtdeSelecionada + todosLances.get(i).quantidade() < 8000) {
+            lancesValidos.add(todosLances.get(i));
         }
-        Lance lanceAnalisado = lancesValidos.iterator().next();
-
-        if (!isNull(lanceAnalisado)) {
-            lancesSelecionados.add(lanceAnalisado);
-            executar(melhorResultado, todosLances, lancesSelecionados, indice + UM, lucroAtual + lanceAnalisado.valor());
-            lancesSelecionados.remove(lancesSelecionados.size() - UM);
-        }
-        executar(melhorResultado, todosLances, lancesSelecionados, todosLances.indexOf(lanceAnalisado) + 1, lucroAtual);
     }
+
+    if (indice == todosLances.size()
+        || qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel()
+        || menorValor > (8000 - qtdeSelecionada)
+        || lancesValidos.isEmpty()) {
+
+        if (lucroAtual > melhorResultado.getLucroMaximizado()) {
+            melhorResultado.setLucroMaximizado(lucroAtual);
+            melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+        }
+        return;
+    }
+
+    for (Lance lance : lancesValidos) {
+        lancesSelecionados.add(lance);
+        executar(melhorResultado, todosLances, lancesSelecionados, todosLances.indexOf(lance) + 1, lucroAtual + lance.valor());
+        lancesSelecionados.remove(lancesSelecionados.size() - 1);
+    }
+}
+
 }
