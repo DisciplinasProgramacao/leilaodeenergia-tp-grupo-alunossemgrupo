@@ -5,10 +5,7 @@ import entidades.Lance;
 import entidades.MelhorResultado;
 import enums.AlgoritmosEnums;
 import lombok.NonNull;
-import metodos.AlgoritmoGuloso1;
-import metodos.AlgoritmoGuloso2;
-import metodos.Backtracking;
-import metodos.ProgramacaoDinamica;
+import metodos.*;
 // import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -30,7 +27,7 @@ import static utils.geradores.GeradorLogHistorico.gerarHistorico;
  */
 public interface Algoritmo {
 
-    List<Algoritmo> algoritmosImplementados = asList(new Backtracking(), new AlgoritmoGuloso1(), new AlgoritmoGuloso2(), new ProgramacaoDinamica());
+    List<Algoritmo> algoritmosImplementados = asList(new Backtracking(), new AlgoritmoGuloso1(), new AlgoritmoGuloso2(), new DivisaoConquista(), new ProgramacaoDinamica());
 
     AlgoritmosEnums algoritmo();
 
