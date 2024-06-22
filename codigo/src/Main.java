@@ -9,13 +9,17 @@ import static enums.AlgoritmosEnums.*;
 import static metodos.interfaces.Algoritmo.algoritmosImplementados;
 import static utils.constantes.ConstantesExecucao.QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA;
 import static utils.constantes.ConstantesNumeros.*;
-import static utils.geradores.GeradorCompradoras.gerarCompradoras;
+import static utils.geradores.GeradorCompradoras.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        List<Compradora> compradorasConjuntoUm = gerarCompradorasConjuntoUm();
+        List<Compradora> compradorasConjuntoDois = gerarCompradorasConjuntoDois();
+
         algoritmosImplementados.forEach(algoritmo -> {
+
             List<Compradora> compradoras = gerarCompradoras(DEZ, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
             List<List<Compradora>> compradorasBacktracking = new ArrayList<>();
             MelhorResultado melhorResultado;
@@ -24,6 +28,10 @@ public class Main {
 //          um tamanho T que não consiga ser resolvido em até 30 segundos pelo algoritmo. Na busca do tempo limite de 30
 //          segundos, faça o teste com 10 conjuntos de cada tamanho, contabilizando a média das execuções.
             if (algoritmo.algoritmo().equals(BACKTRACKING)) {
+
+                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
+                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
+
                 boolean atingiuTempoLimite = false;
 
                 while (!atingiuTempoLimite) {

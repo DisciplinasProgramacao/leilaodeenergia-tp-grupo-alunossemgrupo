@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.concurrent.ThreadLocalRandom.current;
+import static utils.constantes.ConstantesExecucao.*;
 import static utils.constantes.ConstantesNumeros.*;
 
 @UtilityClass
@@ -27,8 +28,8 @@ public class GeradorLances {
                     Lance.builder()
                             .id((long) lances.size())
                             .idCompradora(idCompradora)
-                            .quantidade(current().nextInt(UM, qtdeRemanescente + UM))
-                            .valor(current().nextInt(UM, CEM + UM))
+                            .quantidade(current().nextInt(QUANTIDADE_MINIMA_LANCE, qtdeRemanescente + UM))
+                            .valor(current().nextInt(VALOR_MINIMO_COMPRADORA, VALOR_MAXIMO_COMPRADORA + UM))
                             .build()
             );
             qtdeRemanescente -= lances.get(lances.size() - UM).quantidade();
