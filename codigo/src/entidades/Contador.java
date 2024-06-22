@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import static java.time.Instant.now;
 
+/**
+ * Classe de contador de tempo
+ */
 @Data
 @Builder
 @AllArgsConstructor

@@ -2,10 +2,17 @@ package entidades;
 
 import lombok.Builder;
 import lombok.NonNull;
-// import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * É a empresa que compra a energia
+ *
+ * @param id                   id da empresa
+ * @param nome                 nome da empresa
+ * @param quantidadeDisponivel quantidade de megawatts que a empresa possui para ofertas
+ * @param lances               quantidade de lances
+ */
 @Builder
 public record Compradora(Long id,
                          String nome,

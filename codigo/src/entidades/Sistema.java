@@ -7,6 +7,9 @@ import static java.lang.Runtime.getRuntime;
 import static java.util.Objects.isNull;
 import static utils.conversores.ConversorUnidades.bytesParaMegabytes;
 
+/**
+ * Objeto com informações do sistema que executa o algoritmo
+ */
 @Data
 @Builder
 public class Sistema {

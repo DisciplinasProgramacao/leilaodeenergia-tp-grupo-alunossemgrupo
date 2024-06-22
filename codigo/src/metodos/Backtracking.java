@@ -6,6 +6,7 @@ import enums.AlgoritmosEnums;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import metodos.interfaces.Algoritmo;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,28 +37,39 @@ public class Backtracking implements Algoritmo {
      */
     @Override
     public void executar(
-            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+            @NonNull MelhorResultado melhorResultado, @NotNull List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+
+        List<Lance> lancesValidos = new ArrayList<>();
 
         int qtdeSelecionada = lancesSelecionados.stream()
                 .mapToInt(Lance::quantidade)
                 .sum();
-        if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())
-            return;
 
-        if (indice == todosLances.size()) {
+        Integer menorValor = Integer.MAX_VALUE;
+
+        for (int i = indice; i < todosLances.size(); i++) {
+            if (todosLances.get(i).quantidade() < menorValor) {
+                menorValor = todosLances.get(i).quantidade();
+            }
+            if (qtdeSelecionada + todosLances.get(i).quantidade() < 8000) {
+                lancesValidos.add(todosLances.get(i));
+            }
+        }
+
+        if (indice == todosLances.size() || qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel() || menorValor > (8000 - qtdeSelecionada) || lancesValidos.isEmpty()) {
             if (lucroAtual > melhorResultado.getLucroMaximizado()) {
                 melhorResultado.setLucroMaximizado(lucroAtual);
                 melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
             }
             return;
         }
-        Lance lanceAnalisado = todosLances.get(indice);
+        Lance lanceAnalisado = lancesValidos.iterator().next();
 
         if (!isNull(lanceAnalisado)) {
             lancesSelecionados.add(lanceAnalisado);
             executar(melhorResultado, todosLances, lancesSelecionados, indice + UM, lucroAtual + lanceAnalisado.valor());
             lancesSelecionados.remove(lancesSelecionados.size() - UM);
         }
-        executar(melhorResultado, todosLances, lancesSelecionados, indice + UM, lucroAtual);
+        executar(melhorResultado, todosLances, lancesSelecionados, todosLances.indexOf(lanceAnalisado) + 1, lucroAtual);
     }
 }

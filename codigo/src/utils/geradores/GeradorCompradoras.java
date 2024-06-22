@@ -24,10 +24,9 @@ public class GeradorCompradoras {
      * Gera compradoras aleatórias
      *
      * @param qtdeCompradoras              quantidade de compradoras
-     * @param qtdeMaximaLancePorCompradora quantidade máxima de lances por compradora
      * @return lista de compradoras
      */
-    public static @NonNull List<Compradora> gerarCompradoras(int qtdeCompradoras, int qtdeMaximaLancePorCompradora) {
+    public static @NonNull List<Compradora> gerarCompradoras(int qtdeCompradoras) {
         List<Compradora> compradoras = new ArrayList<>();
         do {
             Long id = (long) compradoras.size();
@@ -37,7 +36,7 @@ public class GeradorCompradoras {
                             .id(id)
                             .nome(format(NOME_COMPRADORA, compradoras.size()))
                             .quantidadeDisponivel(qtdeDisponivel)
-                            .lances(gerarLances(id, qtdeDisponivel, qtdeMaximaLancePorCompradora))
+                            .lances(gerarLances(id, qtdeDisponivel, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA))
                             .build()
             );
         } while (compradoras.size() != qtdeCompradoras);
@@ -45,7 +44,7 @@ public class GeradorCompradoras {
     }
 
     /**
-     * Gera compradoras com base com conjunto um disponibilizado pelo Caram
+     * Gera compradoras com base com conjunto um disponibilizado pelo prof. Caram
      *
      * @return lista de compradoras
      */
@@ -77,7 +76,7 @@ public class GeradorCompradoras {
     }
 
     /**
-     * Gera compradoras com base com conjunto dois disponibilizado pelo Caram
+     * Gera compradoras com base com conjunto dois disponibilizado pelo prof. Caram
      *
      * @return lista de compradoras
      */

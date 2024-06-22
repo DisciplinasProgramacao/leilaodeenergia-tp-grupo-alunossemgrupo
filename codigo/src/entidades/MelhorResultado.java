@@ -9,6 +9,9 @@ import java.util.Set;
 
 import static utils.constantes.ConstantesExecucao.*;
 
+/**
+ * Objeto de melhor resultado, utilizado nas implementações dos algoritmos
+ */
 @Data
 @Builder
 @AllArgsConstructor

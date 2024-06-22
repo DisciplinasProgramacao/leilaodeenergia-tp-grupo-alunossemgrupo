@@ -7,7 +7,8 @@ import java.util.List;
 
 import static enums.AlgoritmosEnums.*;
 import static metodos.interfaces.Algoritmo.algoritmosImplementados;
-import static utils.constantes.ConstantesExecucao.QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA;
+import static utils.constantes.ConstantesExecucao.LIMITE_DE_TEMPO_PERMITIDO;
+import static utils.constantes.ConstantesExecucao.QUANTIDADE_DE_TESTES_POR_MASSA;
 import static utils.constantes.ConstantesNumeros.*;
 import static utils.geradores.GeradorCompradoras.*;
 
@@ -15,12 +16,13 @@ public class Main {
 
     public static void main(String[] args) {
 
+//        Conjuntos específicos disponibilizados pelo prof. Caram
         List<Compradora> compradorasConjuntoUm = gerarCompradorasConjuntoUm();
         List<Compradora> compradorasConjuntoDois = gerarCompradorasConjuntoDois();
 
         algoritmosImplementados.forEach(algoritmo -> {
 
-            List<Compradora> compradoras = gerarCompradoras(DEZ, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
+            List<Compradora> compradoras = gerarCompradoras(DEZ);
             List<List<Compradora>> compradorasBacktracking = new ArrayList<>();
             MelhorResultado melhorResultado;
 
@@ -29,44 +31,58 @@ public class Main {
 //          segundos, faça o teste com 10 conjuntos de cada tamanho, contabilizando a média das execuções.
             if (algoritmo.algoritmo().equals(BACKTRACKING)) {
 
-                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
-                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
-
                 boolean atingiuTempoLimite = false;
 
                 while (!atingiuTempoLimite) {
-                    for (int i = UM; i <= DEZ; i++) {
+                    for (int i = ZERO; i < QUANTIDADE_DE_TESTES_POR_MASSA; i++) {
                         melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
                         compradorasBacktracking.add(compradoras);
-                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > TRINTA)
+                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > LIMITE_DE_TEMPO_PERMITIDO)
                             atingiuTempoLimite = true;
-                        compradoras = gerarCompradoras(compradoras.size(), QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
+                        compradoras = gerarCompradoras(compradoras.size());
                     }
-                    compradoras.addAll(gerarCompradoras(UM, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA));
-                    compradoras = gerarCompradoras(compradoras.size(), QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA);
+                    compradoras = gerarCompradoras(compradoras.size() + UM);
                 }
+                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
+                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
             }
 
 //          Para este teste, utilize os mesmos conjuntos de tamanho T encontrados no backtracking. Em seguida, aumente os
 //          tamanhos dos conjuntos de T em T até atingir o tamanho 10T, sempre executando 10 testes de cada tamanho para
 //          utilizar a média.
             if (algoritmo.algoritmo().equals(GULOSO1)) {
-                int tamanhoInicialT = compradoras.size();
-                while (compradoras.size() <= tamanhoInicialT * DEZ) {
-                    for (int i = UM; i <= DEZ; i++) {
-                        melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
+
+                compradorasBacktracking.forEach(listaCompradoras -> {
+                    algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo());
+                });
+
+                int limiteBacktracking = compradorasBacktracking.size() / QUANTIDADE_DE_TESTES_POR_MASSA + UM;
+                List<Compradora> compradorasComplementares = gerarCompradoras(limiteBacktracking + UM);
+
+                while (compradorasComplementares.size() < DEZ * limiteBacktracking) {
+                    for (int i = ZERO; i < QUANTIDADE_DE_TESTES_POR_MASSA; i++) {
+                        algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
+                        compradoras = gerarCompradoras(compradoras.size());
                     }
-                    compradoras.addAll(gerarCompradoras(tamanhoInicialT, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA));
+                    compradoras = gerarCompradoras(compradoras.size() + UM);
                 }
             }
 
             if (algoritmo.algoritmo().equals(GULOSO2)) {
-                int tamanhoInicialT = compradoras.size();
-                while (compradoras.size() <= tamanhoInicialT * DEZ) {
-                    for (int i = UM; i <= DEZ; i++) {
-                        melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
+
+                compradorasBacktracking.forEach(listaCompradoras -> {
+                    algoritmo.executarAlgoritmo(listaCompradoras, algoritmo.algoritmo());
+                });
+
+                int limiteBacktracking = compradorasBacktracking.size() / QUANTIDADE_DE_TESTES_POR_MASSA + UM;
+                List<Compradora> compradorasComplementares = gerarCompradoras(limiteBacktracking + UM);
+
+                while (compradorasComplementares.size() < DEZ * limiteBacktracking) {
+                    for (int i = ZERO; i < QUANTIDADE_DE_TESTES_POR_MASSA; i++) {
+                        algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
+                        compradoras = gerarCompradoras(compradoras.size());
                     }
-                    compradoras.addAll(gerarCompradoras(tamanhoInicialT, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA));
+                    compradoras = gerarCompradoras(compradoras.size() + UM);
                 }
             }
 
@@ -85,7 +101,7 @@ public class Main {
                         if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > TRINTA)
                             atingiuTempoLimite = true;
                     }
-                    compradoras.addAll(gerarCompradoras(UM, QUANTIDADE_MAXIMA_LANCE_POR_COMPRADORA));
+                    compradoras.addAll(gerarCompradoras(UM));
                 }
             }
         });

@@ -16,6 +16,10 @@ public class ConstantesExecucao {
 
     public static final Long ID_PRODUTORA = UM_L;
 
+    public static final Integer QUANTIDADE_DE_TESTES_POR_MASSA = DEZ;
+
+    public static final Integer LIMITE_DE_TEMPO_PERMITIDO = TRINTA;
+
     //    Representa a capacidade mínima que uma compradora pode ter de quantidade
     public static final Integer QUANTIDADE_MINIMA_COMPRADORA = MIL;
 
@@ -37,16 +41,16 @@ public class ConstantesExecucao {
     // Valor máximo por um lance de uma compradora
     public static final Integer VALOR_MAXIMO_COMPRADORA = MIL_E_QUINHENTOS;
 
-    // Conjunto um de quantidades passado pelo Caram
+    // Conjunto um de quantidades passadas pelo prof. Caram
     public static List<Integer> quantidadesConjuntoUm = new ArrayList<>();
 
-    // Conjunto um de valores passado pelo Caram
+    // Conjunto um de valores passados pelo prof. Caram
     public static List<Integer> valoresConjuntoUm = new ArrayList<>();
 
-    // Conjunto dois de quantidades passado pelo Caram
+    // Conjunto dois de quantidades passadas pelo prof. Caram
     public static List<Integer> quantidadesConjuntoDois = new ArrayList<>();
 
-    // Conjunto dois de valores passado pelo Caram
+    // Conjunto dois de valores passados pelo prof. Caram
     public static List<Integer> valoresConjuntoDois = new ArrayList<>();
 
     static {
