@@ -298,7 +298,95 @@ buscando assim o maior lucro possível.
 
 ## Algoritmo por programação dinâmica
 
-[A SER DESENVOLVIDO]
+### Dados de execução
+
+- **Responsável**: Marcos Paulo Freitas Da Silva
+- **Matrícula**: 746639
+- **JDK**: Java 17
+- **Processador**: Intel Core i5 8265U, 4.2 Ghz, 4 cores e 8 threads, 6mb de cache
+- **RAM**: 12GB, 2400Ghz
+- **Sistema Operacional**: Windows 11
+- **IDE**: IntelliJ Ultimate
+
+## Sobre o Algoritmo
+A classe `ProgramacaoDinamica` implementa o algoritmo de Programação Dinâmica, uma técnica de otimização que resolve problemas complexos dividindo-os em subproblemas menores e resolvendo cada subproblema apenas uma vez, armazenando seus resultados para evitar cálculos repetidos. Este método é eficiente para problemas de otimização onde a solução é composta de subsoluções ótimas.
+
+## Descrição da Classe
+```@AllArgsConstructor
+public class ProgramacaoDinamica implements Algoritmo {
+    
+    @Override
+    public AlgoritmosEnums algoritmo() {
+        return PROGRAMACAO_DINAMICA;
+    }
+    
+    @Override
+    public void executar(
+            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+        
+        Map<String, Integer> memo = new HashMap<>();
+        List<Lance> resultado = new ArrayList<>();
+        int lucroMaximizado = dp(melhorResultado, todosLances, indice, 0, memo, resultado);
+
+        melhorResultado.setLucroMaximizado(lucroMaximizado);
+        melhorResultado.setLancesSelecionados(new ArrayList<>(resultado));
+    }
+
+    private int dp(
+            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, int indice, int qtdeSelecionada,
+            Map<String, Integer> memo, List<Lance> resultado) {
+
+        if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())
+            return Integer.MIN_VALUE;
+
+        if (indice == todosLances.size()) {
+            return 0;
+        }
+
+        String key = indice + "-" + qtdeSelecionada;
+
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+
+        Lance lanceAnalisado = todosLances.get(indice);
+
+        resultado.add(lanceAnalisado);
+        int incluir = lanceAnalisado.valor() + dp(melhorResultado, todosLances, indice + 1,
+                qtdeSelecionada + lanceAnalisado.quantidade(), memo, resultado);
+        resultado.remove(resultado.size() - 1);
+
+        int excluir = dp(melhorResultado, todosLances, indice + 1, qtdeSelecionada, memo, resultado);
+
+        int maxLucro = Math.max(incluir, excluir);
+
+        memo.put(key, maxLucro);
+
+        return maxLucro;
+    }
+}
+```
+No algoritmo implementado, a função responsável por executar o método de ***Programção Dinamica*** recebe cinco parâmetros,
+sendo eles:
+
+- melhorResultado: `MelhorResultado`;
+- todosLances: `List<Lance>`;
+- lancesSelecionados: `List<Lance>`;
+- indice: `int`;
+- lucroAtual: `int`.
+
+O algoritmo começa verificando se a quantidade total dos lances atualmente selecionados `qtdeSelecionada` excede a quantidade disponível para venda.
+Se for o caso, essa solução é descartada retornando o menor valor possível `Integer.MIN_VALUE`. Em seguida, verifica se todos os lances foram processados `indice == todosLances.size()`.
+Se todos os lances foram processados, retorna 0, indicando que não há mais lucro a ser adicionado.
+
+A chave do algoritmo é a memoização, onde cada subproblema é identificado por uma chave única composta pelo `indice` e `qtdeSelecionada`. 
+Se um resultado para esse subproblema já estiver armazenado, ele é reutilizado, evitando cálculos redundantes.
+
+O algoritmo então considera duas possibilidades para cada lance:
+
+Incluir o lance atual: Adiciona o valor do lance ao lucro atual e chama recursivamente a função dp para o próximo índice, aumentando a quantidade selecionada.
+Não incluir o lance atual: Chama recursivamente a função dp para o próximo índice sem aumentar a quantidade selecionada.
+Finalmente, o algoritmo retorna o lucro máximo entre as duas opções e armazena o resultado na tabela de memoização.
 
 ## Comparação dos resultados obtidos pelos algoritmos
 
