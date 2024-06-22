@@ -7,6 +7,7 @@ import java.util.List;
 
 import static enums.AlgoritmosEnums.*;
 import static metodos.interfaces.Algoritmo.algoritmosImplementados;
+import static utils.constantes.ConstantesExecucao.LIMITE_DE_TEMPO_PERMITIDO;
 import static utils.constantes.ConstantesExecucao.QUANTIDADE_DE_TESTES_POR_MASSA;
 import static utils.constantes.ConstantesNumeros.*;
 import static utils.geradores.GeradorCompradoras.*;
@@ -39,14 +40,15 @@ public class Main {
                     for (int i = ZERO; i < QUANTIDADE_DE_TESTES_POR_MASSA; i++) {
                         melhorResultado = algoritmo.executarAlgoritmo(compradoras, algoritmo.algoritmo());
                         compradorasBacktracking.add(compradoras);
-                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > 1)
+                        if (melhorResultado.getContador().getFim() - melhorResultado.getContador().getInicio() > LIMITE_DE_TEMPO_PERMITIDO)
                             atingiuTempoLimite = true;
                         compradoras = gerarCompradoras(compradoras.size());
                     }
                     compradoras = gerarCompradoras(compradoras.size() + UM);
                 }
-//                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
-//                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
+                algoritmo.executarAlgoritmo(compradorasConjuntoUm, algoritmo.algoritmo());
+                algoritmo.executarAlgoritmo(compradorasConjuntoDois, algoritmo.algoritmo());
+
             }
 
 //          Para este teste, utilize os mesmos conjuntos de tamanho T encontrados no backtracking. Em seguida, aumente os
