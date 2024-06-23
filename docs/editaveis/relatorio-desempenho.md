@@ -141,16 +141,10 @@ atributo `lucroMaximizado` do `melhorResultado`, o algoritmo atualiza o lucro ma
 selecionados.
 
 ```java
-    if(lucroAtual >melhorResultado.
-
-getLucroMaximizado()){
-        melhorResultado.
-
-setLucroMaximizado(lucroAtual);
-        melhorResultado.
-
-setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-        }
+if (lucroAtual > melhorResultado.getLucroMaximizado()) {
+    melhorResultado.setLucroMaximizado(lucroAtual);
+    melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+}
 ```
 
 O algoritmo verifica se o índice passado como parâmetro é igual ou maior à quantidade total de lances, ou se a
@@ -158,15 +152,9 @@ quantidade selecionada é maior ou igual à quantidade disponível para leilão 
 for verdadeira, a execução termina.
 
 ```java
-if(indice >=todosLances.
-
-size() ||qtdeSelecionada >=melhorResultado.
-
-getProdutora().
-
-quantidadeDisponivel()){
-        return;
-        }
+if (indice >= todosLances.size() || qtdeSelecionada >= melhorResultado.getProdutora().quantidadeDisponivel()) {
+    return;
+}
 ```
 
 Em seguida, o algoritmo calcula o menor valor de lance a partir do índice atual para garantir que há espaço suficiente
@@ -175,55 +163,27 @@ para adicionar um novo lance sem exceder a capacidade de venda.
 ```java
 int menorValor = MAX_VALUE;
 
-for(
-int i = indice; i <todosLances.
-
-size();
-
-i++){
-menorValor =
-
-min(menorValor, todosLances.get(i).
-
-quantidade());
-        }
-        if(qtdeSelecionada +menorValor >melhorResultado.
-
-getProdutora().
-
-quantidadeDisponivel()){
-        return;
-        }
+for (int i = indice; i < todosLances.size(); i++) {
+    menorValor = min(menorValor, todosLances.get(i).quantidade());
+}
+if (qtdeSelecionada + menorValor > melhorResultado.getProdutora().quantidadeDisponivel()) {
+    return;
+}
 ```
 
 Para cada lance válido a partir do índice atual, o algoritmo adiciona o lance à lista de lances selecionados e chama
 recursivamente a função `executar` com o próximo índice e o lucro atualizado.
 
 ```java
-for(int i = indice; i <todosLances.
+for (int i = indice; i < todosLances.size(); i++) {
+    Lance lance = todosLances.get(i);
 
-size();
-
-i++){
-Lance lance = todosLances.get(i);
-
-    if(qtdeSelecionada +lance.
-
-quantidade() <melhorResultado.
-
-getProdutora().
-
-quantidadeDisponivel()){
-        lancesSelecionados.
-
-add(lance);
-
-executar(melhorResultado, todosLances, lancesSelecionados, i +UM, lucroAtual +lance.valor());
-        lancesSelecionados.
-
-remove(lancesSelecionados.size() -UM);
-        }
-        }
+    if (qtdeSelecionada + lance.quantidade() < melhorResultado.getProdutora().quantidadeDisponivel()) {
+        lancesSelecionados.add(lance);
+        executar(melhorResultado, todosLances, lancesSelecionados, i + UM, lucroAtual + lance.valor());
+        lancesSelecionados.remove(lancesSelecionados.size() - UM);
+    }
+}
 ```
 
 De modo geral, o algoritmo de backtracking implementado busca encontrar a combinação de lances que maximiza o lucro
