@@ -234,19 +234,11 @@ lances que foram feitos e os que foram escolhidos para combinar o melhor resulta
 
 ![trecho-arquivo-exec-log.png](../figuras/trecho-arquivo-exec-log.png)
 
-<div style="text-align: center;">
-
 *[Exemplo de arquivo de log `exec-log.xls`]*
-
-</div>
 
 ![trecho-arquivo-hist-log.png](../figuras/trecho-arquivo-hist-log.png)
 
-<div style="text-align: center;">
-
 *[Exemplo de arquivo de log `hist-log.xls`]*
-
-</div>
 
 O arquivo de análises que compila as execuções realizadas pode ser verificado no
 arquivo [analise backtracking](../../analises/analise-backtracking.xlsx).
@@ -286,11 +278,7 @@ execução foi inferior a 1 segundo estão indicados com o símbolo "-", ou seja
 | 32                | 19,00 | 12,00 | 18,00 | 8,00  | 11,00 | 26,00 | 15,00 | 5,00  | 7,00  | 6,00  | 12,70             |
 | 33                | 27,00 | 11,00 | 12,00 | 11,00 | 6,00  | 14,00 | 34,00 | 42,00 | 11,00 | 21,00 | 18,90             |
 
-<div style="text-align: center;">
-
 *[Tabela de tempos médios de execução - Backtracking]*
-
-</div>
 
 Os valores de lucro máximo obtido em cada um dos cenários de testes, e respectivas iterações, são apresentados na tabela
 a seguir.
@@ -322,22 +310,14 @@ a seguir.
 | 32                | 17.290 | 15.307 | 17.305 | 15.826 | 13.945 | 17.748 | 14.959 | 14.481 | 14.309 | 14.393 | 15.556             |
 | 33                | 17.028 | 16.308 | 15.647 | 14.528 | 16.205 | 17.425 | 17.212 | 18.868 | 15.911 | 15.793 | 16.493             |
 
-<div style="text-align: center;">
-
 *[Tabela de maior lucro obtido - Backtracking]*
-
-</div>
 
 Os dados indicados na tabela de tempos médios acima são consolidados no gráfico abaixo, que apresenta a evolução do
 tempo médio despendido em cada cenário de teste.
 
 ![grafico-backtracking.png](../figuras/grafico-backtracking.png)
 
-<div style="text-align: center;">
-
 *[Gráfico dos tempos médios obtidos com o algoritmo de backtracking]*
-
-</div>
 
 Além dos cenários apresentados, foram executados dois conjuntos adicionais fornecidos pelo prof. Caram, conjunto um e
 dois. A relação das informações obtidas com a execução desses conjuntos são elencadas na tabela abaixo.
@@ -347,11 +327,7 @@ dois. A relação das informações obtidas com a execução desses conjuntos s�
 | Um       | 25                | 19                  | R$ 26.725,00 | 4                    |
 | Dois     | 25                | 21                  | R$ 40.348,00 | 3                    |
 
-<div style="text-align: center;">
-
 *[Tabela de resultados para os conjuntos do prof. Caram - Backtracking]*
-
-</div>
 
 Conforme observado no gráfico apresentado, até a execução com 26 lances, o algoritmo de backtracking conseguia encontrar
 o melhor lucro do problema em menos de 1 segundo. A partir desse ponto, os tempos de execução passaram a ser maiores que
@@ -578,19 +554,11 @@ abaixo.
 | 33          | 18,90        | -                  | -                | 74,90               | -                    |
 | Tempo médio | 2,50         | -                  | -                | 9,42                | -                    |
 
-<div style="text-align: center;">
-
 *[Tabela de comparação de desempenho de 10 a 33 lances]*
-
-</div>
 
 ![grafico-comparativo-tempo-ate-33.png](../figuras/grafico-comparativo-tempo-ate-33.png)
 
-<div style="text-align: center;">
-
 *[Gráfico de comparação de desempenho de 10 a 33 lances]*
-
-</div>
 
 Para a segunda etapa, comparamos os algoritmos que executaram até o cenário com 330 lances (Guloso e
 Programação dinãmica). Para ambas implementações o tempo de execução foi inferior a 1 segundo, conforme pode ser
@@ -598,11 +566,7 @@ verificado no gráfico a seguir.
 
 ![grafico-comparativo-tempo-ate-330.png](../figuras/grafico-comparativo-tempo-ate-330.png)
 
-<div style="text-align: center;">
-
 *[Gráfico de comparação de desempenho de 10 a 330 lances]*
-
-</div>
 
 ### Lucro encontrado
 
@@ -645,19 +609,11 @@ não apresentou resultado satisfatório, com lucro médio 50% inferior ao result
 | Lucro médio    | 13.785,08    | 6.928,41           | 12.760,85        | 13.785,68           | 13.785,68            |
 | % lucro máximo | 100%         | 50%                | 93%              | 100%                | 100%                 |
 
-<div style="text-align: center;">
-
 *[Tabela de comparação de valores de 10 a 33 lances]*
-
-</div>
 
 ![grafico-comparativo-valores-ate-33.png](../figuras/grafico-comparativo-valores-ate-33.png)
 
-<div style="text-align: center;">
-
 *[Gráfico de comparação de valores de 10 a 33 lances]*
-
-</div>
 
 Comparando os algoritmos que seguiram a execução até 330 lances, podemos observar que o desempenho de ambas as
 implementações do algoritmo guloso caíram. Para a implementação por ordem crescente (seta azul no gráfico), o lucro na
@@ -668,11 +624,7 @@ apresentou apenas 13% do lucro máximo obtido pela Programação dinâmica (seta
 
 ![grafico-comparativo-valores-ate-330.png](../figuras/grafico-comparativo-valores-ate-330.png)
 
-<div style="text-align: center;">
-
 *[Gráfico de comparação de valores de 10 a 330 lances]*
-
-</div>
 
 ### Conjuntos solicitados pelo prof. Caram
 
@@ -699,11 +651,7 @@ despendendo 4 e 10 segundos para o conjunto 1, e 3 e 10 segundos para o conjunto
 | Divisão e conquista  | "           | "           | 10          | 21                  | 40.348,00    |
 | Programação dinâmica | "           | "           | 0           | 16                  | 40.348,00    |
 
-<div style="text-align: center;">
-
 *[Tabela de comparação de valores e tempos dos conjuntos 1 e 2]*
-
-</div>
 
 ### Comentários finais sobre os resultados encontrados
 
