@@ -6,18 +6,13 @@ import enums.AlgoritmosEnums;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import metodos.interfaces.Algoritmo;
-// import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static enums.AlgoritmosEnums.PROGRAMACAO_DINAMICA;
-import static java.lang.Integer.MIN_VALUE;
-import static java.lang.Math.max;
-import static utils.constantes.ConstantesNumeros.UM;
-import static utils.constantes.ConstantesNumeros.ZERO;
+import static java.util.Objects.isNull;
 
 @AllArgsConstructor
 public class ProgramacaoDinamica implements Algoritmo {
@@ -41,49 +36,48 @@ public class ProgramacaoDinamica implements Algoritmo {
      */
     @Override
     public void executar(
-            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+            @NonNull MelhorResultado melhorResultado, @NotNull List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
 
-        // Mapa para armazenar resultados intermediários
-        Map<String, Integer> memo = new HashMap<>();
-        List<Lance> resultado = new ArrayList<>();
-        int lucroMaximizado = dp(melhorResultado, todosLances, indice, ZERO, memo, resultado);
+        int quantidadeDisponivel = melhorResultado.getProdutora().quantidadeDisponivel();
+        int n = todosLances.size();
+        int capacidade = 8000;
 
-        melhorResultado.setLucroMaximizado(lucroMaximizado);
-        melhorResultado.setLancesSelecionados(new ArrayList<>(resultado));
-    }
+        int[] dp = new int[capacidade + 1];
+        int[] selecionados = new int[capacidade + 1];
 
-    private int dp(
-            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, int indice, int qtdeSelecionada,
-            Map<String, Integer> memo, List<Lance> resultado) {
+        for (int i = 0; i < n; i++) {
+            Lance lance = todosLances.get(i);
+            int quantidade = lance.quantidade();
+            int valor = lance.valor();
 
-        if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())
-            return MIN_VALUE;
-
-        if (indice == todosLances.size()) {
-            return ZERO;
+            for (int j = capacidade; j >= quantidade; j--) {
+                if (dp[j - quantidade] + valor > dp[j]) {
+                    dp[j] = dp[j - quantidade] + valor;
+                    selecionados[j] = i;
+                }
+            }
         }
 
-        String key = indice + "-" + qtdeSelecionada;
+        int maxLucro = 0;
+        int melhorCapacidade = 0;
 
-        if (memo.containsKey(key)) {
-            return memo.get(key);
+        for (int i = 0; i <= capacidade; i++) {
+            if (dp[i] > maxLucro) {
+                maxLucro = dp[i];
+                melhorCapacidade = i;
+            }
         }
 
-        Lance lanceAnalisado = todosLances.get(indice);
+        List<Lance> melhoresLances = new ArrayList<>();
+        int capacidadeAtual = melhorCapacidade;
 
-        // Escolhe o lance atual
-        resultado.add(lanceAnalisado);
-        int incluir = lanceAnalisado.valor() + dp(melhorResultado, todosLances, indice + UM,
-                qtdeSelecionada + lanceAnalisado.quantidade(), memo, resultado);
-        resultado.remove(resultado.size() - UM);
+        while (capacidadeAtual > 0 && selecionados[capacidadeAtual] != 0) {
+            Lance lance = todosLances.get(selecionados[capacidadeAtual]);
+            melhoresLances.add(lance);
+            capacidadeAtual -= lance.quantidade();
+        }
 
-        // Não escolhe o lance atual
-        int excluir = dp(melhorResultado, todosLances, indice + UM, qtdeSelecionada, memo, resultado);
-
-        int maxLucro = max(incluir, excluir);
-
-        memo.put(key, maxLucro);
-
-        return maxLucro;
+        melhorResultado.setLucroMaximizado(maxLucro);
+        melhorResultado.setLancesSelecionados(melhoresLances);
     }
 }
