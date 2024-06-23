@@ -68,95 +68,193 @@ caminho já percorrido, de modo a buscar soluções alternativas que atendam aos
 ### Algoritmo implementado
 
 ```java
-public void executar(MelhorResultado melhorResultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+    public void executar(MelhorResultado melhorResultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int indice, int lucroAtual) {
 
     int qtdeSelecionada = lancesSelecionados.stream()
             .mapToInt(Lance::quantidade)
             .sum();
-//        Se a quantidade de lances selecionados somar uma quantidade maior do que a disponível, podar, pois não é um resultado aceitável
-    if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())
-        return;
-//        Se já percorreu todos os lances em uma determinada busca, e a quantidade selecionada não ultrapassa a disponível, verifica se o lucro aumentou
-    if (indice == todosLances.size()) {
-        if (lucroAtual > melhorResultado.getLucroMaximizado()) {
-            melhorResultado.setLucroMaximizado(lucroAtual);
-            melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-        }
-        return;
-    }
-//        Se não percorreu ainda todos os lances, segue a busca adicionado o lance do índice atual à lista de lances selecionados
-    Lance lanceAnalisado = todosLances.get(indice);
 
-    if (!isNull(lanceAnalisado)) {
-        lancesSelecionados.add(lanceAnalisado);
-        executar(melhorResultado, todosLances, lancesSelecionados, indice + UM, lucroAtual + lanceAnalisado.valor());
-        lancesSelecionados.remove(lancesSelecionados.size() - UM);
+    if (lucroAtual > melhorResultado.getLucroMaximizado()) {
+        melhorResultado.setLucroMaximizado(lucroAtual);
+        melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
     }
-    executar(melhorResultado, todosLances, lancesSelecionados, indice + UM, lucroAtual);
+    if (indice >= todosLances.size() || qtdeSelecionada >= melhorResultado.getProdutora().quantidadeDisponivel()) {
+        return;
+    }
+    int menorValor = MAX_VALUE;
+
+    for (int i = indice; i < todosLances.size(); i++) {
+        menorValor = min(menorValor, todosLances.get(i).quantidade());
+    }
+    if (qtdeSelecionada + menorValor > melhorResultado.getProdutora().quantidadeDisponivel()) {
+        return;
+    }
+    for (int i = indice; i < todosLances.size(); i++) {
+        Lance lance = todosLances.get(i);
+
+        if (qtdeSelecionada + lance.quantidade() < melhorResultado.getProdutora().quantidadeDisponivel()) {
+            lancesSelecionados.add(lance);
+            executar(melhorResultado, todosLances, lancesSelecionados, i + UM, lucroAtual + lance.valor());
+            lancesSelecionados.remove(lancesSelecionados.size() - UM);
+        }
+    }
 }
 ```
 
 No algoritmo implementado, a função responsável por executar o método de ***backtracking*** recebe cinco parâmetros,
 sendo eles:
 
-- melhorResultado: `MelhorResultado`;
-- todosLances: `List<Lance>`;
-- lancesSelecionados: `List<Lance>`;
-- indice: `int`;
-- lucroAtual: `int`.
+- `melhorResultado`: `MelhorResultado`
+- `todosLances`: `List<Lance>`
+- `lancesSelecionados`: `List<Lance>`
+- `indice`: `int`
+- `lucroAtual`: `int`
 
-O parâmetro de `melhorResultado` possui informações sobre a empresa produtora e compradoras, um
-contador de tempo de execução, lista dos lances selecionados, lucro maximizado e a quantidade disponibilizada para venda
-pela empresa produtora. O parâmetro `todosLances` relaciona todos os lances feitos por todas as empresas compradoras,
-enquanto `lancesSelecionados` relaciona todos os lances selecionados que compõem a combinação em análise. O
-parâmetro `indice` indica qual o índice da lista de lances `todosLances`
-que será analisado, de modo a verificar se ele pode ser inserido na combinação atual.
+O parâmetro `melhorResultado` contém informações sobre a empresa produtora e compradoras, um contador de tempo de
+execução, a lista dos lances selecionados, o lucro maximizado e a quantidade disponibilizada para venda pela empresa
+produtora. O parâmetro `todosLances` relaciona todos os lances feitos por todas as empresas compradoras,
+enquanto `lancesSelecionados` armazena todos os lances selecionados que compõem a combinação em análise. O
+parâmetro `indice` indica qual o índice da lista de lances `todosLances` que será analisado, de modo a verificar se ele
+pode ser inserido na combinação atual.
 
-O algoritmo se inicia quantificando qual é a quantidade total dos lances atualmente selecionados (em
-megawatts) e o armazena na variável `qtdeSelecionada`. Caso a quantidade selecionada seja superior à de venda, essa
-solução não é aceitável, sendo desconsiderada no ***return***. Esse critério de poda foi aplicado para garantir que o
-melhor resultado sempre fosse encontrado, como não existiam muitas variáveis no problema, apenas valor e peso, optou-se
-por essa abordagem, pois mesmo que poucas podas fossem feitas, a quantidade de variáveis ainda assim não seria alta,
-garantindo um desempenho razoável do algoritmo.
+O algoritmo se inicia quantificando a quantidade total dos lances atualmente selecionados (em megawatts) e armazena esse
+valor na variável `qtdeSelecionada`.
 
-Posteriormente, na condicional, é verificado se o índice passado como parâmetro é igual à quantidade de
-lances total, se essa validação for verdadeira, significa não haver mais lances para avaliar nessa iteração, uma vez
-que o índice chegou ao último lance. Em seguida, é verificado se o `lucroAtual` (soma do valor de todos
-os `lancesSelecionados`) é maior que o valor do maior lucro registrado, armazenado no atributo `lucroMaximizado`
-do `melhorResultado`, se for maior, atualiza-se o lucro maximizado e a lista de lances selecionados. Se o lucro atual
-não for maior do que o lucro maximizado, essa solução é desconsiderada no **return**.
+```java
+int qtdeSelecionada = lancesSelecionados.stream()
+        .mapToInt(Lance::quantidade)
+        .sum();
+```
 
-Em seguida, é selecionado um novo lance que será analisado, caso ele não seja `null`, prossegue para uma
-nova sequência de instrução. A validação se o `lanceAnalisado` não é nulo é importante, pois, como o algoritmo executa
-recursivamente sobre a lista na posição índice + 1, pode-se chegar em um ponto em que o próximo valor é nulo, como é o
-caso quando o lance analisado é o último da lista, por exemplo.
+Se o lucro atual (`lucroAtual`) for maior do que o valor do maior lucro registrado, armazenado no
+atributo `lucroMaximizado` do `melhorResultado`, o algoritmo atualiza o lucro maximizado e a lista de lances
+selecionados.
 
-Se o lance não for nulo, ele é adicionado á lista de `lancesSelecionados` e chama-se a função de *
-*backtracking** recursivamente sobre essa nova lista de lances. Quando a execução chegar ao fim, esse lance
-é removido da lista e, em seguida, chamado uma nova execução do algoritmo na próxima posição do índice.
+```java
+if(lucroAtual >melhorResultado.
 
-Ao final da execução, o algoritmo retorna a melhor combinação de lances encontrada, buscando maximizar o lucro total.
+getLucroMaximizado()){
+        melhorResultado.
+
+setLucroMaximizado(lucroAtual);
+    melhorResultado.
+
+setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+        }
+```
+
+O algoritmo verifica se o índice passado como parâmetro é igual ou maior à quantidade total de lances, ou se a
+quantidade selecionada é maior ou igual à quantidade disponível para leilão pela produtora. Se qualquer dessas condições
+for verdadeira, a execução termina.
+
+```java
+if(indice >=todosLances.
+
+size() ||qtdeSelecionada >=melhorResultado.
+
+getProdutora().
+
+quantidadeDisponivel()){
+        return;
+        }
+```
+
+Em seguida, o algoritmo calcula o menor valor de lance a partir do índice atual para garantir que há espaço suficiente
+para adicionar um novo lance sem exceder a capacidade de venda.
+
+```java
+int menorValor = MAX_VALUE;
+for(
+int i = indice; i <todosLances.
+
+size();
+
+i++){
+menorValor =
+
+min(menorValor, todosLances.get(i).
+
+quantidade());
+        }
+        if(qtdeSelecionada +menorValor >melhorResultado.
+
+getProdutora().
+
+quantidadeDisponivel()){
+        return;
+        }
+```
+
+Para cada lance válido a partir do índice atual, o algoritmo adiciona o lance à lista de lances selecionados e chama
+recursivamente a função `executar` com o próximo índice e o lucro atualizado.
+
+```java
+for(int i = indice; i <todosLances.
+
+size();
+
+i++){
+Lance lance = todosLances.get(i);
+    
+    if(qtdeSelecionada +lance.
+
+quantidade() <melhorResultado.
+
+getProdutora().
+
+quantidadeDisponivel()){
+        lancesSelecionados.
+
+add(lance);
+
+executar(melhorResultado, todosLances, lancesSelecionados, i +UM, lucroAtual +lance.valor());
+        lancesSelecionados.
+
+remove(lancesSelecionados.size() -UM);
+        }
+        }
+```
+
+De modo geral, o algoritmo de backtracking implementado busca encontrar a combinação de lances que maximiza o lucro
+total, respeitando a capacidade de venda da empresa produtora. Para melhorar o seu desempenho, foram realizadas podas em
+três pontos distintos, (i) quando o índice atual é maior do que o índice final da lista `todosLances` ou a quantidade
+selecionar for superior ao
+total disponibilizado para leilão pela produtora; (ii) quando o menor valor de lance disponível for maior do que o
+espaço
+restante para leilão; e (iii) quando a quantidade selecionada mais a quantidade de um próximo lance for maior do que a
+disponibilizada, e dessa forma o algoritmo não executa essa iteração. Ele realiza as seguintes etapas:
+
+1. Calcula a quantidade total dos lances selecionados.
+2. Atualiza o melhor resultado encontrado, se o lucro atual for maior que o lucro maximizado.
+3. Verifica condições de terminação com base no índice e na quantidade selecionada.
+4. Calcula o menor valor de lance a partir do índice atual.
+5. Itera sobre os lances válidos, adiciona-os à lista de lances selecionados, e chama recursivamente a
+   função `executar`.
+
+Ao final da execução, o algoritmo retorna a melhor combinação de lances encontrada, maximizando o lucro total.
 
 ### Massa de testes utilizada
 
 A massa de testes utilizada seguiu os seguintes parâmetros:
 
-- **Quantidade *mínima* p/ compradora = 10** → indica a quantidade mínima que uma determinada compradora poderia
+- **Quantidade *mínima* p/ compradora = 1000** → indica a quantidade mínima que uma determinada compradora poderia
   solicitar em um lote;
-- **Quantidade *máxima* p/ compradora = 100** → indica a quantidade máxima que uma determinada compradora poderia
+- **Quantidade *máxima* p/ compradora = 1500** → indica a quantidade máxima que uma determinada compradora poderia
   solicitar em um lote;
-- **Quantidade disponível pela produtora = 200** → indica a quantidade total (lote total) que a empresa produtora
+- **Quantidade disponível pela produtora = 8000** → indica a quantidade total (lote de megawatts) que a empresa
+  produtora
   possui, ou seja, que disponibiliza para leilão;
 - **Quantidade máxima de lances p/ compradora = 1** → indica a quantidade máxima de lances que cada compradora poderia
   fazer;
-- **Quantidades de compradoras = [10, ..., 31]** → foram executados 10 testes para cada quantidade de lances,
+- **Quantidades de compradoras = [10, ..., 35]** → foram executados 10 testes para cada quantidade de lances,
   iniciado em 10 e incrementado de 1 a 1 até atingir um tamanho em que o problema não foi possível de ser resolvido em
-  até 30 segundos pelo algoritmo. Quando isso aconteceu, foram executados mais 10 testes com essa massa e em seguida a
-  execução foi finalizada. No caso da implementação realizada, o algoritmo conseguiu executar massas de testes com 10
-  até
-  31 lances. Para cada um desses cenários, foram criados novos conjuntos de testes para que a média de tempo fosse
-  calculada, por exemplo, para executar 27 lances, foram criados 10 listas com 27 lances diferentes e em seguida
-  calculado o tempo médio entre cada uma dessas execuções.
+  até 30 segundos pelo algoritmo. Quando isso aconteceu, foram executados os 10 testes com essa massa e em seguida a
+  execução foi finalizada. No caso da implementação realizada, o algoritmo conseguiu executar massas de testes com **10
+  ** até **35** lances. Para cada um desses cenários, foram criados novos conjuntos de testes para que a média de tempo
+  fosse calculada, por exemplo, para executar 27 lances, foram criados 10 listas com 27 lances diferentes e em seguida
+  calculado o tempo médio entre cada uma dessas execuções. Além desses conjuntos de compradoras e lances, gerados
+  aleatoriamente, foram executados dois conjuntos de testes específicos encaminhados pelo prof. Caram, com 25 lances
+  cada um.
 
 Os resultados gerados após cada execução do algoritmo foram armazenados automaticamente em dois
 arquivos: `exec-log.xls` e `hist-log.xls`. O primeiro log guarda dados gerais da execução como o tempo despendido,
@@ -179,42 +277,41 @@ lances que foram feitos e os que foram escolhidos para combinar o melhor resulta
 
 </div>
 
-
 O arquivo de análises que compila as execuções realizadas pode ser verificado no
 arquivo [analise backtracking](../../analises/analise-backtracking.xlsx).
 
 ### Resultados obtidos
 
-Para o algoritmo de `Backtracking`, foram realizadas um total de **210** execuções, considerando 10 iterações para cada
-cenário, que se iniciou com 10 lances (1 por compradora) e finalizou com 31. O tempo de execução médio (em segundos)
-para cada um desses cenários é exposto na tabela a seguir. Os casos em que os tempos de execução foram menores que 1
-segundo estão indicados como "-", ou seja, o tempo de execução para esses casos não foi significativo. Além disso, as
-colunas da tabela indicam cada uma das 10 execuções realizadas para cada quantidade de lances.
+Conforme descrito acima, os cenários de testes variaram de 10 a 35 lances, para cada um desses cenários, foram
+executados 10 iterações com conjuntos distintos de lances, gerados em tempo de execução, de modo que foram executadas *
+*210** execuções ao total (ou seja, (31 - 10) * 10). Na tabela a seguir, estão relacionados cada um dos cenários de
+testes (linhas), e o tempo médio despendido em cada uma das suas iterações (colunas). Os casos em que o tempo de
+execução foi inferior a 1 segundo estão indicados com o símbolo "-", ou seja, o tempo de execução não é significativo.
 
-| Quantidade lances | 1     | 2     | 3    | 4     | 5     | 6    | 7     | 8    | 9     | 10    | Tempo médio |
-|-------------------|-------|-------|------|-------|-------|------|-------|------|-------|-------|-------------|
-| 10                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 11                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 12                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 13                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 14                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 15                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 16                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 17                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 18                | -     | 1,00  | -    | -     | -     | -    | -     | -    | -     | -     | 0,10        |
-| 19                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 20                | -     | -     | -    | -     | -     | -    | -     | -    | 1,00  | -     | 0,10        |
-| 21                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -           |
-| 22                | -     | 1,00  | -    | -     | -     | -    | -     | -    | 1,00  | -     | 0,20        |
-| 23                | -     | -     | -    | 1,00  | -     | -    | 1,00  | -    | -     | -     | 0,20        |
-| 24                | -     | 1,00  | -    | -     | -     | -    | 1,00  | 1,00 | 1,00  | 1,00  | 0,50        |
-| 25                | -     | -     | -    | 1,00  | -     | 1,00 | 1,00  | -    | -     | -     | 0,30        |
-| 26                | 1,00  | 1,00  | -    | 2,00  | 1,00  | -    | 1,00  | 2,00 | -     | 2,00  | 1,00        |
-| 27                | 1,00  | 6,00  | -    | 2,00  | 1,00  | 4,00 | 1,00  | 2,00 | 1,00  | 1,00  | 1,90        |
-| 28                | 5,00  | 3,00  | 4,00 | 1,00  | 6,00  | 3,00 | 2,00  | -    | -     | 2,00  | 2,60        |
-| 29                | 1,00  | 12,00 | 1,00 | 3,00  | 5,00  | -    | 2,00  | 4,00 | 13,00 | 3,00  | 4,40        |
-| 30                | 3,00  | 2,00  | 9,00 | 4,00  | 11,00 | 2,00 | 6,00  | 1,00 | 3,00  | 14,00 | 5,50        |
-| 31                | 62,00 | 10,00 | 1,00 | 10,00 | 1,00  | 9,00 | 10,00 | 8,00 | 2,00  | 4,00  | 11,70       |
+| Quantidade lances | 1     | 2     | 3    | 4     | 5     | 6    | 7     | 8    | 9     | 10    | Tempo médio (seg) |
+|-------------------|-------|-------|------|-------|-------|------|-------|------|-------|-------|-------------------|
+| 10                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 11                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 12                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 13                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 14                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 15                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 16                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 17                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 18                | -     | 1,00  | -    | -     | -     | -    | -     | -    | -     | -     | 0,10              |
+| 19                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 20                | -     | -     | -    | -     | -     | -    | -     | -    | 1,00  | -     | 0,10              |
+| 21                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
+| 22                | -     | 1,00  | -    | -     | -     | -    | -     | -    | 1,00  | -     | 0,20              |
+| 23                | -     | -     | -    | 1,00  | -     | -    | 1,00  | -    | -     | -     | 0,20              |
+| 24                | -     | 1,00  | -    | -     | -     | -    | 1,00  | 1,00 | 1,00  | 1,00  | 0,50              |
+| 25                | -     | -     | -    | 1,00  | -     | 1,00 | 1,00  | -    | -     | -     | 0,30              |
+| 26                | 1,00  | 1,00  | -    | 2,00  | 1,00  | -    | 1,00  | 2,00 | -     | 2,00  | 1,00              |
+| 27                | 1,00  | 6,00  | -    | 2,00  | 1,00  | 4,00 | 1,00  | 2,00 | 1,00  | 1,00  | 1,90              |
+| 28                | 5,00  | 3,00  | 4,00 | 1,00  | 6,00  | 3,00 | 2,00  | -    | -     | 2,00  | 2,60              |
+| 29                | 1,00  | 12,00 | 1,00 | 3,00  | 5,00  | -    | 2,00  | 4,00 | 13,00 | 3,00  | 4,40              |
+| 30                | 3,00  | 2,00  | 9,00 | 4,00  | 11,00 | 2,00 | 6,00  | 1,00 | 3,00  | 14,00 | 5,50              |
+| 31                | 62,00 | 10,00 | 1,00 | 10,00 | 1,00  | 9,00 | 10,00 | 8,00 | 2,00  | 4,00  | 11,70             |
 
 <div style="text-align: center;">
 
@@ -222,17 +319,9 @@ colunas da tabela indicam cada uma das 10 execuções realizadas para cada quant
 
 </div>
 
-Os dados indicados na tabela acima são representados no gráfico abaixo.
-
-![grafico-backtracking.png](../figuras/grafico-backtracking.png)
-
-<div style="text-align: center;">
-
-*[Gráfico dos tempos médios obtidos com o algoritmo de backtracking]*
-
-</div>
-
-A tabela a seguir relaciona cada um dos cenários de lances, e o melhor lucro obtido em cada um deles.
+Os valores de lucro máximo obtido em cada um dos cenários de testes, e respectivas iterações, são apresentados na tabela
+a
+seguir.
 
 | Quantidade lances | 1     | 2     | 3     | 4   | 5     | 6     | 7     | 8     | 9     | 10    | Melhor lucro médio |
 |-------------------|-------|-------|-------|-----|-------|-------|-------|-------|-------|-------|--------------------|
@@ -265,28 +354,45 @@ A tabela a seguir relaciona cada um dos cenários de lances, e o melhor lucro ob
 
 </div>
 
-Conforme observado no gráfico acima, até a execução com 26 lances, o algoritmo de backtracking conseguia encontrar o
-melhor lucro do problema em menos de 1 segundo. A partir desse ponto, os tempos de execução passaram a ser maiores que 1
-segundo e começaram a crescer exponencialmente. Com apenas 2 execuções a mais, na execução com 28 lances, o tempo de
-execução já estava próximo de 3 segundos, um aumento de 260%. Quando o algoritmo executou o cenário com 31 lances, foi
-atingido o limite de 30 segundos, fazendo com que esse fosse o último cenário analisado. Neste cenário, o tempo médio de
-execução foi de 11,7 segundos, ou seja, 1170% superior ao cenário com 28 lances, que demandou 1 segundo.
+Os dados indicados na tabela de tempos médios acima são consolidados no gráfico abaixo, que apresenta a evolução do
+tempo médio despendido em cada cenário de teste.
 
-Os resultados obtidos indicam que, em cenários com baixa quantidade de dados a serem analisados, o backtracking pode se
+![grafico-backtracking.png](../figuras/grafico-backtracking.png)
+
+<div style="text-align: center;">
+
+*[Gráfico dos tempos médios obtidos com o algoritmo de backtracking]*
+
+</div>
+
+Além dos cenários apresentados, foram executados dois conjuntos adicionais fornecidos pelo prof. Caram, conjunto um e
+dois. A relação das informações obtidas com a execução desses conjuntos são elencadas na tabela abaixo.
+
+| Conjunto | Quantidade lances | Lances selecionados | Lucro máximo | Tempo execução (seg) |
+|----------|-------------------|---------------------|--------------|----------------------|
+| Um       | 25                | 19                  | R$ 26.725,00 | 3                    |
+| Dois     | 25                | 21                  | R$ 40.348,00 | 3                    |
+
+Conforme observado no gráfico apresentado, até a execução com 26 lances, o algoritmo de backtracking conseguia encontrar
+o melhor lucro do problema em menos de 1 segundo. A partir desse ponto, os tempos de execução passaram a ser maiores que
+1 segundo e começaram a crescer exponencialmente. Com apenas 2 lances adicionais (28 lances), o tempo de
+execução já estava próximo de 3 segundos, um aumento de 260%. Quando o algoritmo executou o cenário com 31 lances, foi
+atingido o limite de 30 segundos, fazendo com que esse fosse o último cenário analisado. Neste caso, o tempo médio de
+execução foi de 11,7 segundos, ou seja, 1170% superior ao cenário com 28 lances.
+
+Os resultados obtidos indicam que, em cenários com baixa quantidade de dados, o backtracking pode se
 mostrar uma opção viável, uma vez que o tempo de execução não será significativo. No entanto, à medida que a quantidade
-de dados começa a crescer muito, ou uma poda pouco efetiva é utilizada, de modo que o algoritmo execute muitas operações
-recursivamente sem conseguir "podar" muitos cenários, o tempo de execução deste algoritmo pode crescer
+de dados começar a crescer muito, ou uma poda pouco efetiva é utilizada (de modo que o algoritmo execute muitas
+operações
+recursivamente, sem conseguir "podar" muitos cenários), o tempo de execução deste algoritmo pode crescer
 significativamente, deixando de ser uma opção interessante para resolver o problema.
 
 Por se tratar de um refinamento do algoritmo de força bruta, em que algumas das combinações possíveis podem ser
 descartadas por meio do critério de poda, é de suma importância que esse critério seja bem definido para a execução
-satisfatória do algoritmo, uma vez que a quantidade de combinações possíveis, dado um conjunto de números, é da ordem de
-2^n - 1, ou seja, para o caso de 31 lances, seriam 2^31 - 1 combinações possíveis. Conforme apresentado anteriormente, a
-técnica de poda adotada neste algoritmo foi baseada na quantidade somada (em megawatts) pelos lances já escolhidos
-durante a execução, podando posteriores iterações caso o valor da quantidade atual, mais o próximo lance, ultrapassassem
-o total disponível pela empresa Produtora. Essa abordagem foi adotada de modo que eventuais combinações não fossem
-descartadas precocemente, mas apenas quando realmente não fosse mais possível selecionar nenhum lance adicional,
-buscando assim o maior lucro possível.
+satisfatória do algoritmo, uma vez que a quantidade de combinações possíveis, dado um conjunto "n", é da ordem de
+2^n - 1, ou seja, para o caso de 31 lances, existem 2^31 - 1 combinações possíveis. Conforme apresentado anteriormente,
+foram aplicados três critérios distintos de poda, de modo que o algoritmo não executasse combinações desnecessárias, e,
+simultaneamente, conseguisse encontrar o maior lucro possível em um tempo razoável.
 
 ## Algoritmo guloso
 
@@ -309,9 +415,14 @@ buscando assim o maior lucro possível.
 - **IDE**: IntelliJ Ultimate
 
 ## Sobre o Algoritmo
-A classe `ProgramacaoDinamica` implementa o algoritmo de Programação Dinâmica, uma técnica de otimização que resolve problemas complexos dividindo-os em subproblemas menores e resolvendo cada subproblema apenas uma vez, armazenando seus resultados para evitar cálculos repetidos. Este método é eficiente para problemas de otimização onde a solução é composta de subsoluções ótimas.
+
+A classe `ProgramacaoDinamica` implementa o algoritmo de Programação Dinâmica, uma técnica de otimização que resolve
+problemas complexos dividindo-os em subproblemas menores e resolvendo cada subproblema apenas uma vez, armazenando seus
+resultados para evitar cálculos repetidos. Este método é eficiente para problemas de otimização onde a solução é
+composta de subsoluções ótimas.
 
 ## Descrição da Classe
+
 ```@AllArgsConstructor
 public class ProgramacaoDinamica implements Algoritmo {
     
@@ -366,7 +477,9 @@ public class ProgramacaoDinamica implements Algoritmo {
     }
 }
 ```
-No algoritmo implementado, a função responsável por executar o método de ***Programção Dinamica*** recebe cinco parâmetros,
+
+No algoritmo implementado, a função responsável por executar o método de ***Programção Dinamica*** recebe cinco
+parâmetros,
 sendo eles:
 
 - melhorResultado: `MelhorResultado`;
@@ -375,16 +488,20 @@ sendo eles:
 - indice: `int`;
 - lucroAtual: `int`.
 
-O algoritmo começa verificando se a quantidade total dos lances atualmente selecionados `qtdeSelecionada` excede a quantidade disponível para venda.
-Se for o caso, essa solução é descartada retornando o menor valor possível `Integer.MIN_VALUE`. Em seguida, verifica se todos os lances foram processados `indice == todosLances.size()`.
+O algoritmo começa verificando se a quantidade total dos lances atualmente selecionados `qtdeSelecionada` excede a
+quantidade disponível para venda.
+Se for o caso, essa solução é descartada retornando o menor valor possível `Integer.MIN_VALUE`. Em seguida, verifica se
+todos os lances foram processados `indice == todosLances.size()`.
 Se todos os lances foram processados, retorna 0, indicando que não há mais lucro a ser adicionado.
 
-A chave do algoritmo é a memoização, onde cada subproblema é identificado por uma chave única composta pelo `indice` e `qtdeSelecionada`. 
+A chave do algoritmo é a memoização, onde cada subproblema é identificado por uma chave única composta pelo `indice`
+e `qtdeSelecionada`.
 Se um resultado para esse subproblema já estiver armazenado, ele é reutilizado, evitando cálculos redundantes.
 
 O algoritmo então considera duas possibilidades para cada lance:
 
-Incluir o lance atual: Adiciona o valor do lance ao lucro atual e chama recursivamente a função dp para o próximo índice, aumentando a quantidade selecionada.
+Incluir o lance atual: Adiciona o valor do lance ao lucro atual e chama recursivamente a função dp para o próximo
+índice, aumentando a quantidade selecionada.
 Não incluir o lance atual: Chama recursivamente a função dp para o próximo índice sem aumentar a quantidade selecionada.
 Finalmente, o algoritmo retorna o lucro máximo entre as duas opções e armazena o resultado na tabela de memoização.
 
