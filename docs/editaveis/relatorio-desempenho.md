@@ -17,7 +17,10 @@
     4. [Resultados obtidos](#resultados-obtidos)
 4. [Algoritmo guloso](#algoritmo-guloso) -> PENDENTE
 5. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) -> PENDENTE
-6. [Algoritmo por programação dinâmica](#algoritmo-por-programação-dinâmica) -> PENDENTE
+6. [Algoritmo por programação dinâmica](#algoritmo-por-programação-dinâmica)
+   1. [Dados de execução](#funcionamento-do-algoritmo)
+   2. [Sobre o algoritmo](#sobre-o-algoritmo-dinamico)
+   3. [Algoritmo implementado](#construção-da-tabela-de-programação-dinâmica)
 7. [Comparação dos resultados obtidos pelos algoritmos](#comparação-dos-resultados-obtidos-pelos-algoritmos)
 
 ## Sobre o problema
@@ -323,30 +326,30 @@ Os valores de lucro máximo obtido em cada um dos cenários de testes, e respect
 a
 seguir.
 
-| Quantidade lances | 1     | 2     | 3     | 4   | 5     | 6     | 7     | 8     | 9     | 10    | Melhor lucro médio |
-|-------------------|-------|-------|-------|-----|-------|-------|-------|-------|-------|-------|--------------------|
-| 10                | 504   | 393   | 408   | 580 | 248   | 341   | 372   | 449   | 531   | 467   | 429                |
-| 11                | 361   | 388   | 548   | 613 | 561   | 627   | 424   | 648   | 597   | 442   | 521                |
-| 12                | 574   | 459   | 618   | 465 | 511   | 368   | 334   | 376   | 650   | 651   | 501                |
-| 13                | 514   | 653   | 428   | 459 | 672   | 602   | 610   | 537   | 555   | 626   | 566                |
-| 14                | 573   | 687   | 822   | 641 | 454   | 555   | 673   | 420   | 551   | 528   | 590                |
-| 15                | 765   | 536   | 499   | 654 | 578   | 465   | 571   | 628   | 577   | 563   | 584                |
-| 16                | 697   | 777   | 573   | 614 | 569   | 671   | 618   | 696   | 794   | 659   | 667                |
-| 17                | 792   | 813   | 658   | 646 | 812   | 501   | 769   | 755   | 625   | 795   | 717                |
-| 18                | 568   | 607   | 827   | 511 | 589   | 810   | 724   | 451   | 714   | 522   | 632                |
-| 19                | 750   | 561   | 829   | 595 | 789   | 544   | 645   | 756   | 864   | 680   | 701                |
-| 20                | 612   | 556   | 804   | 707 | 646   | 830   | 1.005 | 618   | 690   | 755   | 722                |
-| 21                | 663   | 660   | 659   | 871 | 473   | 661   | 734   | 956   | 651   | 752   | 708                |
-| 22                | 599   | 860   | 534   | 817 | 802   | 772   | 769   | 1.097 | 832   | 763   | 785                |
-| 23                | 549   | 953   | 968   | 813 | 737   | 696   | 878   | 789   | 833   | 1.039 | 826                |
-| 24                | 886   | 855   | 625   | 999 | 663   | 657   | 633   | 877   | 955   | 886   | 804                |
-| 25                | 773   | 1.078 | 746   | 701 | 902   | 709   | 1.137 | 484   | 677   | 882   | 809                |
-| 26                | 893   | 768   | 984   | 943 | 867   | 720   | 923   | 815   | 776   | 897   | 859                |
-| 27                | 950   | 1.133 | 693   | 650 | 885   | 1.036 | 718   | 853   | 840   | 806   | 856                |
-| 28                | 953   | 984   | 1.041 | 904 | 984   | 990   | 984   | 699   | 765   | 990   | 929                |
-| 29                | 803   | 1.003 | 916   | 800 | 1.112 | 852   | 972   | 1.067 | 1.049 | 821   | 940                |
-| 30                | 775   | 929   | 1.103 | 853 | 1.007 | 754   | 925   | 745   | 828   | 1.003 | 892                |
-| 31                | 1.053 | 1.079 | 895   | 975 | 751   | 943   | 1.091 | 876   | 697   | 1.004 | 936                |
+| Quantidade lances | 1   | 2     | 3     | 4   | 5     | 6     | 7     | 8     | 9     | 10    | Melhor lucro médio |
+|-------------------|-----|-------|-------|-----|-------|-------|-------|-------|-------|-------|--------------------|
+| 10                |  | 393   | 408   | 580 | 248   | 341   | 372   | 449   | 531   | 467   | 429                |
+| 11                |  | 388   | 548   | 613 | 561   | 627   | 424   | 648   | 597   | 442   | 521                |
+| 12                |  | 459   | 618   | 465 | 511   | 368   | 334   | 376   | 650   | 651   | 501                |
+| 13                |  | 653   | 428   | 459 | 672   | 602   | 610   | 537   | 555   | 626   | 566                |
+| 14                |  | 687   | 822   | 641 | 454   | 555   | 673   | 420   | 551   | 528   | 590                |
+| 15                |  | 536   | 499   | 654 | 578   | 465   | 571   | 628   | 577   | 563   | 584                |
+| 16                |  | 777   | 573   | 614 | 569   | 671   | 618   | 696   | 794   | 659   | 667                |
+| 17                |  | 813   | 658   | 646 | 812   | 501   | 769   | 755   | 625   | 795   | 717                |
+| 18                |  | 607   | 827   | 511 | 589   | 810   | 724   | 451   | 714   | 522   | 632                |
+| 19                |  | 561   | 829   | 595 | 789   | 544   | 645   | 756   | 864   | 680   | 701                |
+| 20                |  | 556   | 804   | 707 | 646   | 830   | 1.005 | 618   | 690   | 755   | 722                |
+| 21                |  | 660   | 659   | 871 | 473   | 661   | 734   | 956   | 651   | 752   | 708                |
+| 22                |  | 860   | 534   | 817 | 802   | 772   | 769   | 1.097 | 832   | 763   | 785                |
+| 23                |  | 953   | 968   | 813 | 737   | 696   | 878   | 789   | 833   | 1.039 | 826                |
+| 24                |  | 855   | 625   | 999 | 663   | 657   | 633   | 877   | 955   | 886   | 804                |
+| 25                |  | 1.078 | 746   | 701 | 902   | 709   | 1.137 | 484   | 677   | 882   | 809                |
+| 26                |  | 768   | 984   | 943 | 867   | 720   | 923   | 815   | 776   | 897   | 859                |
+| 27                |  | 1.133 | 693   | 650 | 885   | 1.036 | 718   | 853   | 840   | 806   | 856                |
+| 28                |  | 984   | 1.041 | 904 | 984   | 990   | 984   | 699   | 765   | 990   | 929                |
+| 29                |  | 1.003 | 916   | 800 | 1.112 | 852   | 972   | 1.067 | 1.049 | 821   | 940                |
+| 30                |  | 929   | 1.103 | 853 | 1.007 | 754   | 925   | 745   | 828   | 1.003 | 892                |
+| 31                |  | 1.079 | 895   | 975 | 751   | 943   | 1.091 | 876   | 697   | 1.004 | 936                |
 
 <div style="text-align: center;">
 
@@ -414,7 +417,7 @@ simultaneamente, conseguisse encontrar o maior lucro possível em um tempo razo�
 - **Sistema Operacional**: Windows 11
 - **IDE**: IntelliJ Ultimate
 
-## Sobre o Algoritmo
+## Sobre o Algoritmo Dinamico
 
 A classe `ProgramacaoDinamica` implementa o algoritmo de Programação Dinâmica, uma técnica de otimização que resolve
 problemas complexos dividindo-os em subproblemas menores e resolvendo cada subproblema apenas uma vez, armazenando seus
@@ -423,59 +426,54 @@ composta de subsoluções ótimas.
 
 ## Descrição da Classe
 
-```@AllArgsConstructor
-public class ProgramacaoDinamica implements Algoritmo {
-    
-    @Override
-    public AlgoritmosEnums algoritmo() {
-        return PROGRAMACAO_DINAMICA;
-    }
-    
-    @Override
-    public void executar(
-            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
-        
-        Map<String, Integer> memo = new HashMap<>();
-        List<Lance> resultado = new ArrayList<>();
-        int lucroMaximizado = dp(melhorResultado, todosLances, indice, 0, memo, resultado);
+```java
+@Override
+public void executar(
+        @NonNull MelhorResultado melhorResultado, @NotNull List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
 
-        melhorResultado.setLucroMaximizado(lucroMaximizado);
-        melhorResultado.setLancesSelecionados(new ArrayList<>(resultado));
-    }
+    int quantidadeDisponivel = melhorResultado.getProdutora().quantidadeDisponivel();
+    int n = todosLances.size();
+    int capacidade = 8000;
 
-    private int dp(
-            @NonNull MelhorResultado melhorResultado, List<Lance> todosLances, int indice, int qtdeSelecionada,
-            Map<String, Integer> memo, List<Lance> resultado) {
+    int[] dp = new int[capacidade + 1];
+    int[] selecionados = new int[capacidade + 1];
 
-        if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())
-            return Integer.MIN_VALUE;
+    for (int i = 0; i < n; i++) {
+        Lance lance = todosLances.get(i);
+        int quantidade = lance.quantidade();
+        int valor = lance.valor();
 
-        if (indice == todosLances.size()) {
-            return 0;
+        for (int j = capacidade; j >= quantidade; j--) {
+            if (dp[j - quantidade] + valor > dp[j]) {
+                dp[j] = dp[j - quantidade] + valor;
+                selecionados[j] = i;
+            }
         }
-
-        String key = indice + "-" + qtdeSelecionada;
-
-        if (memo.containsKey(key)) {
-            return memo.get(key);
-        }
-
-        Lance lanceAnalisado = todosLances.get(indice);
-
-        resultado.add(lanceAnalisado);
-        int incluir = lanceAnalisado.valor() + dp(melhorResultado, todosLances, indice + 1,
-                qtdeSelecionada + lanceAnalisado.quantidade(), memo, resultado);
-        resultado.remove(resultado.size() - 1);
-
-        int excluir = dp(melhorResultado, todosLances, indice + 1, qtdeSelecionada, memo, resultado);
-
-        int maxLucro = Math.max(incluir, excluir);
-
-        memo.put(key, maxLucro);
-
-        return maxLucro;
     }
+
+    int maxLucro = 0;
+    int melhorCapacidade = 0;
+
+    for (int i = 0; i <= capacidade; i++) {
+        if (dp[i] > maxLucro) {
+            maxLucro = dp[i];
+            melhorCapacidade = i;
+        }
+    }
+
+    List<Lance> melhoresLances = new ArrayList<>();
+    int capacidadeAtual = melhorCapacidade;
+
+    while (capacidadeAtual > 0 && selecionados[capacidadeAtual] != 0) {
+        Lance lance = todosLances.get(selecionados[capacidadeAtual]);
+        melhoresLances.add(lance);
+        capacidadeAtual -= lance.quantidade();
+    }
+
+    melhorResultado.setLucroMaximizado(maxLucro);
+    melhorResultado.setLancesSelecionados(melhoresLances);
 }
+
 ```
 
 No algoritmo implementado, a função responsável por executar o método de ***Programção Dinamica*** recebe cinco
@@ -488,22 +486,76 @@ sendo eles:
 - indice: `int`;
 - lucroAtual: `int`.
 
-O algoritmo começa verificando se a quantidade total dos lances atualmente selecionados `qtdeSelecionada` excede a
-quantidade disponível para venda.
-Se for o caso, essa solução é descartada retornando o menor valor possível `Integer.MIN_VALUE`. Em seguida, verifica se
-todos os lances foram processados `indice == todosLances.size()`.
-Se todos os lances foram processados, retorna 0, indicando que não há mais lucro a ser adicionado.
+## Funcionamento do Algoritmo
+### Inicialização das Variáveis:
 
-A chave do algoritmo é a memoização, onde cada subproblema é identificado por uma chave única composta pelo `indice`
-e `qtdeSelecionada`.
-Se um resultado para esse subproblema já estiver armazenado, ele é reutilizado, evitando cálculos redundantes.
+`quantidadeDisponivel` armazena a capacidade total de venda.
+`n` representa o número total de lances.
+`capacidade` define a capacidade máxima (neste caso, 8000).
+`dp` é um array para armazenar os lucros máximos possíveis para cada capacidade.
+`selecionados` é um array para rastrear os lances que foram selecionados para formar o lucro máximo.
 
-O algoritmo então considera duas possibilidades para cada lance:
+- ### Construção da Tabela de Programação Dinâmica:
 
-Incluir o lance atual: Adiciona o valor do lance ao lucro atual e chama recursivamente a função dp para o próximo
-índice, aumentando a quantidade selecionada.
-Não incluir o lance atual: Chama recursivamente a função dp para o próximo índice sem aumentar a quantidade selecionada.
-Finalmente, o algoritmo retorna o lucro máximo entre as duas opções e armazena o resultado na tabela de memoização.
+Para cada lance, se atualiza o array dp de trás para frente, verificando se adicionar o lance atual aumenta o lucro.
+- ###  Determinação do Lucro Máximo:
+
+O algoritmo itera sobre o array dp para encontrar o lucro máximo possível (`maxLucro`) e a capacidade correspondente (`melhorCapacidade`).
+- ### Rastreamento dos Lances Selecionados:
+
+A partir da capacidade que gerou o lucro máximo, o algoritmo rastreia os lances que foram selecionados, utilizando o array `selecionados`.
+- ### Atualização do Melhor Resultado:
+
+O lucro máximo e a lista de lances selecionados são armazenados no objeto `melhorResultado`.
+
+O algoritmo de programação dinâmica implementado busca encontrar a combinação de lances que maximiza o lucro total, respeitando a capacidade de venda da empresa produtora.
+O algoritmo realiza as seguintes etapas:
+
+- Inicializa variáveis e arrays de controle.
+- Constrói uma tabela de programação dinâmica para determinar os lucros máximos possíveis para cada capacidade.
+- Identifica o lucro máximo e a capacidade correspondente.
+- Rastreia os lances que compõem o lucro máximo.
+- Atualiza o objeto melhorResultado com o lucro máximo e a lista de lances selecionados.
+- Ao final da execução, o algoritmo retorna a melhor combinação de lances encontrada, maximizando o lucro total.
+
+### Massa de testes utilizada
+Aqui ultilizaremos a mesma massa de testes presente no algoritimo Gulsoso
+
+### Resultados obtidos
+
+Conforme descrito acima, os cenários de testes variaram de 10 a 35 lances, para cada um desses cenários, foram
+executados 10 iterações com conjuntos distintos de lances, gerados em tempo de execução, de modo que foram executadas *
+*210** execuções ao total (ou seja, (31 - 10) * 10). Nos primeiros testes realizados com o conjunto de lances gerados para
+o backtracking, o tempo de carregamento dos lances foi de 0,00 segundos, ao passo que o valor do melhor resultado continua
+o mesmo encontrado no backtracking. A tabela a seguir apresenta os resultados obtidos com a execução do algoritmo de
+programação dinâmica.
+
+| Quantidade lances | 1     | 2     | 3     | 4   | 5     | 6     | 7     | 8     | 9     | 10    | Melhor lucro médio |
+|-------------------|-------|-------|-------|-----|-------|-------|-------|-------|-------|-------|--------------------|
+| 10                | 504   | 393   | 408   | 580 | 248   | 341   | 372   | 449   | 531   | 467   | 429                |
+| 11                | 361   | 388   | 548   | 613 | 561   | 627   | 424   | 648   | 597   | 442   | 521                |
+| 12                | 574   | 459   | 618   | 465 | 511   | 368   | 334   | 376   | 650   | 651   | 501                |
+| 13                | 514   | 653   | 428   | 459 | 672   | 602   | 610   | 537   | 555   | 626   | 566                |
+| 14                | 573   | 687   | 822   | 641 | 454   | 555   | 673   | 420   | 551   | 528   | 590                |
+| 15                | 765   | 536   | 499   | 654 | 578   | 465   | 571   | 628   | 577   | 563   | 584                |
+| 16                | 697   | 777   | 573   | 614 | 569   | 671   | 618   | 696   | 794   | 659   | 667                |
+| 17                | 792   | 813   | 658   | 646 | 812   | 501   | 769   | 755   | 625   | 795   | 717                |
+| 18                | 568   | 607   | 827   | 511 | 589   | 810   | 724   | 451   | 714   | 522   | 632                |
+| 19                | 750   | 561   | 829   | 595 | 789   | 544   | 645   | 756   | 864   | 680   | 701                |
+| 20                | 612   | 556   | 804   | 707 | 646   | 830   | 1.005 | 618   | 690   | 755   | 722                |
+| 21                | 663   | 660   | 659   | 871 | 473   | 661   | 734   | 956   | 651   | 752   | 708                |
+| 22                | 599   | 860   | 534   | 817 | 802   | 772   | 769   | 1.097 | 832   | 763   | 785                |
+| 23                | 549   | 953   | 968   | 813 | 737   | 696   | 878   | 789   | 833   | 1.039 | 826                |
+| 24                | 886   | 855   | 625   | 999 | 663   | 657   | 633   | 877   | 955   | 886   | 804                |
+| 25                | 773   | 1.078 | 746   | 701 | 902   | 709   | 1.137 | 484   | 677   | 882   | 809                |
+| 26                | 893   | 768   | 984   | 943 | 867   | 720   | 923   | 815   | 776   | 897   | 859                |
+| 27                | 950   | 1.133 | 693   | 650 | 885   | 1.036 | 718   | 853   | 840   | 806   | 856                |
+| 28                | 953   | 984   | 1.041 | 904 | 984   | 990   | 984   | 699   | 765   | 990   | 929                |
+| 29                | 803   | 1.003 | 916   | 800 | 1.112 | 852   | 972   | 1.067 | 1.049 | 821   | 940                |
+| 30                | 775   | 929   | 1.103 | 853 | 1.007 | 754   | 925   | 745   | 828   | 1.003 | 892                |
+| 31                | 1.053 | 1.079 | 895   | 975 | 751   | 943   | 1.091 | 876   | 697   | 1.004 | 936                |
+| 30                | 775   | 929   | 1.103 | 853 | 1.007 | 754   | 925   | 745   | 828   | 1.003 | 892                |
+| 31                | 1.053 | 1.079 | 895   | 975 | 751   | 943   | 1.091 | 876   | 697   | 1.004 | 936                |
 
 ## Comparação dos resultados obtidos pelos algoritmos
 
