@@ -20,7 +20,8 @@ public class AlgoritmoGuloso2 implements Algoritmo {
     @Override
     public void executar(MelhorResultado resultado, List<entidades.Lance> todosLances, List<entidades.Lance> lancesSelecionados, int indice, int lucroAtual) {
         List<Lance> lancesMutaveis = new ArrayList<>(todosLances);
-        // Ordenar os lances em ordem decrescente de valor por megawatt
+
+        // Ordenar os lances por megawatt em ordem crescente
         System.out.println(lancesMutaveis.toArray().length);
         Collections.sort(lancesMutaveis, new Comparator<Lance>() {
             @Override
@@ -29,7 +30,7 @@ public class AlgoritmoGuloso2 implements Algoritmo {
             }
         });
 
-        int energiaRestante = 1000;
+        int energiaRestante = resultado.getProdutora().quantidadeDisponivel();
 
         for (Lance lance : lancesMutaveis) {
             lancesSelecionados.forEach(lanceSelecionado -> {
@@ -49,6 +50,8 @@ public class AlgoritmoGuloso2 implements Algoritmo {
             System.out.println("Interessada: " + lance.idCompradora() + ", Megawatts: " + lance.quantidade() + ", Valor: " + lance.valor());
             valorTotal += lance.valor();
         }
+        resultado.setLucroMaximizado(valorTotal);
+        resultado.setQuantidadeVendida(1000 - energiaRestante);
 
 
         System.out.println("Valor total obtido: " + valorTotal + " Energia restante: " + energiaRestante + " MW");

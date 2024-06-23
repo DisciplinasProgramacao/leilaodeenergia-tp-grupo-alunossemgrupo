@@ -28,7 +28,7 @@ public class AlgoritmoGuloso1 implements Algoritmo {
             }
         });
 
-        int energiaRestante = 1000;
+        int energiaRestante = resultado.getProdutora().quantidadeDisponivel();
 
 
         for (Lance lance : lancesMutaveis) {
@@ -49,6 +49,8 @@ public class AlgoritmoGuloso1 implements Algoritmo {
             System.out.println("Interessada: " + lance.idCompradora() + ", Megawatts: " + lance.quantidade() + ", Valor: " + lance.valor());
             valorTotal += lance.valor();
         }
+        resultado.setLucroMaximizado(valorTotal);
+        resultado.setQuantidadeVendida(1000 - energiaRestante);
 
 
         System.out.println("Valor total obtido: " + valorTotal + " Energia restante: " + energiaRestante + " MW");
