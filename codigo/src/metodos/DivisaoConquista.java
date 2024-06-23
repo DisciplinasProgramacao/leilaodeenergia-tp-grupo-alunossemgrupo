@@ -3,7 +3,7 @@ package metodos;
 import entidades.Lance;
 import entidades.MelhorResultado;
 import enums.AlgoritmosEnums;
-import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import metodos.interfaces.Algoritmo;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,10 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static enums.AlgoritmosEnums.DIVISAO_CONQUISTA;
-import static utils.constantes.ConstantesNumeros.DOIS;
-import static utils.constantes.ConstantesNumeros.UM;
+import static java.util.Objects.isNull;
 
-@AllArgsConstructor
 public class DivisaoConquista implements Algoritmo {
 
     @Override
@@ -23,37 +21,29 @@ public class DivisaoConquista implements Algoritmo {
     }
 
     @Override
-    public void executar(
-            @NotNull MelhorResultado melhorResultado, List<Lance> todosLances, @NotNull List<Lance> lancesSelecionados, int inicio, int fim) {
+    public void executar(@NonNull MelhorResultado resultado, @NotNull List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+        int qtdeSelecionada = lancesSelecionados.stream()
+                .mapToInt(Lance::quantidade)
+                .sum();
 
-        // Condição de término da recursão
-        if (inicio > fim) {
+        if (qtdeSelecionada > resultado.getProdutora().quantidadeDisponivel() || indice >= todosLances.size()) {
+            if (lucroAtual > resultado.getLucroMaximizado()) {
+                resultado.setLucroMaximizado(lucroAtual);
+                resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+            }
             return;
         }
 
-        // Se há apenas um lance no intervalo, avalie diretamente
-        if (inicio == fim) {
-            avaliaLance(melhorResultado, lancesSelecionados, todosLances.get(inicio));
-            return;
+        Lance lanceAtual = todosLances.get(indice);
+
+        if (qtdeSelecionada + lanceAtual.quantidade() <= 8000) {
+            // Considerar o lance atual
+            lancesSelecionados.add(lanceAtual);
+            executar(resultado, todosLances, lancesSelecionados, indice + 1, lucroAtual + lanceAtual.valor());
+            lancesSelecionados.remove(lanceAtual);
         }
 
-        int meio = inicio + (fim - inicio) / DOIS;
-
-        // Conquista a parte esquerda
-        executar(melhorResultado, todosLances, lancesSelecionados, inicio, meio);
-
-        // Conquista a parte direita
-        executar(melhorResultado, todosLances, lancesSelecionados, meio + UM, fim);
-    }
-
-    private void avaliaLance(@NotNull MelhorResultado melhorResultado, @NotNull List<Lance> lancesSelecionados, Lance lanceAtual) {
-        lancesSelecionados.add(lanceAtual);
-        int lucroAtual = lancesSelecionados.stream().mapToInt(Lance::valor).sum();
-        int qtdeAtual = lancesSelecionados.stream().mapToInt(Lance::quantidade).sum();
-        if (qtdeAtual <= melhorResultado.getProdutora().quantidadeDisponivel() && lucroAtual > melhorResultado.getLucroMaximizado()) {
-            melhorResultado.setLucroMaximizado(lucroAtual);
-            melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-        }
-        lancesSelecionados.remove(lanceAtual);
+        // Não considerar o lance atual
+        executar(resultado, todosLances, lancesSelecionados, indice + 1, lucroAtual);
     }
 }
