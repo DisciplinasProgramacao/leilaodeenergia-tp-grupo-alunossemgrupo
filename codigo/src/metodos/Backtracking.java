@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static enums.AlgoritmosEnums.BACKTRACKING;
+import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Math.min;
 import static utils.constantes.ConstantesNumeros.UM;
 
@@ -49,7 +50,7 @@ public class Backtracking implements Algoritmo {
         if (indice >= todosLances.size() || qtdeSelecionada >= melhorResultado.getProdutora().quantidadeDisponivel()) {
             return;
         }
-        int menorValor = Integer.MAX_VALUE;
+        int menorValor = MAX_VALUE;
 
         for (int i = indice; i < todosLances.size(); i++) {
             menorValor = min(menorValor, todosLances.get(i).quantidade());

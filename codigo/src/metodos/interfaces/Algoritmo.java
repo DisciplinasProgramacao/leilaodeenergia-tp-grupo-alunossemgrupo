@@ -27,7 +27,7 @@ import static utils.geradores.GeradorLogHistorico.gerarHistorico;
  */
 public interface Algoritmo {
 
-    List<Algoritmo> algoritmosImplementados = asList(new Backtracking(), new AlgoritmoGuloso1(), new AlgoritmoGuloso2(), new DivisaoConquista(), new ProgramacaoDinamica());
+    List<Algoritmo> algoritmosImplementados = asList(new Backtracking(), new AlgoritmoGulosoDecrescente(), new AlgoritmoGulosoCrescente(), new DivisaoConquista(), new ProgramacaoDinamica());
 
     AlgoritmosEnums algoritmo();
 

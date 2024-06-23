@@ -16,8 +16,10 @@ public class ConstantesExecucao {
 
     public static final Long ID_PRODUTORA = UM_L;
 
+    // Quantidade de vezes que cada cenário de teste (quantidade de lances) será testado
     public static final Integer QUANTIDADE_DE_TESTES_POR_MASSA = DEZ;
 
+    // Limite de tempo em segundos para o algoritmo de Backtracking
     public static final Integer LIMITE_DE_TEMPO_PERMITIDO = TRINTA;
 
     //    Representa a capacidade mínima que uma compradora pode ter de quantidade
@@ -106,31 +108,6 @@ public class ConstantesExecucao {
         valoresConjuntoUm.add(1280);
         valoresConjuntoUm.add(1330);
         // Conjunto dois
-        quantidadesConjuntoDois.add(430);
-        quantidadesConjuntoDois.add(428);
-        quantidadesConjuntoDois.add(410);
-        quantidadesConjuntoDois.add(385);
-        quantidadesConjuntoDois.add(399);
-        quantidadesConjuntoDois.add(382);
-        quantidadesConjuntoDois.add(416);
-        quantidadesConjuntoDois.add(436);
-        quantidadesConjuntoDois.add(416);
-        quantidadesConjuntoDois.add(423);
-        quantidadesConjuntoDois.add(400);
-        quantidadesConjuntoDois.add(406);
-        quantidadesConjuntoDois.add(403);
-        quantidadesConjuntoDois.add(390);
-        quantidadesConjuntoDois.add(387);
-        quantidadesConjuntoDois.add(390);
-        quantidadesConjuntoDois.add(430);
-        quantidadesConjuntoDois.add(397);
-        quantidadesConjuntoDois.add(392);
-        quantidadesConjuntoDois.add(393);
-        quantidadesConjuntoDois.add(439);
-        quantidadesConjuntoDois.add(403);
-        quantidadesConjuntoDois.add(415);
-        quantidadesConjuntoDois.add(387);
-        quantidadesConjuntoDois.add(417);
         quantidadesConjuntoDois.add(313);
         quantidadesConjuntoDois.add(398);
         quantidadesConjuntoDois.add(240);
@@ -156,31 +133,6 @@ public class ConstantesExecucao {
         quantidadesConjuntoDois.add(279);
         quantidadesConjuntoDois.add(589);
         quantidadesConjuntoDois.add(476);
-        valoresConjuntoDois.add(1188);
-        valoresConjuntoDois.add(1565);
-        valoresConjuntoDois.add(1043);
-        valoresConjuntoDois.add(1333);
-        valoresConjuntoDois.add(1214);
-        valoresConjuntoDois.add(1498);
-        valoresConjuntoDois.add(1540);
-        valoresConjuntoDois.add(1172);
-        valoresConjuntoDois.add(1386);
-        valoresConjuntoDois.add(1097);
-        valoresConjuntoDois.add(1463);
-        valoresConjuntoDois.add(1353);
-        valoresConjuntoDois.add(1568);
-        valoresConjuntoDois.add(1228);
-        valoresConjuntoDois.add(1542);
-        valoresConjuntoDois.add(1206);
-        valoresConjuntoDois.add(1175);
-        valoresConjuntoDois.add(1492);
-        valoresConjuntoDois.add(1293);
-        valoresConjuntoDois.add(1533);
-        valoresConjuntoDois.add(1149);
-        valoresConjuntoDois.add(1277);
-        valoresConjuntoDois.add(1624);
-        valoresConjuntoDois.add(1280);
-        valoresConjuntoDois.add(1330);
         valoresConjuntoDois.add(1496);
         valoresConjuntoDois.add(1768);
         valoresConjuntoDois.add(1210);

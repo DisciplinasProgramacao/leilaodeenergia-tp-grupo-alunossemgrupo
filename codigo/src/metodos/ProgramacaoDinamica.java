@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 import static enums.AlgoritmosEnums.PROGRAMACAO_DINAMICA;
+import static java.lang.Integer.MIN_VALUE;
+import static java.lang.Math.max;
 import static utils.constantes.ConstantesNumeros.UM;
+import static utils.constantes.ConstantesNumeros.ZERO;
 
 @AllArgsConstructor
 public class ProgramacaoDinamica implements Algoritmo {
@@ -43,7 +46,7 @@ public class ProgramacaoDinamica implements Algoritmo {
         // Mapa para armazenar resultados intermediários
         Map<String, Integer> memo = new HashMap<>();
         List<Lance> resultado = new ArrayList<>();
-        int lucroMaximizado = dp(melhorResultado, todosLances, indice, 0, memo, resultado);
+        int lucroMaximizado = dp(melhorResultado, todosLances, indice, ZERO, memo, resultado);
 
         melhorResultado.setLucroMaximizado(lucroMaximizado);
         melhorResultado.setLancesSelecionados(new ArrayList<>(resultado));
@@ -54,10 +57,10 @@ public class ProgramacaoDinamica implements Algoritmo {
             Map<String, Integer> memo, List<Lance> resultado) {
 
         if (qtdeSelecionada > melhorResultado.getProdutora().quantidadeDisponivel())
-            return Integer.MIN_VALUE;
+            return MIN_VALUE;
 
         if (indice == todosLances.size()) {
-            return 0;
+            return ZERO;
         }
 
         String key = indice + "-" + qtdeSelecionada;
@@ -70,14 +73,14 @@ public class ProgramacaoDinamica implements Algoritmo {
 
         // Escolhe o lance atual
         resultado.add(lanceAnalisado);
-        int incluir = lanceAnalisado.valor() + dp(melhorResultado, todosLances, indice + 1,
+        int incluir = lanceAnalisado.valor() + dp(melhorResultado, todosLances, indice + UM,
                 qtdeSelecionada + lanceAnalisado.quantidade(), memo, resultado);
-        resultado.remove(resultado.size() - 1);
+        resultado.remove(resultado.size() - UM);
 
         // Não escolhe o lance atual
-        int excluir = dp(melhorResultado, todosLances, indice + 1, qtdeSelecionada, memo, resultado);
+        int excluir = dp(melhorResultado, todosLances, indice + UM, qtdeSelecionada, memo, resultado);
 
-        int maxLucro = Math.max(incluir, excluir);
+        int maxLucro = max(incluir, excluir);
 
         memo.put(key, maxLucro);
 

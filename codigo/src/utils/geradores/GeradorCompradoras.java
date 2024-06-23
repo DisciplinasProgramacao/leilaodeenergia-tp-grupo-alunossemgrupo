@@ -23,7 +23,7 @@ public class GeradorCompradoras {
     /**
      * Gera compradoras aleatórias
      *
-     * @param qtdeCompradoras              quantidade de compradoras
+     * @param qtdeCompradoras quantidade de compradoras
      * @return lista de compradoras
      */
     public static @NonNull List<Compradora> gerarCompradoras(int qtdeCompradoras) {
@@ -66,10 +66,8 @@ public class GeradorCompradoras {
                                             .idCompradora((long) ref.i + UM)
                                             .quantidade(quantidade)
                                             .valor(valoresConjuntoUm.get(ref.i))
-                                            .build()
-                            ))
-                            .build()
-            );
+                                            .build()))
+                            .build());
             ref.i++;
         });
         return compradoras;
@@ -98,10 +96,8 @@ public class GeradorCompradoras {
                                             .idCompradora((long) ref.i + UM)
                                             .quantidade(quantidade)
                                             .valor(valoresConjuntoDois.get(ref.i))
-                                            .build()
-                            ))
-                            .build()
-            );
+                                            .build()))
+                            .build());
             ref.i++;
         });
         return compradoras;

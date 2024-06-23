@@ -1,35 +1,34 @@
 package metodos;
 
-import java.util.*;
-
 import entidades.Lance;
 import entidades.MelhorResultado;
 import enums.AlgoritmosEnums;
 import metodos.interfaces.Algoritmo;
+import org.jetbrains.annotations.NotNull;
 
-import static enums.AlgoritmosEnums.GULOSO1;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 
-public class AlgoritmoGuloso1 implements Algoritmo {
+import static enums.AlgoritmosEnums.GULOSO_DECRESCENTE;
+import static java.util.Comparator.comparingDouble;
+import static utils.constantes.ConstantesNumeros.ZERO;
+
+public class AlgoritmoGulosoDecrescente implements Algoritmo {
 
     @Override
     public AlgoritmosEnums algoritmo() {
-        return GULOSO1;
+        return GULOSO_DECRESCENTE;
     }
 
     @Override
-    public void executar(MelhorResultado resultado, List<entidades.Lance> todosLances, List<entidades.Lance> lancesSelecionados, int indice, int lucroAtual) {
+    public void executar(@NotNull MelhorResultado resultado, List<entidades.Lance> todosLances, List<entidades.Lance> lancesSelecionados, int indice, int lucroAtual) {
+
         List<Lance> lancesMutaveis = new ArrayList<>(todosLances);
-        // Ordenar os lances em ordem decrescente de valor por megawatt
-        System.out.println(lancesMutaveis.toArray().length);
-        Collections.sort(lancesMutaveis, new Comparator<Lance>() {
-            @Override
-            public int compare(Lance l1, Lance l2) {
-                return Double.compare(l1.valorPorMegawatt(), l2.valorPorMegawatt());
-            }
-        });
+        lancesMutaveis.sort(comparingDouble(Lance::valorPorMegawatt));
 
         int energiaRestante = resultado.getProdutora().quantidadeDisponivel();
-
 
         for (Lance lance : lancesMutaveis) {
             lancesSelecionados.forEach(lanceSelecionado -> {
@@ -42,17 +41,13 @@ public class AlgoritmoGuloso1 implements Algoritmo {
                 energiaRestante -= lance.quantidade();
             }
         }
-        int valorTotal = 0;
+        int valorTotal = ZERO;
         resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
 
         for (Lance lance : lancesSelecionados) {
-            System.out.println("Interessada: " + lance.idCompradora() + ", Megawatts: " + lance.quantidade() + ", Valor: " + lance.valor());
             valorTotal += lance.valor();
         }
         resultado.setLucroMaximizado(valorTotal);
-        resultado.setQuantidadeVendida(1000 - energiaRestante);
-
-
-        System.out.println("Valor total obtido: " + valorTotal + " Energia restante: " + energiaRestante + " MW");
+        resultado.setQuantidadeVendida(resultado.getProdutora().quantidadeDisponivel() - energiaRestante);
     }
 }

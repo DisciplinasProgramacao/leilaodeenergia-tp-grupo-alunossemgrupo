@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static enums.AlgoritmosEnums.DIVISAO_CONQUISTA;
+import static utils.constantes.ConstantesNumeros.DOIS;
+import static utils.constantes.ConstantesNumeros.UM;
 
 @AllArgsConstructor
 public class DivisaoConquista implements Algoritmo {
@@ -35,16 +37,16 @@ public class DivisaoConquista implements Algoritmo {
             return;
         }
 
-        int meio = inicio + (fim - inicio) / 2;
+        int meio = inicio + (fim - inicio) / DOIS;
 
         // Conquista a parte esquerda
         executar(melhorResultado, todosLances, lancesSelecionados, inicio, meio);
 
         // Conquista a parte direita
-        executar(melhorResultado, todosLances, lancesSelecionados, meio + 1, fim);
+        executar(melhorResultado, todosLances, lancesSelecionados, meio + UM, fim);
     }
 
-    private void avaliaLance(@NotNull MelhorResultado melhorResultado, List<Lance> lancesSelecionados, Lance lanceAtual) {
+    private void avaliaLance(@NotNull MelhorResultado melhorResultado, @NotNull List<Lance> lancesSelecionados, Lance lanceAtual) {
         lancesSelecionados.add(lanceAtual);
         int lucroAtual = lancesSelecionados.stream().mapToInt(Lance::valor).sum();
         int qtdeAtual = lancesSelecionados.stream().mapToInt(Lance::quantidade).sum();
