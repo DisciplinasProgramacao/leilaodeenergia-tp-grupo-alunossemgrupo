@@ -246,11 +246,11 @@ A massa de testes utilizada seguiu os seguintes parâmetros:
   possui, ou seja, que disponibiliza para leilão;
 - **Quantidade máxima de lances p/ compradora = 1** → indica a quantidade máxima de lances que cada compradora poderia
   fazer;
-- **Quantidades de compradoras = [10, ..., 35]** → foram executados 10 testes para cada quantidade de lances,
+- **Quantidades de compradoras = [10, ..., 33]** → foram executados 10 testes para cada quantidade de lances,
   iniciado em 10 e incrementado de 1 a 1 até atingir um tamanho em que o problema não foi possível de ser resolvido em
   até 30 segundos pelo algoritmo. Quando isso aconteceu, foram executados os 10 testes com essa massa e em seguida a
-  execução foi finalizada. No caso da implementação realizada, o algoritmo conseguiu executar massas de testes com **10
-  ** até **35** lances. Para cada um desses cenários, foram criados novos conjuntos de testes para que a média de tempo
+  execução foi finalizada. Na implementação realizada, o algoritmo conseguiu executar massas de testes com **10
+  ** até **33** lances. Para cada um desses cenários, foram criados novos conjuntos de testes para que a média de tempo
   fosse calculada, por exemplo, para executar 27 lances, foram criados 10 listas com 27 lances diferentes e em seguida
   calculado o tempo médio entre cada uma dessas execuções. Além desses conjuntos de compradoras e lances, gerados
   aleatoriamente, foram executados dois conjuntos de testes específicos encaminhados pelo prof. Caram, com 25 lances
@@ -282,36 +282,38 @@ arquivo [analise backtracking](../../analises/analise-backtracking.xlsx).
 
 ### Resultados obtidos
 
-Conforme descrito acima, os cenários de testes variaram de 10 a 35 lances, para cada um desses cenários, foram
+Conforme descrito acima, os cenários de testes variaram de 10 a 33 lances, para cada um desses cenários, foram
 executados 10 iterações com conjuntos distintos de lances, gerados em tempo de execução, de modo que foram executadas *
-*210** execuções ao total (ou seja, (31 - 10) * 10). Na tabela a seguir, estão relacionados cada um dos cenários de
+*240** execuções ao total (ou seja, (33 - 10) * 10 + 10). Na tabela a seguir, estão relacionados cada um dos cenários de
 testes (linhas), e o tempo médio despendido em cada uma das suas iterações (colunas). Os casos em que o tempo de
 execução foi inferior a 1 segundo estão indicados com o símbolo "-", ou seja, o tempo de execução não é significativo.
 
-| Quantidade lances | 1     | 2     | 3    | 4     | 5     | 6    | 7     | 8    | 9     | 10    | Tempo médio (seg) |
-|-------------------|-------|-------|------|-------|-------|------|-------|------|-------|-------|-------------------|
-| 10                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 11                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 12                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 13                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 14                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 15                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 16                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 17                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 18                | -     | 1,00  | -    | -     | -     | -    | -     | -    | -     | -     | 0,10              |
-| 19                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 20                | -     | -     | -    | -     | -     | -    | -     | -    | 1,00  | -     | 0,10              |
-| 21                | -     | -     | -    | -     | -     | -    | -     | -    | -     | -     | -                 |
-| 22                | -     | 1,00  | -    | -     | -     | -    | -     | -    | 1,00  | -     | 0,20              |
-| 23                | -     | -     | -    | 1,00  | -     | -    | 1,00  | -    | -     | -     | 0,20              |
-| 24                | -     | 1,00  | -    | -     | -     | -    | 1,00  | 1,00 | 1,00  | 1,00  | 0,50              |
-| 25                | -     | -     | -    | 1,00  | -     | 1,00 | 1,00  | -    | -     | -     | 0,30              |
-| 26                | 1,00  | 1,00  | -    | 2,00  | 1,00  | -    | 1,00  | 2,00 | -     | 2,00  | 1,00              |
-| 27                | 1,00  | 6,00  | -    | 2,00  | 1,00  | 4,00 | 1,00  | 2,00 | 1,00  | 1,00  | 1,90              |
-| 28                | 5,00  | 3,00  | 4,00 | 1,00  | 6,00  | 3,00 | 2,00  | -    | -     | 2,00  | 2,60              |
-| 29                | 1,00  | 12,00 | 1,00 | 3,00  | 5,00  | -    | 2,00  | 4,00 | 13,00 | 3,00  | 4,40              |
-| 30                | 3,00  | 2,00  | 9,00 | 4,00  | 11,00 | 2,00 | 6,00  | 1,00 | 3,00  | 14,00 | 5,50              |
-| 31                | 62,00 | 10,00 | 1,00 | 10,00 | 1,00  | 9,00 | 10,00 | 8,00 | 2,00  | 4,00  | 11,70             |
+| Quantidade lances | 1     | 2     | 3     | 4     | 5     | 6     | 7     | 8     | 9     | 10    | Tempo médio (seg) |
+|-------------------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------------------|
+| 10                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 11                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 12                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 13                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 14                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 15                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 16                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 17                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 18                | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -                 |
+| 19                | -     | 1,00  | -     | -     | -     | -     | -     | -     | -     | -     | 0,10              |
+| 20                | -     | -     | -     | -     | -     | -     | -     | -     | 1,00  | -     | 0,10              |
+| 21                | -     | -     | -     | -     | -     | -     | -     | -     | 1,00  | -     | 0,10              |
+| 22                | -     | -     | -     | -     | 1,00  | -     | -     | -     | -     | -     | 0,10              |
+| 23                | 1,00  | -     | -     | 1,00  | -     | -     | -     | 1,00  | -     | -     | 0,30              |
+| 24                | 1,00  | -     | -     | 1,00  | -     | 1,00  | -     | 1,00  | -     | 1,00  | 0,50              |
+| 25                | -     | 1,00  | -     | -     | 1,00  | 1,00  | 1,00  | 1,00  | 1,00  | -     | 0,60              |
+| 26                | 1,00  | 1,00  | 1,00  | 1,00  | 1,00  | 1,00  | 2,00  | -     | 1,00  | 1,00  | 1,00              |
+| 27                | 3,00  | 1,00  | 2,00  | 1,00  | 1,00  | 1,00  | 2,00  | 1,00  | -     | 2,00  | 1,40              |
+| 28                | 4,00  | 3,00  | 2,00  | 1,00  | 1,00  | 2,00  | 2,00  | 3,00  | 2,00  | 3,00  | 2,30              |
+| 29                | 6,00  | 4,00  | 7,00  | 4,00  | 6,00  | 4,00  | 1,00  | 12,00 | 2,00  | 4,00  | 5,00              |
+| 30                | 15,00 | 9,00  | 2,00  | 7,00  | 11,00 | 3,00  | 4,00  | 16,00 | 5,00  | 4,00  | 7,60              |
+| 31                | 12,00 | 6,00  | 10,00 | 12,00 | 7,00  | 6,00  | 10,00 | 12,00 | 7,00  | 6,00  | 8,80              |
+| 32                | 19,00 | 12,00 | 18,00 | 8,00  | 11,00 | 26,00 | 15,00 | 5,00  | 7,00  | 6,00  | 12,70             |
+| 33                | 27,00 | 11,00 | 12,00 | 11,00 | 6,00  | 14,00 | 34,00 | 42,00 | 11,00 | 21,00 | 18,90             |
 
 <div style="text-align: center;">
 
@@ -323,30 +325,32 @@ Os valores de lucro máximo obtido em cada um dos cenários de testes, e respect
 a
 seguir.
 
-| Quantidade lances | 1     | 2     | 3     | 4   | 5     | 6     | 7     | 8     | 9     | 10    | Melhor lucro médio |
-|-------------------|-------|-------|-------|-----|-------|-------|-------|-------|-------|-------|--------------------|
-| 10                | 504   | 393   | 408   | 580 | 248   | 341   | 372   | 449   | 531   | 467   | 429                |
-| 11                | 361   | 388   | 548   | 613 | 561   | 627   | 424   | 648   | 597   | 442   | 521                |
-| 12                | 574   | 459   | 618   | 465 | 511   | 368   | 334   | 376   | 650   | 651   | 501                |
-| 13                | 514   | 653   | 428   | 459 | 672   | 602   | 610   | 537   | 555   | 626   | 566                |
-| 14                | 573   | 687   | 822   | 641 | 454   | 555   | 673   | 420   | 551   | 528   | 590                |
-| 15                | 765   | 536   | 499   | 654 | 578   | 465   | 571   | 628   | 577   | 563   | 584                |
-| 16                | 697   | 777   | 573   | 614 | 569   | 671   | 618   | 696   | 794   | 659   | 667                |
-| 17                | 792   | 813   | 658   | 646 | 812   | 501   | 769   | 755   | 625   | 795   | 717                |
-| 18                | 568   | 607   | 827   | 511 | 589   | 810   | 724   | 451   | 714   | 522   | 632                |
-| 19                | 750   | 561   | 829   | 595 | 789   | 544   | 645   | 756   | 864   | 680   | 701                |
-| 20                | 612   | 556   | 804   | 707 | 646   | 830   | 1.005 | 618   | 690   | 755   | 722                |
-| 21                | 663   | 660   | 659   | 871 | 473   | 661   | 734   | 956   | 651   | 752   | 708                |
-| 22                | 599   | 860   | 534   | 817 | 802   | 772   | 769   | 1.097 | 832   | 763   | 785                |
-| 23                | 549   | 953   | 968   | 813 | 737   | 696   | 878   | 789   | 833   | 1.039 | 826                |
-| 24                | 886   | 855   | 625   | 999 | 663   | 657   | 633   | 877   | 955   | 886   | 804                |
-| 25                | 773   | 1.078 | 746   | 701 | 902   | 709   | 1.137 | 484   | 677   | 882   | 809                |
-| 26                | 893   | 768   | 984   | 943 | 867   | 720   | 923   | 815   | 776   | 897   | 859                |
-| 27                | 950   | 1.133 | 693   | 650 | 885   | 1.036 | 718   | 853   | 840   | 806   | 856                |
-| 28                | 953   | 984   | 1.041 | 904 | 984   | 990   | 984   | 699   | 765   | 990   | 929                |
-| 29                | 803   | 1.003 | 916   | 800 | 1.112 | 852   | 972   | 1.067 | 1.049 | 821   | 940                |
-| 30                | 775   | 929   | 1.103 | 853 | 1.007 | 754   | 925   | 745   | 828   | 1.003 | 892                |
-| 31                | 1.053 | 1.079 | 895   | 975 | 751   | 943   | 1.091 | 876   | 697   | 1.004 | 936                |
+| Quantidade lances | 1      | 2      | 3      | 4      | 5      | 6      | 7      | 8      | 9      | 10     | Melhor lucro médio |
+|-------------------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------------------|
+| 10                | 11.373 | 8.394  | 9.690  | 9.040  | 10.005 | 8.368  | 10.421 | 10.152 | 10.625 | 11.697 | 9.977              |
+| 11                | 11.045 | 9.075  | 12.153 | 10.521 | 8.854  | 9.458  | 11.361 | 10.629 | 10.105 | 10.587 | 10.379             |
+| 12                | 11.395 | 12.706 | 9.367  | 10.763 | 11.212 | 9.854  | 12.350 | 11.432 | 9.855  | 11.932 | 11.087             |
+| 13                | 11.059 | 9.279  | 9.575  | 11.873 | 9.421  | 9.821  | 11.747 | 12.300 | 10.670 | 10.045 | 10.579             |
+| 14                | 9.274  | 14.021 | 10.814 | 14.062 | 11.814 | 11.063 | 11.309 | 13.356 | 12.220 | 11.493 | 11.943             |
+| 15                | 13.535 | 8.200  | 13.383 | 13.756 | 11.483 | 14.188 | 13.611 | 11.064 | 12.690 | 10.956 | 12.287             |
+| 16                | 12.160 | 13.591 | 12.249 | 13.478 | 11.905 | 12.510 | 12.011 | 12.417 | 12.924 | 11.580 | 12.483             |
+| 17                | 13.424 | 12.573 | 14.009 | 12.169 | 14.769 | 13.004 | 16.050 | 12.196 | 12.516 | 11.776 | 13.249             |
+| 18                | 14.208 | 11.297 | 15.407 | 11.440 | 14.408 | 10.804 | 15.238 | 16.301 | 13.775 | 13.227 | 13.611             |
+| 19                | 12.453 | 14.352 | 13.737 | 13.724 | 13.662 | 12.215 | 12.236 | 14.697 | 11.784 | 13.330 | 13.219             |
+| 20                | 14.831 | 14.268 | 15.035 | 11.828 | 13.712 | 13.552 | 14.871 | 13.827 | 13.986 | 15.356 | 14.127             |
+| 21                | 11.951 | 16.218 | 13.216 | 13.626 | 15.327 | 14.926 | 13.176 | 14.002 | 13.501 | 13.957 | 13.990             |
+| 22                | 14.270 | 13.253 | 13.694 | 15.215 | 13.076 | 11.853 | 14.362 | 14.574 | 16.733 | 12.014 | 13.904             |
+| 23                | 14.160 | 14.795 | 15.002 | 13.760 | 13.577 | 16.308 | 14.030 | 14.619 | 15.402 | 14.902 | 14.656             |
+| 24                | 14.003 | 13.505 | 14.812 | 15.435 | 14.425 | 15.916 | 15.243 | 14.105 | 15.037 | 14.274 | 14.676             |
+| 25                | 15.837 | 14.717 | 13.223 | 13.437 | 15.213 | 15.876 | 16.253 | 17.029 | 14.090 | 14.621 | 15.030             |
+| 26                | 15.217 | 14.726 | 16.423 | 17.017 | 13.700 | 14.073 | 15.667 | 12.722 | 15.887 | 14.232 | 14.966             |
+| 27                | 16.934 | 15.958 | 17.389 | 14.517 | 14.770 | 14.705 | 16.279 | 15.783 | 13.216 | 16.202 | 15.575             |
+| 28                | 16.909 | 15.472 | 15.263 | 14.260 | 13.573 | 14.049 | 13.686 | 17.431 | 15.361 | 15.299 | 15.130             |
+| 29                | 15.956 | 16.563 | 16.741 | 17.101 | 16.104 | 14.728 | 14.132 | 17.076 | 15.299 | 15.806 | 15.951             |
+| 30                | 17.738 | 17.273 | 14.179 | 16.732 | 16.281 | 14.321 | 16.194 | 18.770 | 14.250 | 15.564 | 16.130             |
+| 31                | 16.662 | 14.927 | 16.779 | 14.237 | 15.641 | 14.458 | 17.013 | 18.222 | 14.349 | 16.191 | 15.848             |
+| 32                | 17.290 | 15.307 | 17.305 | 15.826 | 13.945 | 17.748 | 14.959 | 14.481 | 14.309 | 14.393 | 15.556             |
+| 33                | 17.028 | 16.308 | 15.647 | 14.528 | 16.205 | 17.425 | 17.212 | 18.868 | 15.911 | 15.793 | 16.493             |
 
 <div style="text-align: center;">
 
@@ -370,27 +374,26 @@ dois. A relação das informações obtidas com a execução desses conjuntos s�
 
 | Conjunto | Quantidade lances | Lances selecionados | Lucro máximo | Tempo execução (seg) |
 |----------|-------------------|---------------------|--------------|----------------------|
-| Um       | 25                | 19                  | R$ 26.725,00 | 3                    |
+| Um       | 25                | 19                  | R$ 26.725,00 | 4                    |
 | Dois     | 25                | 21                  | R$ 40.348,00 | 3                    |
 
 Conforme observado no gráfico apresentado, até a execução com 26 lances, o algoritmo de backtracking conseguia encontrar
 o melhor lucro do problema em menos de 1 segundo. A partir desse ponto, os tempos de execução passaram a ser maiores que
 1 segundo e começaram a crescer exponencialmente. Com apenas 2 lances adicionais (28 lances), o tempo de
-execução já estava próximo de 3 segundos, um aumento de 260%. Quando o algoritmo executou o cenário com 31 lances, foi
+execução foi de 2,3 segundos, um aumento de 130%. Quando o algoritmo executou o cenário com 33 lances, foi
 atingido o limite de 30 segundos, fazendo com que esse fosse o último cenário analisado. Neste caso, o tempo médio de
-execução foi de 11,7 segundos, ou seja, 1170% superior ao cenário com 28 lances.
+execução foi de 18,9 segundos, ou seja, 722% superior ao cenário com 28 lances.
 
 Os resultados obtidos indicam que, em cenários com baixa quantidade de dados, o backtracking pode se
 mostrar uma opção viável, uma vez que o tempo de execução não será significativo. No entanto, à medida que a quantidade
 de dados começar a crescer muito, ou uma poda pouco efetiva é utilizada (de modo que o algoritmo execute muitas
-operações
-recursivamente, sem conseguir "podar" muitos cenários), o tempo de execução deste algoritmo pode crescer
+operações recursivamente, sem conseguir "podar" muitos cenários), o tempo de execução deste algoritmo pode crescer
 significativamente, deixando de ser uma opção interessante para resolver o problema.
 
 Por se tratar de um refinamento do algoritmo de força bruta, em que algumas das combinações possíveis podem ser
 descartadas por meio do critério de poda, é de suma importância que esse critério seja bem definido para a execução
 satisfatória do algoritmo, uma vez que a quantidade de combinações possíveis, dado um conjunto "n", é da ordem de
-2^n - 1, ou seja, para o caso de 31 lances, existem 2^31 - 1 combinações possíveis. Conforme apresentado anteriormente,
+2^n - 1, ou seja, para o caso de 33 lances, existem 2^33 - 1 combinações possíveis. Conforme apresentado anteriormente,
 foram aplicados três critérios distintos de poda, de modo que o algoritmo não executasse combinações desnecessárias, e,
 simultaneamente, conseguisse encontrar o maior lucro possível em um tempo razoável.
 
