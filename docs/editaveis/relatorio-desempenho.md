@@ -14,13 +14,16 @@
     1. [Dados de execução](#dados-de-execução)
     2. [Sobre o algoritmo](#sobre-o-algoritmo)
     3. [Algoritmo implementado](#algoritmo-implementado)
-    4. [Resultados obtidos](#resultados-obtidos)
+    4. [Massa de testes utilizada](#massa-de-testes-utilizada)
+    5. [Resultados obtidos](#resultados-obtidos)
 4. [Algoritmo guloso](#algoritmo-guloso) -> PENDENTE
 5. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) -> PENDENTE
 6. [Algoritmo por programação dinâmica](#algoritmo-por-programação-dinâmica)
-    1. [Dados de execução](#funcionamento-do-algoritmo)
-    2. [Sobre o algoritmo](#sobre-o-algoritmo-dinamico)
-    3. [Algoritmo implementado](#construção-da-tabela-de-programação-dinâmica)
+    1. [Dados de execução](#dados-de-execução-1)
+    2. [Sobre o algoritmo](#sobre-o-algoritmo-1)
+    3. [Algoritmo implementado](#algoritmo-implementado-1)
+    4. [Massa de testes utilizada](#massa-de-testes-utilizada-1)
+    5. [Resultados obtidos](#resultados-obtidos-1)
 7. [Comparação dos resultados obtidos pelos algoritmos](#comparação-dos-resultados-obtidos-pelos-algoritmos)
     1. [Tempo de execução](#tempo-de-execução)
     2. [Lucro encontrado](#lucro-encontrado)
@@ -430,14 +433,14 @@ simultaneamente, conseguisse encontrar o maior lucro possível em um tempo razo�
 - **Sistema Operacional**: Windows 11
 - **IDE**: IntelliJ Ultimate
 
-## Sobre o algoritmo dinâmico
+### Sobre o algoritmo
 
 A classe `ProgramacaoDinamica` implementa o algoritmo de Programação Dinâmica, uma técnica de otimização que resolve
 problemas complexos dividindo-os em subproblemas menores e resolvendo cada subproblema apenas uma vez, armazenando seus
 resultados para evitar cálculos repetidos. Este método é eficiente para problemas de otimização onde a solução é
 composta de sub-soluções ótimas.
 
-## Descrição da classe
+### Algoritmo implementado
 
 ```java
 
@@ -497,10 +500,6 @@ parâmetros, sendo eles:
 - lancesSelecionados: `List<Lance>`;
 - indice: `int`;
 - lucroAtual: `int`.
-
-## Funcionamento do algoritmo
-
-### Inicialização das variáveis:
 
 `quantidadeDisponivel` armazena a capacidade total de venda.
 `n` representa o número total de lances.
