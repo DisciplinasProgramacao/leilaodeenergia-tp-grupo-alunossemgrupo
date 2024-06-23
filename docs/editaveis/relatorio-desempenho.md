@@ -19,6 +19,10 @@
 5. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) -> PENDENTE
 6. [Algoritmo por programação dinâmica](#algoritmo-por-programação-dinâmica) -> PENDENTE
 7. [Comparação dos resultados obtidos pelos algoritmos](#comparação-dos-resultados-obtidos-pelos-algoritmos)
+    1. [Tempo de execução](#tempo-de-execução)
+    2. [Lucro encontrado](#lucro-encontrado)
+    3. [Conjuntos solicitados pelo prof. Caram](#conjuntos-solicitados-pelo-prof-caram)
+    4. [Comentários finais sobre os resultados encontrados](#comentários-finais-sobre-os-resultados-encontrados)
 
 ## Sobre o problema
 
@@ -131,16 +135,10 @@ atributo `lucroMaximizado` do `melhorResultado`, o algoritmo atualiza o lucro ma
 selecionados.
 
 ```java
-if(lucroAtual >melhorResultado.
-
-getLucroMaximizado()){
-        melhorResultado.
-
-setLucroMaximizado(lucroAtual);
-    melhorResultado.
-
-setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-        }
+if (lucroAtual > melhorResultado.getLucroMaximizado()) {
+    melhorResultado.setLucroMaximizado(lucroAtual);
+    melhorResultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+}
 ```
 
 O algoritmo verifica se o índice passado como parâmetro é igual ou maior à quantidade total de lances, ou se a
@@ -148,15 +146,9 @@ quantidade selecionada é maior ou igual à quantidade disponível para leilão 
 for verdadeira, a execução termina.
 
 ```java
-if(indice >=todosLances.
-
-size() ||qtdeSelecionada >=melhorResultado.
-
-getProdutora().
-
-quantidadeDisponivel()){
-        return;
-        }
+if (indice >= todosLances.size() || qtdeSelecionada >= melhorResultado.getProdutora().quantidadeDisponivel()) {
+    return;
+}
 ```
 
 Em seguida, o algoritmo calcula o menor valor de lance a partir do índice atual para garantir que há espaço suficiente
@@ -164,55 +156,28 @@ para adicionar um novo lance sem exceder a capacidade de venda.
 
 ```java
 int menorValor = MAX_VALUE;
-for(
-int i = indice; i <todosLances.
 
-size();
-
-i++){
-menorValor =
-
-min(menorValor, todosLances.get(i).
-
-quantidade());
-        }
-        if(qtdeSelecionada +menorValor >melhorResultado.
-
-getProdutora().
-
-quantidadeDisponivel()){
-        return;
-        }
+for (int i = indice; i < todosLances.size(); i++) {
+    menorValor = min(menorValor, todosLances.get(i).quantidade());
+}
+if (qtdeSelecionada + menorValor > melhorResultado.getProdutora().quantidadeDisponivel()) {
+    return;
+}
 ```
 
 Para cada lance válido a partir do índice atual, o algoritmo adiciona o lance à lista de lances selecionados e chama
 recursivamente a função `executar` com o próximo índice e o lucro atualizado.
 
 ```java
-for(int i = indice; i <todosLances.
+for (int i = indice; i < todosLances.size(); i++) {
+    Lance lance = todosLances.get(i);
 
-size();
-
-i++){
-Lance lance = todosLances.get(i);
-    
-    if(qtdeSelecionada +lance.
-
-quantidade() <melhorResultado.
-
-getProdutora().
-
-quantidadeDisponivel()){
-        lancesSelecionados.
-
-add(lance);
-
-executar(melhorResultado, todosLances, lancesSelecionados, i +UM, lucroAtual +lance.valor());
-        lancesSelecionados.
-
-remove(lancesSelecionados.size() -UM);
-        }
-        }
+    if (qtdeSelecionada + lance.quantidade() < melhorResultado.getProdutora().quantidadeDisponivel()) {
+        lancesSelecionados.add(lance);
+        executar(melhorResultado, todosLances, lancesSelecionados, i + UM, lucroAtual + lance.valor());
+        lancesSelecionados.remove(lancesSelecionados.size() - UM);
+    }
+}
 ```
 
 De modo geral, o algoritmo de backtracking implementado busca encontrar a combinação de lances que maximiza o lucro
@@ -377,6 +342,12 @@ dois. A relação das informações obtidas com a execução desses conjuntos s�
 | Um       | 25                | 19                  | R$ 26.725,00 | 4                    |
 | Dois     | 25                | 21                  | R$ 40.348,00 | 3                    |
 
+<div style="text-align: center;">
+
+*[Tabela de resultados para os conjuntos do prof. Caram - Backtracking]*
+
+</div>
+
 Conforme observado no gráfico apresentado, até a execução com 26 lances, o algoritmo de backtracking conseguia encontrar
 o melhor lucro do problema em menos de 1 segundo. A partir desse ponto, os tempos de execução passaram a ser maiores que
 1 segundo e começaram a crescer exponencialmente. Com apenas 2 lances adicionais (28 lances), o tempo de
@@ -510,4 +481,179 @@ Finalmente, o algoritmo retorna o lucro máximo entre as duas opções e armazen
 
 ## Comparação dos resultados obtidos pelos algoritmos
 
-[A SER DESENVOLVIDO]
+A seguir serão apresentados comparativos entre os quatro algoritmos implementos sob óticas distintas, como resultado
+obtido, tempo de execução, dentre outros.
+
+### Tempo de execução
+
+A análise do tempo será feita em duas etapas, primeiro comparando o trecho comum de execução entre todos os algoritmos,
+que vai dos casos de testes com 10 a 33 lances, e em seguida comparando os algoritmos que foram até 330 lances (Guloso e
+Programação dinãmica). Para a primeira etapa (10 a 33 lances), o algoritmo de Divisão e Conquista foi a implementação
+que apresentou o pior desempenho, com tempo médio por execução de 9,42 segundos, seguido pela implementação do
+Backtracking, com tempo médio por execução de 2,5 segundos. Para esse cenário, as implementações do algoritmo Guloso e
+Programação dinâmica apresentaram tempo de execução inferior a 1 segundo, estando indicado pelo símbolo "-" na tabela
+abaixo.
+
+| Qtde lances | Backtracking | Guloso decrescente | Guloso crescente | Divisão e conquista | Programação dinâmica |
+|-------------|--------------|--------------------|------------------|---------------------|----------------------|
+| 10          | -            | -                  | -                | -                   | -                    |
+| 11          | -            | -                  | -                | -                   | -                    |
+| 12          | -            | -                  | -                | -                   | -                    |
+| 13          | -            | -                  | -                | -                   | -                    |
+| 14          | -            | -                  | -                | -                   | -                    |
+| 15          | -            | -                  | -                | -                   | -                    |
+| 16          | -            | -                  | -                | -                   | -                    |
+| 17          | -            | -                  | -                | -                   | -                    |
+| 18          | -            | -                  | -                | -                   | -                    |
+| 19          | 0,10         | -                  | -                | -                   | -                    |
+| 20          | 0,10         | -                  | -                | 0,10                | -                    |
+| 21          | 0,10         | -                  | -                | 0,30                | -                    |
+| 22          | 0,10         | -                  | -                | 0,50                | -                    |
+| 23          | 0,30         | -                  | -                | 0,80                | -                    |
+| 24          | 0,50         | -                  | -                | 1,40                | -                    |
+| 25          | 1,08         | -                  | -                | 3,42                | -                    |
+| 26          | 1,00         | -                  | -                | 3,40                | -                    |
+| 27          | 1,40         | -                  | -                | 4,80                | -                    |
+| 28          | 2,30         | -                  | -                | 8,30                | -                    |
+| 29          | 5,00         | -                  | -                | 17,50               | -                    |
+| 30          | 7,60         | -                  | -                | 27,50               | -                    |
+| 31          | 8,80         | -                  | -                | 33,70               | -                    |
+| 32          | 12,70        | -                  | -                | 49,40               | -                    |
+| 33          | 18,90        | -                  | -                | 74,90               | -                    |
+| Tempo médio | 2,50         | -                  | -                | 9,42                | -                    |
+
+<div style="text-align: center;">
+
+*[Tabela de comparação de desempenho de 10 a 33 lances]*
+
+</div>
+
+![grafico-comparativo-tempo-ate-33.png](../figuras/grafico-comparativo-tempo-ate-33.png)
+
+<div style="text-align: center;">
+
+*[Gráfico de comparação de desempenho de 10 a 33 lances]*
+
+</div>
+
+Para a segunda etapa, comparamos os algoritmos que executaram até o cenário com 330 lances (Guloso e
+Programação dinãmica). Para ambas implementações o tempo de execução foi inferior a 1 segundo, conforme pode ser
+verificado no gráfico a seguir.
+
+![grafico-comparativo-tempo-ate-330.png](../figuras/grafico-comparativo-tempo-ate-330.png)
+
+<div style="text-align: center;">
+
+*[Gráfico de comparação de desempenho de 10 a 330 lances]*
+
+</div>
+
+### Lucro encontrado
+
+De maneira análoga à análise do tópico acima, a análise do lucro encontrado também será dividida em duas etapas,
+primeiro comparando o trecho comum de execução entre todos os algoritmos, que vai dos casos de testes com 10 a 33
+lances, e em seguida comparando os algoritmos que foram até 330 lances (Guloso e Programação dinãmica). Para a primeira
+etapa, conseguimos verificar que o lucro encontrado pelos algoritmos de Backtracking, Divisão e conquista e Programação
+se manteve o mesmo durante todos os casos de teste, o que se é esperado para estes algoritmos. A implementação do
+algoritmo Guloso que utilizou como metodologia a ordenação dos lances por ordem crescente apresentou resultado
+satisfatório, haja visto que na média apresentou um lucro máximo 7% abaixo do resultado ótimo (lucro máximo possível) e
+possui um tempo de execução muito baixo. A implementação do algoritmo Guloso que ordenou os lances por ordem decrescente
+não apresentou resultado satisfatório, com lucro médio 50% inferior ao resultado ótimo esperado.
+
+| Qtde lances    | Backtracking | Guloso decrescente | Guloso crescente | Divisão e conquista | Programação dinâmica |
+|----------------|--------------|--------------------|------------------|---------------------|----------------------|
+| 10             | 9.976,50     | 9.614,50           | 9.704,70         | 9.976,50            | 9.976,50             |
+| 11             | 10.378,80    | 8.977,90           | 10.011,60        | 10.378,80           | 10.378,80            |
+| 12             | 11.086,60    | 8.877,10           | 10.609,20        | 11.086,60           | 11.086,60            |
+| 13             | 10.579,00    | 7.612,30           | 9.981,00         | 10.579,00           | 10.579,00            |
+| 14             | 11.942,60    | 8.488,10           | 11.448,50        | 11.943,30           | 11.943,30            |
+| 15             | 12.286,60    | 7.688,50           | 11.405,90        | 12.286,60           | 12.286,60            |
+| 16             | 12.482,50    | 7.240,80           | 11.278,40        | 12.482,50           | 12.482,50            |
+| 17             | 13.248,60    | 7.553,20           | 12.493,00        | 13.248,60           | 13.248,60            |
+| 18             | 13.610,50    | 7.416,50           | 12.802,30        | 13.610,50           | 13.610,50            |
+| 19             | 13.219,00    | 6.850,30           | 12.006,60        | 13.219,00           | 13.219,00            |
+| 20             | 14.126,60    | 6.988,60           | 12.928,80        | 14.126,60           | 14.126,60            |
+| 21             | 13.990,00    | 6.908,70           | 12.886,20        | 13.990,00           | 13.990,00            |
+| 22             | 13.904,40    | 6.159,30           | 12.760,80        | 13.904,40           | 13.904,40            |
+| 23             | 14.655,50    | 6.360,20           | 13.578,40        | 14.655,50           | 14.655,50            |
+| 24             | 14.675,50    | 6.081,20           | 13.841,30        | 14.675,50           | 14.675,50            |
+| 25             | 15.029,60    | 6.235,50           | 13.836,20        | 15.029,60           | 15.029,60            |
+| 26             | 14.966,40    | 5.937,80           | 13.428,70        | 14.980,10           | 14.980,10            |
+| 27             | 15.575,30    | 5.917,50           | 14.507,60        | 15.575,30           | 15.575,30            |
+| 28             | 15.130,30    | 5.540,50           | 13.950,20        | 15.130,30           | 15.130,30            |
+| 29             | 15.950,60    | 6.108,20           | 14.618,90        | 15.950,60           | 15.950,60            |
+| 30             | 16.130,20    | 6.399,30           | 14.582,40        | 16.130,20           | 16.130,20            |
+| 31             | 15.847,90    | 5.727,70           | 14.422,40        | 15.847,90           | 15.847,90            |
+| 32             | 15.556,30    | 5.678,30           | 13.943,60        | 15.556,30           | 15.556,30            |
+| 33             | 16.492,50    | 5.919,80           | 15.233,80        | 16.492,50           | 16.492,50            |
+| Lucro médio    | 13.785,08    | 6.928,41           | 12.760,85        | 13.785,68           | 13.785,68            |
+| % lucro máximo | 100%         | 50%                | 93%              | 100%                | 100%                 |
+
+<div style="text-align: center;">
+
+*[Tabela de comparação de valores de 10 a 33 lances]*
+
+</div>
+
+![grafico-comparativo-valores-ate-33.png](../figuras/grafico-comparativo-valores-ate-33.png)
+
+<div style="text-align: center;">
+
+*[Gráfico de comparação de valores de 10 a 33 lances]*
+
+</div>
+
+Comparando os algoritmos que seguiram a execução até 330 lances, podemos observar que o desempenho de ambas as
+implementações do algoritmo guloso caíram. Para a implementação por ordem crescente (seta azul no gráfico), o lucro na
+última execução
+apresentou 84% do lucro máximo obtido pela Programação dinâmica (seta verde no gráfico), enquanto a implementação por
+ordem decrescente
+apresentou apenas 13% do lucro máximo obtido pela Programação dinâmica (seta vermelha no gráfico).
+
+![grafico-comparativo-valores-ate-330.png](../figuras/grafico-comparativo-valores-ate-330.png)
+
+<div style="text-align: center;">
+
+*[Gráfico de comparação de valores de 10 a 330 lances]*
+
+</div>
+
+### Conjuntos solicitados pelo prof. Caram
+
+Conforma informado anteriormente, foram disponibilizados dois conjuntos adicionais pelo professor para que fossem
+realizados testes com eles. Cada um desses conjuntos possuía 25 lances, com combinações diferentes de quantidade e valor
+por lance. Para fins de análise, esses conjuntos serão referenciados como conjuntos 1 e 2. Conforme pode ser observado
+na tabela a seguir, o lucro máximo obtido pelos algoritmos de Backtracking, Guloso crescente, Divisão e conquista, e
+Programação dinâmica para o conjunto 1 foi de R$ 26.725,00. O Guloso decrescente, por sua vez, apresentou lucro final de
+R$ 24.219,00.
+
+Os algoritmos de Backtracking e Divisão e conquista apresentaram os maios tempos de execução para esses cenários,
+despendendo 4 e 10 segundos para o conjunto 1, e 3 e 10 segundos para o conjunto 2, respectivamente.
+
+| Algoritmo            | Nº Conjunto | Qtde lances | Tempo (seg) | Lances selecionados | Lucro obtido |
+|----------------------|-------------|-------------|-------------|---------------------|--------------|
+| Backtracking         | 1           | 25          | 4           | 19                  | 26.725,00    |
+| Guloso decrescente   | "           | "           | 0           | 19                  | 24.219,00    |
+| Guloso crescente     | "           | "           | 0           | 19                  | 26.725,00    |
+| Divisão e conquista  | "           | "           | 10          | 19                  | 26.725,00    |
+| Programação dinâmica | "           | "           | 0           | 19                  | 26.725,00    |
+| Backtracking         | 2           | 25          | 3           | 21                  | 40.348,00    |
+| Guloso decrescente   | "           | "           | 0           | 21                  | 36.916,00    |
+| Guloso crescente     | "           | "           | 0           | 22                  | 39.408,00    |
+| Divisão e conquista  | "           | "           | 10          | 21                  | 40.348,00    |
+| Programação dinâmica | "           | "           | 0           | 16                  | 40.348,00    |
+
+<div style="text-align: center;">
+
+*[Tabela de comparação de valores e tempos dos conjuntos 1 e 2]*
+
+</div>
+
+### Comentários finais sobre os resultados encontrados
+
+Com base nos resultados obtidos, foi possível verificar que, de modo geral, em conjuntos pequenos, a escolhe de um
+algoritmo mais ou menos eficaz não se mostra muito expressiva, haja vista que os tempos de execução tendem a ser
+inferiores a 1 segundo. Nos nossos casos de testes, pode-se dizer que em um conjunto de aproximadamente 20 a 23 dados, o
+algoritmo implementado não é muito significante. No entanto, a partir desse ponto, a diferença de desempenho começou a
+ser representativa, ao passo que com mais de 33 lances, por exemplo, tínhamos algoritmos gastando mais de 1 minuto para
+executar o conjunto, enquanto outros executavam até 330 lances em menos de 1 segundo.
