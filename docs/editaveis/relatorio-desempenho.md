@@ -638,7 +638,6 @@ Neste caso, utilize os mesmos conjuntos de tamanho T utilizados no backtracking.
 
 ### Resultados obtidos
 
-
 ## Algoritmo por programação dinâmica
 
 ### Dados de execução
@@ -774,7 +773,7 @@ for (int i = 0; i <= capacidade; i++) {
 
 **Recuperação dos Lances Selecionados**
 
-Reconstroi a lista dos melhores lances utilizando o array selecionados. Começa na capacidade máxima e retrocede até encontrar todos os lances selecionados.
+Reconstrói a lista dos melhores lances utilizando o array selecionados. Começa na capacidade máxima e retrocede até encontrar todos os lances selecionados.
 
 ```java
 List<Lance> melhoresLances = new ArrayList<>();
@@ -818,9 +817,8 @@ para o backtracking, o tempo de carregamento dos lances foi de 0,00 segundos, ao
 continua o mesmo encontrado no backtracking. A tabela a seguir apresenta os resultados obtidos com a execução do algoritmo de
 programação dinâmica.
 
-
-| Quantidade lances | 1       | 2       | 3       | 4       | 5       | 6       | 7       | 8       | 9       | 10      | Melhor lucro médio |
-|-------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|--------------------|
+| Quantidade lances | 1       | 2       | 3       | 4       | 5       | 6       | 7       | 8       | 9       | 10      | Melhor lucro médio  |
+|-------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------------------|
 | 10                | 11.373  | 8.394   | 9.690   | 9.040   | 10.005  | 8.368   | 10.421  | 10.152  | 10.625  | 11.697  | 9.976,5             |
 | 11                | 11.045  | 9.075   | 12.153  | 10.521  | 8.854   | 9.458   | 11.361  | 10.629  | 10.105  | 10.587  | 10.378,8            |
 | 12                | 11.395  | 12.706  | 9.367   | 10.763  | 11.212  | 9.854   | 12.350  | 11.432  | 9.855   | 11.932  | 11.086,6            |
@@ -847,8 +845,8 @@ programação dinâmica.
 | 33                | 17.028  | 16.308  | 15.647  | 14.528  | 16.205  | 17.425  | 17.212  | 18.868  | 15.911  | 15.793  | 16.492,5            |
 *[Tabela de maior lucro obtido 1 - Programação Dinamica]*
 
-| Quantidade lances | 1       | 2       | 3       | 4       | 5       | 6       | 7       | 8       | 9       | 10      | Melhor lucro médio |
-|-------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|--------------------|
+| Quantidade lances | 1       | 2       | 3       | 4       | 5       | 6       | 7       | 8       | 9       | 10      | Melhor lucro médio  |
+|-------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------------------|
 | 66                | 20.445  | 23.373  | 25.110  | 24.980  | 26.100  | 25.631  | 28.143  | 25.192  | 28.326  | 21.410  | 24.871,0            |
 | 99                | 19.769  | 24.297  | 21.451  | 26.267  | 25.247  | 27.102  | 29.552  | 26.622  | 29.565  | 21.653  | 25.152,5            |
 | 132               | 22.405  | 20.979  | 20.596  | 25.494  | 25.807  | 24.197  | 28.104  | 27.217  | 26.298  | 23.914  | 24.501,1            |
@@ -880,7 +878,7 @@ obtido, tempo de execução, dentre outros.
 
 A análise do tempo será feita em duas etapas, primeiro comparando o trecho comum de execução entre todos os algoritmos,
 que vai dos casos de testes com 10 a 33 lances, e em seguida comparando os algoritmos que foram até 330 lances (Guloso e
-Programação dinãmica). Para a primeira etapa (10 a 33 lances), o algoritmo de Divisão e Conquista foi a implementação
+Programação dinâmica). Para a primeira etapa (10 a 33 lances), o algoritmo de Divisão e Conquista foi a implementação
 que apresentou o pior desempenho, com tempo médio por execução de 9,42 segundos, seguido pela implementação do
 Backtracking, com tempo médio por execução de 2,5 segundos. Para esse cenário, as implementações do algoritmo Guloso e
 Programação dinâmica apresentaram tempo de execução inferior a 1 segundo, estando indicado pelo símbolo "-" na tabela
