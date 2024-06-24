@@ -781,20 +781,7 @@ programação dinâmica.
 
 *[Tabela de maior lucro obtido 2 - Programação Dinamica]*
 
-![grafico-lancesFeitos-selecionados.jpeg](../figuras/grafico-lancesFeitos-selecionados.jpeg)
-
-*[Gráfico relação Quantidade de Lances Feitos e Lances Selecionados ]*
-
-![grafico-lancesSelecionados-resultado.jpeg](../figuras/grafico-lancesSelecionados-resultado.jpeg)
-
-*[Gráfico relação entre Quantidade de Lances Selecionados e Melhor Resultado]*
-
-![grafico-lucroMedio-lances-dinamica.jpeg](../figuras/grafico-lucroMedio-lances-dinamica.jpeg)
-
-*[Gráfico relação Lances Feitos e Selecionados]*
-
-
-
+--- 
 Além dos cenários apresentados, foram executados dois conjuntos adicionais fornecidos pelo prof. Caram, conjunto um e
 dois. A relação das informações obtidas com a execução desses conjuntos são elencadas na tabela abaixo.
 
@@ -807,6 +794,7 @@ dois. A relação das informações obtidas com a execução desses conjuntos s�
 
 Este algoritmo implementa uma solução clássica de programação dinâmica para maximizar o lucro dentro de uma capacidade limitada (similar ao problema da mochila). Ele itera sobre os lances disponíveis e preenche uma tabela (`dp`) para rastrear o lucro máximo possível para cada capacidade, e um array (`selecionados`) para rastrear quais lances foram escolhidos para alcançar esse lucro. Ao final, ele reconstrói a lista de lances selecionados e atualiza o objeto `melhorResultado` com o lucro máximo e os lances correspondentes.
 
+---
 
 ## Comparação dos resultados obtidos pelos algoritmos
 
