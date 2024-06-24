@@ -728,6 +728,7 @@ respeitando a capacidade de venda da empresa produtora. O algoritmo realiza as s
 
 Aqui utilizaremos a mesma massa de testes presente no algoritmo guloso.
 
+---
 ### Resultados obtidos
 
 Conforme descrito acima, os cenários de testes variaram de 10 a 31 lances, para cada um desses cenários, foram
@@ -763,6 +764,7 @@ programação dinâmica.
 | 31                | 16.662  | 14.927  | 16.779  | 14.237  | 15.641  | 14.458  | 17.013  | 18.222  | 14.349  | 16.191  | 15.847,9            |
 | 32                | 17.290  | 15.307  | 17.305  | 15.826  | 13.945  | 17.748  | 14.959  | 14.481  | 14.309  | 14.393  | 15.556,3            |
 | 33                | 17.028  | 16.308  | 15.647  | 14.528  | 16.205  | 17.425  | 17.212  | 18.868  | 15.911  | 15.793  | 16.492,5            |
+
 *[Tabela de maior lucro obtido 1 - Programação Dinamica]*
 
 | Quantidade lances | 1       | 2       | 3       | 4       | 5       | 6       | 7       | 8       | 9       | 10      | Melhor lucro médio  |
@@ -779,6 +781,20 @@ programação dinâmica.
 
 *[Tabela de maior lucro obtido 2 - Programação Dinamica]*
 
+![grafico-lancesFeitos-selecionados.jpeg](../figuras/grafico-lancesFeitos-selecionados.jpeg)
+
+*[Gráfico relação Quantidade de Lances Feitos e Lances Selecionados ]*
+
+![grafico-lancesSelecionados-resultado.jpeg](../figuras/grafico-lancesSelecionados-resultado.jpeg)
+
+*[Gráfico relação entre Quantidade de Lances Selecionados e Melhor Resultado]*
+
+![grafico-lucroMedio-lances-dinamica.jpeg](../figuras/grafico-lucroMedio-lances-dinamica.jpeg)
+
+*[Gráfico relação Lances Feitos e Selecionados]*
+
+
+
 Além dos cenários apresentados, foram executados dois conjuntos adicionais fornecidos pelo prof. Caram, conjunto um e
 dois. A relação das informações obtidas com a execução desses conjuntos são elencadas na tabela abaixo.
 
@@ -787,7 +803,10 @@ dois. A relação das informações obtidas com a execução desses conjuntos s�
 | Um       | 25                | 19                  | R$ 26.725,00 | 0                    |
 | Dois     | 25                | 16                  | R$ 40.348,00 | 0                    |
 
+### Conclusão
+
 Este algoritmo implementa uma solução clássica de programação dinâmica para maximizar o lucro dentro de uma capacidade limitada (similar ao problema da mochila). Ele itera sobre os lances disponíveis e preenche uma tabela (`dp`) para rastrear o lucro máximo possível para cada capacidade, e um array (`selecionados`) para rastrear quais lances foram escolhidos para alcançar esse lucro. Ao final, ele reconstrói a lista de lances selecionados e atualiza o objeto `melhorResultado` com o lucro máximo e os lances correspondentes.
+
 
 ## Comparação dos resultados obtidos pelos algoritmos
 
