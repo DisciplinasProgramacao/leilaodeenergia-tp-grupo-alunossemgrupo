@@ -17,23 +17,23 @@
     4. [Massa de testes utilizada](#massa-de-testes-utilizada)
     5. [Resultados obtidos](#resultados-obtidos)
 4. [Algoritmo guloso](#algoritmo-guloso)
-    1. [Dados de execução](#dados-de-execução)
-    2. [Sobre o algoritmo](#sobre-o-algoritmo)
-    3. [Algoritmo implementado](#algoritmo-implementado)
-    4. [Massa de testes utilizada](#massa-de-testes-utilizada)
-    5. [Resultados obtidos](#resultados-obtidos)
-5. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) 
     1. [Dados de execução](#dados-de-execução-1)
     2. [Sobre o algoritmo](#sobre-o-algoritmo-1)
     3. [Algoritmo implementado](#algoritmo-implementado-1)
     4. [Massa de testes utilizada](#massa-de-testes-utilizada-1)
     5. [Resultados obtidos](#resultados-obtidos-1)
-6. [Algoritmo por programação dinâmica](#algoritmo-por-programação-dinâmica)
+5. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) 
     1. [Dados de execução](#dados-de-execução-2)
     2. [Sobre o algoritmo](#sobre-o-algoritmo-2)
     3. [Algoritmo implementado](#algoritmo-implementado-2)
     4. [Massa de testes utilizada](#massa-de-testes-utilizada-2)
     5. [Resultados obtidos](#resultados-obtidos-2)
+6. [Algoritmo por programação dinâmica](#algoritmo-por-programação-dinâmica)
+    1. [Dados de execução](#dados-de-execução-3)
+    2. [Sobre o algoritmo](#sobre-o-algoritmo-3)
+    3. [Algoritmo implementado](#algoritmo-implementado-3)
+    4. [Massa de testes utilizada](#massa-de-testes-utilizada-3)
+    5. [Resultados obtidos](#resultados-obtidos-3)
 7. [Comparação dos resultados obtidos pelos algoritmos](#comparação-dos-resultados-obtidos-pelos-algoritmos)
     1. [Tempo de execução](#tempo-de-execução)
     2. [Lucro encontrado](#lucro-encontrado)
@@ -563,7 +563,7 @@ A massa de testes utilizada seguiu os seguintes parâmetros:
 Os resultados gerados após cada execução do algoritmo foram armazenados automaticamente em dois
 arquivos: `exec-log.xls` e `hist-log.xls`.
 
-### Resultados obtidos Guloso1
+### Resultados obtidos
 
 | Quantidade lances | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | Tempo médio (seg) |
 |-------------------|----|----|----|----|----|----|----|----|----|----|-------------------|
@@ -590,7 +590,7 @@ arquivos: `exec-log.xls` e `hist-log.xls`.
 | 30                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
 | 31                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
 | 32                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
-| 33                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -      
+| 33                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
 
 | Quantidade lances | 1     | 2     | 3     | 4     | 5     | 6     | 7     | 8     | 9     | 10    | Melhor lucro médio |
 |-------------------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|--------------------|
@@ -627,7 +627,6 @@ arquivos: `exec-log.xls` e `hist-log.xls`.
 | 264               | 27361 | 28017 | 23116 | 25198 | 25295 | 24382 | 24939 | 24160 | 24478 | 27484 | 25443              |
 | 297               | 23560 | 26667 | 23420 | 23139 | 21290 | 22079 | 24671 | 24880 | 23077 | 27008 | 23979              |
 | 330               | 22185 | 28243 | 26234 | 25081 | 25389 | 23214 | 24349 | 28703 | 28072 | 23351 | 25482              |
-
 
 ### Resultados obtidos Guloso2
 
