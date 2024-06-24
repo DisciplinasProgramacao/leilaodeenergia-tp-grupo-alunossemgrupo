@@ -16,7 +16,12 @@
     3. [Algoritmo implementado](#algoritmo-implementado)
     4. [Massa de testes utilizada](#massa-de-testes-utilizada)
     5. [Resultados obtidos](#resultados-obtidos)
-4. [Algoritmo guloso](#algoritmo-guloso) -> PENDENTE
+4. [Algoritmo guloso](#algoritmo-guloso)
+    1. [Dados de execução](#dados-de-execução)
+    2. [Sobre o algoritmo](#sobre-o-algoritmo)
+    3. [Algoritmo implementado](#algoritmo-implementado)
+    4. [Massa de testes utilizada](#massa-de-testes-utilizada)
+    5. [Resultados obtidos](#resultados-obtidos)
 5. [Divisão e conquista](#algoritmo-de-divisão-e-conquista) 
     1. [Dados de execução](#dados-de-execução-1)
     2. [Sobre o algoritmo](#sobre-o-algoritmo-1)
@@ -356,7 +361,343 @@ simultaneamente, conseguisse encontrar o maior lucro possível em um tempo razo�
 
 ## Algoritmo guloso
 
-[A SER DESENVOLVIDO]
+### Dados de execução
+
+- **Responsável**: Vinícius Dias
+- **Matrícula**: 728272
+- **JDK**: Java 17
+- **Processador**: 13ª geração Intel Core i5-13450HX (10-core, cache de 20MB, até 4.6GHz)
+- **RAM**: Memória de 16GB DDR5 (2x8GB) 4800MHz
+- **Sistema Operacional**: Ubuntu 22.04
+- **IDE**: IntelliJ Ultimate
+
+### Sobre o algoritmo
+
+O algoritmo de `Guloso` é conhecido por ter um ótimo desempenho e não garantir o melhor resultado. Ele é estruturado fazendo a escolha que parece ser a melhor a cada interação. Sendo assim como sabemos qual escolha é a melhor?
+
+Para isso usamos o chamado "Critério Guloso" uma forma de tentar máximizar as boas decisões, mesmo sem garantia que isso pegará o melhor resultado. O critério guloso verifica o conjunto de soluções produzidos pelos candidatos atuais, sem ter uma visão toda do problema, depois seleciona no conjunto o cadidato mais promissor até achar uma solução. Um exemplo disso é o problema da mochila, como critério guloso podemos ordenar as opções pelo maior valor e assim ir selecionando os itens até o peso máximo ser atingido.
+
+Note que assim que o algoritmo encontra uma solução, já é usada como o melhor resultado possível dele, porque ele não vai verificar outras possíveis soluções, o que encurta drasticamente o tempo de execução, mas deixando prá trás outras possíveis soluções que poderiam ter um valor melhor.
+
+### Algoritmo implementado
+
+**Guloso 1**
+
+```java
+   @Override
+    public void executar(@NotNull MelhorResultado resultado, List<entidades.Lance> todosLances, List<entidades.Lance> lancesSelecionados, int indice, int lucroAtual) {
+
+        List<Lance> lancesMutaveis = new ArrayList<>(todosLances);
+        lancesMutaveis.sort(comparingDouble(Lance::valorPorMegawatt));
+
+        int energiaRestante = resultado.getProdutora().quantidadeDisponivel();
+
+        for (Lance lance : lancesMutaveis) {
+            lancesSelecionados.forEach(lanceSelecionado -> {
+                if (Objects.equals(lance.id(), lanceSelecionado.id())) {
+                    lancesSelecionados.remove(lanceSelecionado.id());
+                }
+            });
+            if (lance.quantidade() <= energiaRestante) {
+                lancesSelecionados.add(lance);
+                energiaRestante -= lance.quantidade();
+            }
+        }
+        int valorTotal = ZERO;
+        resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+
+        for (Lance lance : lancesSelecionados) {
+            valorTotal += lance.valor();
+        }
+        resultado.setLucroMaximizado(valorTotal);
+        resultado.setQuantidadeVendida(resultado.getProdutora().quantidadeDisponivel() - energiaRestante);
+    }
+```
+
+---
+
+**Guloso 2**
+
+```java
+  @Override
+    public void executar(@NotNull MelhorResultado resultado, List<entidades.Lance> todosLances, List<entidades.Lance> lancesSelecionados, int indice, int lucroAtual) {
+
+        List<Lance> lancesMutaveis = new ArrayList<>(todosLances);
+        lancesMutaveis.sort(comparingDouble(Lance::quantidade));
+
+        int energiaRestante = resultado.getProdutora().quantidadeDisponivel();
+
+        for (Lance lance : lancesMutaveis) {
+            lancesSelecionados.forEach(lanceSelecionado -> {
+                if (Objects.equals(lance.id(), lanceSelecionado.id())) {
+                    lancesSelecionados.remove(lanceSelecionado.id());
+                }
+            });
+            if (lance.quantidade() <= energiaRestante) {
+                lancesSelecionados.add(lance);
+                energiaRestante -= lance.quantidade();
+            }
+        }
+        int valorTotal = ZERO;
+        resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+
+        for (Lance lance : lancesSelecionados) {
+            valorTotal += lance.valor();
+        }
+        resultado.setLucroMaximizado(valorTotal);
+        resultado.setQuantidadeVendida(resultado.getProdutora().quantidadeDisponivel() - energiaRestante);
+
+    }
+```
+
+**Método `executar`:** Este método é o próprio algoritmo em si, que a cada execução vai receber por parâmetro os lances para serem análisados e uma classe chamada "MelhorResultado", para preencher a melhor solução achada pelo algoritmo.
+Detalhe há dois algoritmos com uma sútil diferença como foi pedido na proposta, dois algoritmos gulosos com critério guloso diferente.
+
+---
+
+```java
+List<Lance> lancesMutaveis = new ArrayList<>(todosLances);
+```
+
+**Cópia Modificável da Lista de Lances:**
+
+- `todosLances` é a lista original de lances. No Java, não podemos alterar uma lista como essa, então criamos uma lista mutável que vai receber todos os lances chamada `lancesMutaveis`.
+
+---
+
+```java
+lancesMutaveis.sort(comparingDouble(Lance::valorPorMegawatt).reversed());
+```
+
+```java
+lancesMutaveis.sort(comparingDouble(Lance::quantidade));
+```
+
+**Critério Guloso:**
+
+- O critério guloso do primeiro algoritmo, foi pensado de uma forma para deixar os melhores candidatos nas primeiras posições, realizando uma razão do valor pelo megawatt, assim os mais valiosos eram colocados nas primeiras posições
+- O critério guloso do segundo alforitmo é muito simples, ordenar em ordem crescente os lances por megawatt, feito para mostrar, qual a diferença se criarmos um critério guloso bem planejado e usar um que não sabemos se trará bons ou ruins resultados.
+- Todos os lances que entrarem na solução, irão ser adicionados numa lista chamada `lancesSelecionados`
+
+---
+
+```java
+int energiaRestante = resultado.getProdutora().quantidadeDisponivel();
+```
+
+**Energia Restante:**
+- É criada uma variável chamada energia restante, que receberá o valor que a produtora de energia tem em megawatts para oferecer. Ela é usada depois para ter um controle da quantidade, decrementando seu valor a cada lance adicionado a solução.
+
+---
+
+```java
+  for (Lance lance : lancesMutaveis) {
+    lancesSelecionados.forEach(lanceSelecionado -> {
+        if (Objects.equals(lance.id(), lanceSelecionado.id())) {
+            lancesSelecionados.remove(lanceSelecionado.id());
+        }
+    });
+    if (lance.quantidade() <= energiaRestante) {
+        lancesSelecionados.add(lance);
+        energiaRestante -= lance.quantidade();
+    }
+  }
+```
+
+**Escolhendo melhor candidato:**
+
+- Agora, para ambos os gulosos, percorremos os lances, fazemos uma pequena verificação antes, para ver se há algum lance duplicado e depois vamos adicionando lance por lance na solução até atingir o limite de energia restante. Já que a lista está ordenada para os melhores candidatos, entende-se que os melhores cadidatos serão sempre os primeiros.
+
+---
+
+```java
+  int valorTotal = ZERO;
+  resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+```
+
+**Preenchendo a classe "MelhorResultado":**
+
+- Após a escolha dos candidatos para a solução preenchemos a classe `resultado` do tipo `MelhorResultado`, para que possa ser tirado as métricas de tempo de execução e resultados, preenchendo os logs.
+
+---
+
+```java
+  for (Lance lance : lancesSelecionados) {
+    valorTotal += lance.valor();
+  }
+```
+
+**Calculando valor total arrecadado com os lances selecionados:**
+
+- Nessa parte vamos iterar por todos os lances que foram colocados na solução e somar o valor entre eles, para que tenhamos o valor total que conseguimos.
+
+---
+
+```java
+  resultado.setLucroMaximizado(valorTotal);
+  resultado.setQuantidadeVendida(resultado.getProdutora().quantidadeDisponivel() - energiaRestante);
+```
+
+**Preenchendo mais métricas da classe "resultado":**
+
+- Na última parte do código, vamos atualizar mais alguma métricas da classe `resultado` do tipo `MelhorResultado`, para agora ela ter os valores do lucro dos lances selecionados e da quantidade de megawatts vendidos.
+
+---
+
+### Massa de testes utilizada
+
+A massa de testes utilizada seguiu os seguintes parâmetros:
+
+- **Quantidade *mínima* p/ compradora = 1000** → indica a quantidade mínima que uma determinada compradora poderia
+  solicitar em um lote;
+- **Quantidade *máxima* p/ compradora = 1500** → indica a quantidade máxima que uma determinada compradora poderia
+  solicitar em um lote;
+- **Quantidade disponível pela produtora = 8000** → indica a quantidade total (lote de megawatts) que a empresa
+  produtora
+  possui, ou seja, que disponibiliza para leilão;
+- **Quantidade máxima de lances p/ compradora = 1** → indica a quantidade máxima de lances que cada compradora poderia
+  fazer;
+- **Quantidades de compradoras = [10, 11, ..., 33, 66, 99, ..., 330]** → foram executados 10 testes para cada quantidade de lances,
+  iniciado com os valores usados no backingtrack, na prática foi do 10, até o 33. Após isso como pedido no enunciado, para o método guloso depois de usar o conjunto do backingtrack vamos ir icrementando de T em T até chegar em 10T, ou seja chegando até 330.
+
+Os resultados gerados após cada execução do algoritmo foram armazenados automaticamente em dois
+arquivos: `exec-log.xls` e `hist-log.xls`.
+
+### Resultados obtidos Guloso1
+
+| Quantidade lances | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | Tempo médio (seg) |
+|-------------------|----|----|----|----|----|----|----|----|----|----|-------------------|
+| 10                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 11                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 12                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 13                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 14                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 15                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 16                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 17                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 18                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 19                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 20                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 21                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 22                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 23                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 24                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 25                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 26                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 27                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 28                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 29                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 30                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 31                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 32                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 33                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -      
+
+| Quantidade lances | 1     | 2     | 3     | 4     | 5     | 6     | 7     | 8     | 9     | 10    | Melhor lucro médio |
+|-------------------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|--------------------|
+| 10                | 11373 | 7979  | 9690  | 8233  | 8593  | 7382  | 10421 | 10152 | 10625 | 11697 | 9705               |
+| 11                | 11034 | 10498 | 8851  | 9739  | 9525  | 8933  | 10969 | 11282 | 9600  | 11034 | 10166              |
+| 12                | 9287  | 11649 | 11405 | 10123 | 11552 | 10650 | 11954 | 10264 | 11294 | 11272 | 10945              |
+| 13                | 9694  | 10242 | 10502 | 11070 | 9776  | 10217 | 11494 | 9588  | 9550  | 9487  | 10162              |
+| 14                | 11376 | 12223 | 13151 | 11436 | 11933 | 12961 | 10739 | 10762 | 12741 | 12249 | 11957              |
+| 15                | 11980 | 11640 | 11667 | 10924 | 12055 | 13057 | 11062 | 11722 | 12633 | 12322 | 11906              |
+| 16                | 10174 | 10711 | 12302 | 12198 | 13240 | 10984 | 11936 | 13242 | 10763 | 11769 | 11732              |
+| 17                | 13256 | 12865 | 12268 | 11406 | 12471 | 13570 | 13926 | 14236 | 12900 | 14142 | 13104              |
+| 18                | 12652 | 13160 | 13949 | 12861 | 14601 | 14589 | 13020 | 14125 | 13385 | 12357 | 13470              |
+| 19                | 12471 | 13830 | 13950 | 11746 | 11199 | 11299 | 14364 | 14032 | 11408 | 11879 | 12618              |
+| 20                | 13252 | 13461 | 15293 | 13320 | 13926 | 12878 | 13338 | 13779 | 14990 | 11763 | 13600              |
+| 21                | 15069 | 12409 | 13197 | 14481 | 12673 | 14401 | 12503 | 15206 | 12649 | 12883 | 13547              |
+| 22                | 13404 | 13534 | 12706 | 11492 | 14486 | 14715 | 14426 | 13985 | 13569 | 11632 | 13395              |
+| 23                | 13843 | 14227 | 13389 | 15164 | 13980 | 12742 | 14513 | 15229 | 14538 | 16095 | 14372              |
+| 24                | 12990 | 15715 | 14265 | 15805 | 16449 | 13316 | 16848 | 14647 | 14109 | 13236 | 14738              |
+| 25                | 13958 | 14033 | 13230 | 14286 | 14908 | 16462 | 12963 | 16322 | 15579 | 15571 | 14731              |
+| 26                | 12647 | 14781 | 13987 | 15097 | 14160 | 15825 | 15016 | 14483 | 14062 | 12282 | 14234              |
+| 27                | 15255 | 16195 | 15806 | 14696 | 16197 | 13267 | 14391 | 16503 | 15580 | 16491 | 15438              |
+| 28                | 16552 | 13464 | 12779 | 16476 | 14725 | 16313 | 15567 | 13465 | 13332 | 15836 | 14851              |
+| 29                | 16977 | 16617 | 13813 | 16096 | 15381 | 14058 | 16985 | 17193 | 13391 | 15870 | 15638              |
+| 30                | 13862 | 15065 | 16791 | 13875 | 16640 | 15806 | 16700 | 15326 | 14675 | 17199 | 15594              |
+| 31                | 15303 | 15520 | 13814 | 13830 | 16383 | 17212 | 16348 | 15900 | 14158 | 15623 | 15409              |
+| 32                | 16207 | 14328 | 13321 | 14457 | 14690 | 15398 | 16212 | 15700 | 12567 | 15561 | 14844              |
+| 33                | 14939 | 15697 | 16765 | 16564 | 16481 | 15791 | 16434 | 17319 | 14719 | 17532 | 16224              |
+| 66                | 18069 | 19098 | 20009 | 17933 | 21272 | 19858 | 17655 | 19027 | 20518 | 20050 | 19349              |
+| 99                | 18942 | 23146 | 20064 | 19294 | 19984 | 19330 | 20082 | 21291 | 23826 | 22431 | 20839              |
+| 132               | 24657 | 23895 | 23221 | 20979 | 22289 | 20868 | 22302 | 21712 | 23965 | 20972 | 22486              |
+| 165               | 24915 | 24435 | 22408 | 24039 | 24941 | 25050 | 21450 | 24634 | 20232 | 20665 | 23277              |
+| 198               | 21950 | 24756 | 24934 | 23646 | 23989 | 22915 | 21796 | 25094 | 24603 | 22196 | 23588              |
+| 231               | 24985 | 26065 | 26671 | 22663 | 26924 | 21840 | 21754 | 22187 | 26256 | 25814 | 24516              |
+| 264               | 27361 | 28017 | 23116 | 25198 | 25295 | 24382 | 24939 | 24160 | 24478 | 27484 | 25443              |
+| 297               | 23560 | 26667 | 23420 | 23139 | 21290 | 22079 | 24671 | 24880 | 23077 | 27008 | 23979              |
+| 330               | 22185 | 28243 | 26234 | 25081 | 25389 | 23214 | 24349 | 28703 | 28072 | 23351 | 25482              |
+
+
+### Resultados obtidos Guloso2
+
+| Quantidade lances | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | Tempo médio (seg) |
+|-------------------|----|----|----|----|----|----|----|----|----|----|-------------------|
+| 10                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 11                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 12                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 13                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 14                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 15                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 16                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 17                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 18                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 19                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 20                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 21                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 22                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 23                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 24                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 25                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 26                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 27                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 28                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 29                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 30                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 31                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 32                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+| 33                | -  | -  | -  | -  | -  | -  | -  | -  | -  | -  | -                 |
+
+| Quantidade lances | 1     | 2     | 3     | 4     | 5     | 6     | 7     | 8     | 9     | 10    | Melhor lucro médio |
+|-------------------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|--------------------|
+| 10                | 11373 | 7686  | 9690  | 8762  | 9025  | 7616  | 10421 | 10152 | 10625 | 11697 | 9.705              |
+| 11                | 11045 | 9075  | 12153 | 10521 | 8059  | 8923  | 10979 | 9996  | 9422  | 9943  | 10.012             |
+| 12                | 11395 | 12191 | 8099  | 10324 | 10754 | 9181  | 11782 | 11081 | 9353  | 11932 | 10.609             |
+| 13                | 11059 | 8752  | 9575  | 11760 | 8387  | 9134  | 10967 | 11953 | 9610  | 8613  | 9.981              |
+| 14                | 8704  | 14002 | 10546 | 13192 | 11501 | 10319 | 10965 | 13356 | 11369 | 10531 | 11.449             |
+| 15                | 13159 | 7156  | 11932 | 13756 | 9679  | 13143 | 13287 | 10458 | 11735 | 9754  | 11.406             |
+| 16                | 10809 | 13099 | 10995 | 12129 | 11165 | 11561 | 10497 | 9984  | 12375 | 10170 | 11.278             |
+| 17                | 12485 | 11416 | 12902 | 11583 | 13970 | 13004 | 15253 | 11832 | 11300 | 11185 | 12.493             |
+| 18                | 14117 | 10332 | 14539 | 10381 | 13201 | 10398 | 15050 | 15806 | 12254 | 11945 | 12.802             |
+| 19                | 11327 | 13577 | 12025 | 11683 | 13110 | 11310 | 11330 | 12626 | 10682 | 12396 | 12.007             |
+| 20                | 13744 | 13016 | 13823 | 10777 | 11701 | 12725 | 14372 | 12391 | 13158 | 13581 | 12.929             |
+| 21                | 11691 | 14687 | 11976 | 12356 | 14227 | 14321 | 11895 | 12875 | 12234 | 12600 | 12.886             |
+| 22                | 13444 | 12580 | 12363 | 12873 | 11506 | 10820 | 13526 | 13900 | 16270 | 10326 | 12.761             |
+| 23                | 12598 | 13694 | 14542 | 12930 | 11755 | 14941 | 13185 | 13192 | 14313 | 14634 | 13.578             |
+| 24                | 13254 | 12372 | 14405 | 14660 | 14249 | 15548 | 14480 | 13241 | 12694 | 13510 | 13.841             |
+| 25                | 15730 | 12735 | 11297 | 11445 | 15022 | 14937 | 14891 | 15836 | 12737 | 13732 | 13.836             |
+| 26                | 13517 | 13400 | 15554 | 15708 | 11158 | 13307 | 14075 | 11386 | 13703 | 12479 | 13.429             |
+| 27                | 15719 | 15102 | 16821 | 13701 | 14189 | 12792 | 15119 | 14594 | 12034 | 15005 | 14.508             |
+| 28                | 15512 | 14432 | 14294 | 13815 | 12155 | 13181 | 12088 | 16273 | 13374 | 14378 | 13.950             |
+| 29                | 14407 | 15210 | 15748 | 15705 | 15007 | 13428 | 12728 | 15384 | 13411 | 15161 | 14.619             |
+| 30                | 17150 | 15671 | 12158 | 14380 | 14830 | 12550 | 15426 | 17516 | 11659 | 14484 | 14.582             |
+| 31                | 15196 | 12916 | 15097 | 12605 | 14523 | 12835 | 15003 | 17231 | 13506 | 15312 | 14.422             |
+| 32                | 15265 | 13652 | 15598 | 15208 | 12067 | 17032 | 12536 | 12854 | 13121 | 12103 | 13.944             |
+| 33                | 16421 | 15685 | 14078 | 12844 | 15467 | 16899 | 14958 | 17798 | 14047 | 14141 | 15.234             |
+| 66                | 18577 | 17469 | 19923 | 17424 | 19169 | 18839 | 15515 | 16134 | 19597 | 19061 | 18.171             |
+| 99                | 21112 | 21572 | 18664 | 21841 | 16107 | 20752 | 17981 | 20593 | 17947 | 19031 | 19.560             |
+| 132               | 23222 | 18656 | 17001 | 20458 | 18473 | 25019 | 19410 | 23016 | 22981 | 22542 | 21.078             |
+| 165               | 22422 | 23594 | 21360 | 21816 | 21905 | 21157 | 24698 | 20521 | 20895 | 19553 | 21.792             |
+| 198               | 23353 | 23407 | 23320 | 20903 | 20185 | 21243 | 22932 | 20957 | 23181 | 21184 | 22.067             |
+| 231               | 20998 | 22551 | 21209 | 23103 | 25777 | 22971 | 21847 | 24440 | 22000 | 24328 | 22.922             |
+| 264               | 24338 | 26266 | 23149 | 22174 | 22807 | 24970 | 23829 | 23555 | 24243 | 22120 | 23.745             |
+| 297               | 20174 | 22838 | 22762 | 20622 | 21907 | 21679 | 23076 | 23513 | 24620 | 23912 | 22.510             |
+| 330               | 22443 | 25800 | 21933 | 23440 | 23287 | 23378 | 23746 | 22497 | 27116 | 24047 | 23.769             |
+
+**O que concluir sobre as execuções?**
+Quando analisamos os resultados das execuções dos dois algoritmos gulosos percebemos ambos tem um tempo de execução muito bom, na tabela parece que os dados não foram calculados e estão vazios, mas isso aconteceu porque para todos os conjuntos de dados testados o tempo de execução não passou de 1 segundo, a tabela não registra tempos em milésimos por isso apenas podemos concluir que foir bem rápido. Quanto aos resultados, notamos que o que opta pelo melhor valor por megawatt tem o melhor lucro, dessa forma ele pegou os lances mais valiosos e que compensam mais para formar a solução, no outro tipo de guloso, muitas boas soluções possíveis foram descartadas porque ele estava apenas pegando os de menor megawatt e assim tentando agrupar o maior número de lances, o problema disso é que você pode até conseguir um bom número de lances, mas o valor deles somados é menor, arrecando menos lucro na sua solução.
+
+Em comparação com outros algoritmos, nenhum deles teve um tempo de execução tão bom quanto o Guloso, porém conseguiram achar soluções mais lucrativas do que o guloso. No primeiro algoritmo guloso, que prezava pelos lances de maior valor por megawatt, tivemos um resultado não muito descrepente do que o melhor possível, isso é uma vantagem de se escolher um bom critério guloso, agora o segundo que apenas tentava agrupar a maior quantidade de lance, teve um lucro bem divergente daqueles algoritmos que garantem o melhor resultado.
 
 ## Algoritmo de divisão e conquista
 

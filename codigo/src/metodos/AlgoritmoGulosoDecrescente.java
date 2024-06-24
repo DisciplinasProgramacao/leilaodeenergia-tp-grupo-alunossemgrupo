@@ -26,7 +26,7 @@ public class AlgoritmoGulosoDecrescente implements Algoritmo {
     public void executar(@NotNull MelhorResultado resultado, List<entidades.Lance> todosLances, List<entidades.Lance> lancesSelecionados, int indice, int lucroAtual) {
 
         List<Lance> lancesMutaveis = new ArrayList<>(todosLances);
-        lancesMutaveis.sort(comparingDouble(Lance::valorPorMegawatt));
+        lancesMutaveis.sort(comparingDouble(Lance::valorPorMegawatt).reversed());
 
         int energiaRestante = resultado.getProdutora().quantidadeDisponivel();
 
