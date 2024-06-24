@@ -373,8 +373,9 @@ simultaneamente, conseguisse encontrar o maior lucro possível em um tempo razo�
 
 A classe `ProgramacaoDinamica` implementa o algoritmo de Programação Dinâmica, uma técnica de otimização que resolve
 problemas complexos dividindo-os em subproblemas menores e resolvendo cada subproblema apenas uma vez, armazenando seus
-resultados para evitar cálculos repetidos. Este método é eficiente para problemas de otimização onde a solução é
-composta de sub-soluções ótimas.
+resultados para evitar cálculos repetidos.
+
+Para que o método da programação dinâmica possa ser aplicado, é preciso que o problema tenha estrutura recursiva, a solução de toda instância do problema deve conter soluções de subinstâncias da instância. A característica distintiva da programação dinâmica é a tabela que armazena as soluções das várias subinstâncias. Em alguns casos, o algoritmo recursivo refaz a solução de cada subinstância muitas vezes, e isso torna o algoritmo ineficiente. Nesses casos, é possível armazenar as solução das subinstância numa tabela e assim evitar que elas sejam recalculadas
 
 ### Algoritmo implementado
 
@@ -445,22 +446,73 @@ parâmetros, sendo eles:
 
 **Construção da Tabela de Programação Dinâmica:**
 
-Para cada lance, se atualiza o array dp de trás para frente, verificando se adicionar o lance atual aumenta o lucro.
+Inicializa variáveis para a quantidade disponível, o número de lances, e a capacidade máxima (8000). 
+Cria dois arrays: dp para armazenar os valores máximos de lucro para cada capacidade, e selecionados para rastrear os índices dos lances selecionados.
 
+```java
+int[] dp = new int[capacidade + 1];
+int[] selecionados = new int[capacidade + 1];
+```
+**Loop de Programação Dinâmica:**
+
+Esta parte do código itera sobre todos os lances e atualiza a tabela dp e o array selecionados. A tabela dp é preenchida de forma que dp[j] 
+representa o lucro máximo que pode ser obtido com a capacidade j. Se incluir o lance atual i resulta em um lucro maior, a tabela é atualizada.
+
+```java
+for (int i = 0; i < n; i++) {
+  Lance lance = todosLances.get(i);
+  int quantidade = lance.quantidade();
+  int valor = lance.valor();
+
+  for (int j = capacidade; j >= quantidade; j--) {
+    if (dp[j - quantidade] + valor > dp[j]) {
+      dp[j] = dp[j - quantidade] + valor;
+      selecionados[j] = i;
+    }
+  }
+}
+```
 **Determinação do Lucro Máximo:**
 
 O algoritmo itera sobre o array dp para encontrar o lucro máximo possível (`maxLucro`) e a capacidade
 correspondente (`melhorCapacidade`).
 
-**Rastreamento dos Lances Selecionados:**
+```java
+int maxLucro = 0;
+int melhorCapacidade = 0;
 
-A partir da capacidade que gerou o lucro máximo, o algoritmo rastreia os lances que foram selecionados, utilizando o
-array `selecionados`.
+for (int i = 0; i <= capacidade; i++) {
+  if (dp[i] > maxLucro) {
+    maxLucro = dp[i];
+    melhorCapacidade = i;
+  }
+}
+
+```
+
+**Recuperação dos Lances Selecionados**
+
+Reconstroi a lista dos melhores lances utilizando o array selecionados. Começa na capacidade máxima e retrocede até encontrar todos os lances selecionados.
+
+```java
+List<Lance> melhoresLances = new ArrayList<>();
+int capacidadeAtual = melhorCapacidade;
+
+while (capacidadeAtual > 0 && selecionados[capacidadeAtual] != 0) {
+  Lance lance = todosLances.get(selecionados[capacidadeAtual]);
+  melhoresLances.add(lance);
+  capacidadeAtual -= lance.quantidade();
+}
+
+```
 
 **Atualização do Melhor Resultado:**
 
 O lucro máximo e a lista de lances selecionados são armazenados no objeto `melhorResultado`.
-
+```java
+melhorResultado.setLucroMaximizado(maxLucro);
+melhorResultado.setLancesSelecionados(melhoresLances);
+```
 O algoritmo de programação dinâmica implementado busca encontrar a combinação de lances que maximiza o lucro total,
 respeitando a capacidade de venda da empresa produtora. O algoritmo realiza as seguintes etapas:
 
@@ -484,7 +536,6 @@ para o backtracking, o tempo de carregamento dos lances foi de 0,00 segundos, ao
 continua o mesmo encontrado no backtracking. A tabela a seguir apresenta os resultados obtidos com a execução do algoritmo de
 programação dinâmica.
 
-Aqui está a tabela formatada com os valores pontuados:
 
 | Quantidade lances | 1       | 2       | 3       | 4       | 5       | 6       | 7       | 8       | 9       | 10      | Melhor lucro médio |
 |-------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|--------------------|
@@ -512,6 +563,31 @@ Aqui está a tabela formatada com os valores pontuados:
 | 31                | 16.662  | 14.927  | 16.779  | 14.237  | 15.641  | 14.458  | 17.013  | 18.222  | 14.349  | 16.191  | 15.847,9            |
 | 32                | 17.290  | 15.307  | 17.305  | 15.826  | 13.945  | 17.748  | 14.959  | 14.481  | 14.309  | 14.393  | 15.556,3            |
 | 33                | 17.028  | 16.308  | 15.647  | 14.528  | 16.205  | 17.425  | 17.212  | 18.868  | 15.911  | 15.793  | 16.492,5            |
+*[Tabela de maior lucro obtido 1 - Programação Dinamica]*
+
+| Quantidade lances | 1       | 2       | 3       | 4       | 5       | 6       | 7       | 8       | 9       | 10      | Melhor lucro médio |
+|-------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|--------------------|
+| 66                | 20.445  | 23.373  | 25.110  | 24.980  | 26.100  | 25.631  | 28.143  | 25.192  | 28.326  | 21.410  | 24.871,0            |
+| 99                | 19.769  | 24.297  | 21.451  | 26.267  | 25.247  | 27.102  | 29.552  | 26.622  | 29.565  | 21.653  | 25.152,5            |
+| 132               | 22.405  | 20.979  | 20.596  | 25.494  | 25.807  | 24.197  | 28.104  | 27.217  | 26.298  | 23.914  | 24.501,1            |
+| 165               | 19.741  | 23.520  | 23.200  | 25.607  | 25.225  | 26.436  | 27.455  | 25.890  | 27.733  | 23.979  | 24.878,6            |
+| 198               | 20.925  | 18.671  | 21.397  | 26.468  | 23.764  | 28.959  | 26.325  | 27.401  | 28.608  | 26.304  | 24.882,2            |
+| 231               | 21.437  | 22.761  | 27.172  | 24.485  | 27.107  | 27.331  | 27.871  | 27.260  | 28.751  | 27.646  | 26.182,1            |
+| 264               | 18.557  | 19.753  | 22.452  | 26.392  | 26.240  | 26.475  | 28.379  | 27.560  | 29.330  | 25.741  | 25.087,9            |
+| 297               | 19.056  | 22.694  | 25.891  | 24.703  | 25.659  | 28.645  | 26.363  | 27.636  | 26.854  | 27.989  | 25.549,0            |
+| 330               | 20.432  | 20.185  | 24.409  | 23.142  | 26.413  | 25.418  | 28.133  | 29.693  | 28.512  | 28.418  | 25.475,5            |
+
+*[Tabela de maior lucro obtido 2 - Programação Dinamica]*
+
+Além dos cenários apresentados, foram executados dois conjuntos adicionais fornecidos pelo prof. Caram, conjunto um e
+dois. A relação das informações obtidas com a execução desses conjuntos são elencadas na tabela abaixo.
+
+| Conjunto | Quantidade lances | Lances selecionados | Lucro máximo | Tempo execução (seg) |
+|----------|-------------------|---------------------|--------------|----------------------|
+| Um       | 25                | 19                  | R$ 26.725,00 | 0                    |
+| Dois     | 25                | 16                  | R$ 40.348,00 | 0                    |
+
+Este algoritmo implementa uma solução clássica de programação dinâmica para maximizar o lucro dentro de uma capacidade limitada (similar ao problema da mochila). Ele itera sobre os lances disponíveis e preenche uma tabela (`dp`) para rastrear o lucro máximo possível para cada capacidade, e um array (`selecionados`) para rastrear quais lances foram escolhidos para alcançar esse lucro. Ao final, ele reconstrói a lista de lances selecionados e atualiza o objeto `melhorResultado` com o lucro máximo e os lances correspondentes.
 
 ## Comparação dos resultados obtidos pelos algoritmos
 
