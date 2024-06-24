@@ -373,270 +373,190 @@ simultaneamente, conseguisse encontrar o maior lucro possível em um tempo razo�
 
 ### Sobre o algoritmo
 
-O algoritmo de `Divisão e Conquista` é uma abordagem poderosa para resolver problemas complexos, dividindo-os em 
-subproblemas menores, resolvendo cada subproblema de forma independente e combinando suas soluções para obter a solução 
-final. Este método é particularmente eficaz para problemas que exibem uma estrutura recursiva natural, onde a solução de
-um problema pode ser derivada das soluções de seus subproblemas. Exemplos clássicos de algoritmos de divisão e conquista
-incluem a ordenação rápida (Quick Sort), a ordenação por mesclagem (Merge Sort) e a multiplicação de matrizes de Strassen.
+O algoritmo de `Divisão e Conquista` é uma estratégia clássica de resolução de problemas que envolve três passos 
+principais: dividir o problema em subproblemas menores, resolver esses subproblemas de forma recursiva, e então
+combinar as soluções dos subproblemas para obter a solução final do problema original. Este método é especialmente
+eficaz em problemas que podem ser divididos em partes menores e que possuem uma maneira clara de combinar as 
+soluções das partes para formar uma solução global.
 
 ### Algoritmo implementado
 
 ```java
 @Override
-    public void executar(@NonNull MelhorResultado resultado, @NotNull List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
-        List<Lance> lancesModificaveis = new ArrayList<>(todosLances);
-        
-        Collections.sort(lancesModificaveis, (l1, l2) -> Integer.compare(l2.valor(), l1.valor()));
-        
-        int melhorLucro = dividirConquistar(resultado, lancesModificaveis, new ArrayList<>(), 0, lancesModificaveis.size() - 1);
-        resultado.setLucroMaximizado(melhorLucro);
-        resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-    }
-```
-**Método `executar`:** Este método é o ponto de entrada principal para o algoritmo. Ele cria uma cópia modificável da lista de
-lances, ordena os lances por valor em ordem decrescente, e inicia a chamada recursiva para a função de divisão e conquista.
-
----
-
-```java
-List<Lance> lancesModificaveis = new ArrayList<>(todosLances);
-```
-
-**Cópia Modificável da Lista de Lances:**
-
-- `todosLances` é a lista original de lances. Para evitar modificar a lista original, criamos uma cópia chamada `lancesModificaveis`.
-- Utiliza-se o construtor de `ArrayList` que aceita uma coleção, copiando todos os elementos de todosLances para `lancesModificaveis`.
-
----
-
-```java
-Collections.sort(lancesModificaveis, (l1, l2) -> Integer.compare(l2.valor(), l1.valor()));
-```
-**Ordenação dos Lances:**
-
-- Os lances em `lancesModificaveis` são ordenados em ordem decrescente com base no valor de cada lance.
-- A função de comparação `Integer.compare(l2.valor(), l1.valor())` garante que os lances com maiores valores sejam considerados primeiro.
-
----
-
-```java
-int melhorLucro = dividirConquistar(resultado, lancesModificaveis, new ArrayList<>(), 0, lancesModificaveis.size() - 1);
-
-resultado.setLucroMaximizado(melhorLucro);
-resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-```
-
-**Inicialização da Recursão e Atualização do Resultado:**
-
-- Chama o método recursivo `dividirConquistar`, passando a lista ordenada de lances, uma nova lista vazia para lances selecionados, e os índices inicial e final da lista.
-- O lucro máximo obtido é armazenado em `melhorLucro`.
-- Define o lucro maximizado no objeto `resultado`.
-- Define a lista de lances selecionados no objeto `resultado`.
-
----
-
-```java
-private int dividirConquistar(MelhorResultado resultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int inicio, int fim) {
-        if (inicio > fim) {
-            return 0; 
-        }
-        
-        if (inicio == fim) {
-            Lance lanceUnico = todosLances.get(inicio);
-            if (lanceUnico.quantidade() <= 8000) {
-                lancesSelecionados.add(lanceUnico);
-                return lanceUnico.valor();
-            } else {
-                return 0;
-            }
-        }
-
-        int meio = (inicio + fim) / 2;
-        
-        int lucroEsquerda = dividirConquistar(resultado, todosLances, new ArrayList<>(lancesSelecionados), inicio, meio);
-        int lucroDireita = dividirConquistar(resultado, todosLances, new ArrayList<>(lancesSelecionados), meio + 1, fim);
-        
-        int lucroCruzado = encontrarMaximoCruzado(resultado, todosLances, lancesSelecionados, inicio, meio, fim);
-        
-        return Math.max(Math.max(lucroEsquerda, lucroDireita), lucroCruzado);
-    }
-```
-
-**Método `dividirConquistar`:** Este método recursivo divide a lista de lances em duas metades e calcula o lucro máximo possível
-para cada metade, além de considerar lances que cruzam a divisão.
-
----
-
-```java
-if (inicio > fim) {
-   return 0; 
-}
-        
-if (inicio == fim) {
-    Lance lanceUnico = todosLances.get(inicio);
-    if (lanceUnico.quantidade() <= 8000) {
-        lancesSelecionados.add(lanceUnico);
-        return lanceUnico.valor();
-    } else {
-       return 0;
-       }
+public AlgoritmosEnums algoritmo() {
+    return AlgoritmosEnums.DIVISAO_CONQUISTA;
 }
 ```
 
-**Caso Base 1:**
-- Se `inicio` é maior que `fim`, não há lances para selecionar, então retorna 0.
-
-**Caso Base 2:**
-- Se inicio é igual a fim, há apenas um lance disponível.
-- Se a quantidade do lance é menor ou igual a 8000, adiciona o lance à lista de lances selecionados e retorna o valor do lance.
-- Se a quantidade do lance é maior que 8000, retorna 0.
+Classe `DivisaoConquista`: Implementa a interface `Algoritmo`, especificando que este algoritmo é do tipo "Divisão
+e Conquista" retornando a enumeração correspondente através do método `algoritmo()`.
 
 ---
 
 ```java
-int meio = (inicio + fim) / 2;
+@Override
+public void executar(MelhorResultado resultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+    int quantidadeEnergiaDisponivel = resultado.getProdutora().quantidadeDisponivel();
 
-int lucroEsquerda = dividirConquistar(resultado, todosLances, new ArrayList<>(lancesSelecionados), inicio, meio);
-int lucroDireita = dividirConquistar(resultado, todosLances, new ArrayList<>(lancesSelecionados), meio + 1, fim);
+    List<Lance> melhorSelecao = resolverDivisaoEConquista(todosLances, quantidadeEnergiaDisponivel);
+
+    resultado.setLancesSelecionados(melhorSelecao);
+    resultado.setLucroMaximizado(melhorSelecao.stream().mapToInt(Lance::valor).sum());
+}
 ```
 
-**Divisão do Problema:**
-- Calcula o índice do meio da lista de lances.
-
-**Recursão para as Duas Metades:**
-- Calcula o lucro máximo para a metade esquerda da lista de lances.
-- Calcula o lucro máximo para a metade direita da lista de lances.
+Este método executa o algoritmo, recebendo a lista de todos os lances, a quantidade de energia disponível e 
+outros parâmetros relevantes. Ele utiliza o método `resolverDivisaoEConquista` para determinar a melhor 
+seleção de lances e atualiza o objeto `resultado` com os lances selecionados e o lucro maximizado.
 
 ---
 
 ```java
-int lucroCruzado = encontrarMaximoCruzado(resultado, todosLances, lancesSelecionados, inicio, meio, fim);
+private List<Lance> resolverDivisaoEConquista(List<Lance> lances, int quantidadeEnergiaDisponivel) {
+    if (lances.isEmpty() || quantidadeEnergiaDisponivel <= 0) {
+        return new ArrayList<>();
+    }
 
-return Math.max(Math.max(lucroEsquerda, lucroDireita), lucroCruzado);
+    if (lances.size() == 1) {
+        Lance lance = lances.get(0);
+        if (lance.quantidade() <= quantidadeEnergiaDisponivel) {
+            List<Lance> result = new ArrayList<>();
+            result.add(lance);
+            return result;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    int meio = lances.size() / 2;
+    List<Lance> esquerda = resolverDivisaoEConquista(new ArrayList<>(lances.subList(0, meio)), quantidadeEnergiaDisponivel);
+    List<Lance> direita = resolverDivisaoEConquista(new ArrayList<>(lances.subList(meio, lances.size())), quantidadeEnergiaDisponivel);
+
+    return combinarListas(direita, esquerda, quantidadeEnergiaDisponivel);
+}
 ```
 
-**Lucro Cruzado:**
-- Calcula o lucro máximo considerando lances que cruzam a divisão entre as duas metades.
-
-**Determinação do Lucro Máximo Global:**
-- Retorna o maior lucro entre o lucro da metade esquerda, o lucro da metade direita e o lucro cruzado.
+Este método divide a lista de lances em duas partes, resolve cada parte recursivamente e então combina as 
+soluções obtidas. Se a lista de lances estiver vazia ou se a quantidade de energia disponível for zero, 
+retorna uma lista vazia. Se houver apenas um lance, verifica se ele pode ser aceito e retorna uma lista 
+com ele ou uma lista vazia.
 
 ---
 
 ```java
-private int encontrarMaximoCruzado(MelhorResultado resultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int inicio, int meio, int fim) {
-        int lucroMaximoEsquerda = 0;
-        int lucroAtual = 0;
-        int quantidadeEsquerda = 0;
+private List<Lance> combinarListas(List<Lance> direita, List<Lance> esquerda, int quantidadeEnergiaDisponivel) {
+    List<Lance> lancesSelecionados = new ArrayList<>();
+    List<Lance> todosLances = new ArrayList<>(direita);
+    todosLances.addAll(esquerda);
 
-        for (int i = meio; i >= inicio; i--) {
-            quantidadeEsquerda += todosLances.get(i).quantidade();
-            if (quantidadeEsquerda <= 8000) {
-                lucroAtual += todosLances.get(i).valor();
-                lancesSelecionados.add(todosLances.get(i));
-                lucroMaximoEsquerda = Math.max(lucroMaximoEsquerda, lucroAtual);
+    // Ordenar por valor/quantidade (eficiência) para maximizar o lucro
+    todosLances.sort((l1, l2) -> {
+        double efficiency1 = (double) l1.valor() / l1.quantidade();
+        double efficiency2 = (double) l2.valor() / l2.quantidade();
+        return Double.compare(efficiency2, efficiency1);
+    });
+
+    final int[] quantidadeTotalInserida = {0};  
+
+    for (Lance lance : todosLances) {
+        if (quantidadeTotalInserida[0] + lance.quantidade() <= quantidadeEnergiaDisponivel) {
+            lancesSelecionados.add(lance);
+            quantidadeTotalInserida[0] += lance.quantidade();
+        }
+    }
+
+    // Tentar encontrar melhorias ao remover lances de menor eficiência e adicionar de maior eficiência
+    boolean melhoria = true;
+    while (melhoria) {
+        melhoria = false;
+        List<Lance> possiveisAdicionar = todosLances.stream()
+                .filter(l -> !lancesSelecionados.contains(l) && l.quantidade() + quantidadeTotalInserida[0] <= quantidadeEnergiaDisponivel)
+                .collect(Collectors.toList());
+
+        for (Lance lanceRemover : new ArrayList<>(lancesSelecionados)) {
+            for (Lance lanceAdicionar : possiveisAdicionar) {
+                if (lanceAdicionar.valor() > lanceRemover.valor() &&
+                        quantidadeTotalInserida[0] - lanceRemover.quantidade() + lanceAdicionar.quantidade() <= quantidadeEnergiaDisponivel) {
+                    lancesSelecionados.remove(lanceRemover);
+                    lancesSelecionados.add(lanceAdicionar);
+                    quantidadeTotalInserida[0] = quantidadeTotalInserida[0] - lanceRemover.quantidade() + lanceAdicionar.quantidade();
+                    melhoria = true;
+                    break;
+                }
+            }
+            if (melhoria) {
+                break;
             }
         }
-        
-        int lucroMaximoDireita = 0;
-        lucroAtual = 0;
-        int quantidadeDireita = 0;
-
-        for (int i = meio + 1; i <= fim; i++) {
-            quantidadeDireita += todosLances.get(i).quantidade();
-            if (quantidadeDireita <= 8000) {
-                lucroAtual += todosLances.get(i).valor();
-                lancesSelecionados.add(todosLances.get(i));
-                lucroMaximoDireita = Math.max(lucroMaximoDireita, lucroAtual);
-            }
-        }
-        
-        int lucroMaximo = lucroMaximoEsquerda + lucroMaximoDireita;
-        
-        if (lucroMaximo > resultado.getLucroMaximizado()) {
-            resultado.setLucroMaximizado(lucroMaximo);
-            resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-        }
-
-        return lucroMaximo;
     }
-```
-**Método `encontrarMaximoCruzado`:** Calcula o lucro máximo considerando lances que cruzam a divisão entre as duas metades.
 
----
+    // Tentar adicionar qualquer lance restante que ainda caiba na capacidade
+    List<Lance> lancesNaoSelecionados = todosLances.stream()
+            .filter(l -> !lancesSelecionados.contains(l))
+            .collect(Collectors.toList());
 
-```java
-int lucroMaximoEsquerda = 0;
-int lucroAtual = 0;
-int quantidadeEsquerda = 0;
-
-    for (int i = meio; i >= inicio; i--) {
-        quantidadeEsquerda += todosLances.get(i).quantidade();
-        if (quantidadeEsquerda <= 8000) {
-            lucroAtual += todosLances.get(i).valor();
-            lancesSelecionados.add(todosLances.get(i));
-            lucroMaximoEsquerda = Math.max(lucroMaximoEsquerda, lucroAtual);
+    for (Lance lance : lancesNaoSelecionados) {
+        if (quantidadeTotalInserida[0] + lance.quantidade() <= quantidadeEnergiaDisponivel) {
+            lancesSelecionados.add(lance);
+            quantidadeTotalInserida[0] += lance.quantidade();
         }
     }
+
+    return lancesSelecionados;
+}
 ```
 
-**Lucro Máximo na Esquerda:**
-- Inicializa as variáveis para armazenar o lucro máximo, o lucro atual e a quantidade acumulada na esquerda.
-- Percorre a lista de lances do meio ao início.
-- Acumula a quantidade de lances.
-- Se a quantidade acumulada é menor ou igual a 8000, acumula o valor do lance no lucro atual e adiciona o lance à lista de lances selecionados.
-- Atualiza o lucro máximo da esquerda se o lucro atual é maior que o lucro máximo.
+Este método combina os resultados das duas listas (esquerda e direita) em uma solução única. Ele começa 
+ordenando todos os lances pela eficiência (valor/quantidade) em ordem decrescente. Em seguida, tenta selecionar 
+os lances mais eficientes sem exceder a quantidade de energia disponível. Depois, realiza uma melhoria iterativa,
+tentando substituir lances menos eficientes por lances mais eficientes até que não haja mais melhorias possíveis. Finalmente, tenta adicionar qualquer lance restante que ainda caiba na capacidade de energia disponível.
 
 ---
 
-```java
-int lucroMaximoDireita = 0;
-lucroAtual = 0;
-int quantidadeDireita = 0;
-
-    for (int i = meio + 1; i <= fim; i++) {
-        quantidadeDireita += todosLances.get(i).quantidade();
-        if (quantidadeDireita <= 8000) {
-            lucroAtual += todosLances.get(i).valor();
-            lancesSelecionados.add(todosLances.get(i));
-            lucroMaximoDireita = Math.max(lucroMaximoDireita, lucroAtual);
-        }
-    }
-```
-
-**Lucro Máximo na Direita:**
-- Inicializa as variáveis para armazenar o lucro máximo, o lucro atual e a quantidade acumulada na direita.
-- Percorre a lista de lances do meio + 1 ao fim.
-- Acumula a quantidade de lances.
-- Se a quantidade acumulada é menor ou igual a 8000, acumula o valor do lance no lucro atual e adiciona o lance à lista de lances selecionados.
-- Atualiza o lucro máximo da direita se o lucro atual é maior que o lucro máximo.
-
----
-
-```java
-int lucroMaximo = lucroMaximoEsquerda + lucroMaximoDireita;
-
-        if (lucroMaximo > resultado.getLucroMaximizado()) {
-            resultado.setLucroMaximizado(lucroMaximo);
-            resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
-        }
-
-        return lucroMaximo;
-```
-
-**Combinação dos Resultados:**
-- Combina os lucros máximos da esquerda e da direita para obter o lucro cruzado máximo.
-
-**Atualização do Resultado Global:**
-- Se o lucro cruzado máximo é maior que o lucro maximizado atual, atualiza o lucro maximizado e a lista de lances selecionados no objeto resultado.
-- Retorna o lucro cruzado máximo.
-
----
 
 ### Massa de testes utilizada
 Neste caso, utilize os mesmos conjuntos de tamanho T utilizados no backtracking.
 
 ### Resultados obtidos
+
+| Qtde lances | 1     | 2     | 3     | 4     | 5     | 6     | 7     | 8     | 9     | 10    | Melhor Lucro Médio |
+|-------------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|--------------------|
+| 10          | 11373 | 8394  | 9690  | 9040  | 10005 | 8368  | 10421 | 10152 | 10625 | 11697 | 9976,5             |
+| 11          | 11045 | 9075  | 12153 | 10521 | 8854  | 9458  | 11361 | 10629 | 10105 | 10587 | 10378,8            |
+| 12          | 11395 | 12706 | 9367  | 10763 | 11212 | 9854  | 12350 | 11432 | 9855  | 11932 | 11086,6            |
+| 13          | 11059 | 9279  | 9575  | 11873 | 9421  | 9821  | 11747 | 12300 | 10670 | 10045 | 10579              |
+| 14          | 9281  | 14021 | 10814 | 14062 | 11814 | 11063 | 11309 | 13356 | 12220 | 11493 | 11943,3            |
+| 15          | 13535 | 8200  | 13383 | 13756 | 11483 | 14188 | 13611 | 11064 | 12690 | 10956 | 12286,6            |
+| 16          | 12160 | 13591 | 12249 | 13478 | 11905 | 12510 | 12011 | 12417 | 12924 | 11580 | 12482,5            |
+| 17          | 13424 | 12573 | 14009 | 12169 | 14769 | 13004 | 16050 | 12196 | 12516 | 11776 | 13248,6            |
+| 18          | 14208 | 11297 | 15407 | 11440 | 14408 | 10804 | 15238 | 16301 | 13775 | 13227 | 13610,5            |
+| 19          | 12453 | 14352 | 13737 | 13724 | 13662 | 12215 | 12236 | 14697 | 11784 | 13330 | 13219              |
+| 20          | 14831 | 14268 | 15035 | 11828 | 13712 | 13552 | 14871 | 13827 | 13986 | 15356 | 14126,6            |
+| 21          | 11951 | 16218 | 13216 | 13626 | 15327 | 14926 | 13176 | 14002 | 13501 | 13957 | 13990              |
+| 22          | 14270 | 13253 | 13694 | 15215 | 13076 | 11853 | 14362 | 14574 | 16733 | 12014 | 13904,4            |
+| 23          | 14160 | 14795 | 15002 | 13760 | 13577 | 16308 | 14030 | 14619 | 15402 | 14902 | 14655,5            |
+| 24          | 14003 | 13505 | 14812 | 15435 | 14425 | 15916 | 15243 | 14105 | 15037 | 14274 | 14675,5            |
+| 25          | 15837 | 14717 | 13223 | 13437 | 15213 | 15876 | 16253 | 17029 | 14090 | 14621 | 15029,6            |
+| 26          | 15217 | 14726 | 16423 | 17017 | 13700 | 14073 | 15667 | 12722 | 15887 | 14369 | 14980,1            |
+| 27          | 16934 | 15958 | 17389 | 14517 | 14770 | 14705 | 16279 | 15783 | 13216 | 16202 | 15575,3            |
+| 28          | 16909 | 15472 | 15263 | 14260 | 13573 | 14049 | 13686 | 17431 | 15361 | 15299 | 15130,3            |
+| 29          | 15956 | 16563 | 16741 | 17101 | 16104 | 14728 | 14132 | 17076 | 15299 | 15806 | 15950,6            |
+| 30          | 17738 | 17273 | 14179 | 16732 | 16281 | 14321 | 16194 | 18770 | 14250 | 15564 | 16130,2            |
+| 31          | 16662 | 14927 | 16779 | 14237 | 15641 | 14458 | 17013 | 18222 | 14349 | 16191 | 15847,9            |
+| 32          | 17290 | 15307 | 17305 | 15826 | 13945 | 17748 | 14959 | 14481 | 14309 | 14393 | 15556,3            |
+| 33          | 17028 | 16308 | 15647 | 14528 | 16205 | 17425 | 17212 | 18868 | 15911 | 15793 | 16492,5            |
+| 25          | 26725 | 40348 |       |       |       |       |       |       |       |       | 33536,5            |
+*[Tabela de maior lucro obtido - Divisão e Conquista]*
+
+
+Além dos cenários apresentados, foram executados dois conjuntos adicionais fornecidos pelo prof. Caram, conjunto um e
+dois. A relação das informações obtidas com a execução desses conjuntos são elencadas na tabela abaixo.
+
+| Conjunto | Quantidade lances | Lances selecionados | Lucro máximo | Tempo execução (seg) |
+|----------|-------------------|---------------------|--------------|----------------------|
+| Um       | 25                | 19                  | R$ 26.725,00 | 10                   |
+| Dois     | 25                | 21                  | R$ 40.348,00 | 10                   |
+
 
 ## Algoritmo por programação dinâmica
 

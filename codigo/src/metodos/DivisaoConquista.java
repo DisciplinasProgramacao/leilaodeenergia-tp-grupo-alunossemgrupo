@@ -3,105 +3,113 @@ package metodos;
 import entidades.Lance;
 import entidades.MelhorResultado;
 import enums.AlgoritmosEnums;
-import lombok.NonNull;
 import metodos.interfaces.Algoritmo;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static enums.AlgoritmosEnums.DIVISAO_CONQUISTA;
+import java.util.stream.Collectors;
 
 public class DivisaoConquista implements Algoritmo {
 
     @Override
     public AlgoritmosEnums algoritmo() {
-        return DIVISAO_CONQUISTA;
+        return AlgoritmosEnums.DIVISAO_CONQUISTA;
     }
 
     @Override
-    public void executar(@NonNull MelhorResultado resultado, @NotNull List<Lance> todosLances, @NonNull List<Lance> lancesSelecionados, int indice, int lucroAtual) {
-        // Criar uma cópia modificável da lista de lances
-        List<Lance> lancesModificaveis = new ArrayList<>(todosLances);
+    public void executar(MelhorResultado resultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int indice, int lucroAtual) {
+        int quantidadeEnergiaDisponivel = resultado.getProdutora().quantidadeDisponivel();
 
-        // Ordenar os lances por valor em ordem decrescente (para maximizar o lucro)
-        Collections.sort(lancesModificaveis, (l1, l2) -> Integer.compare(l2.valor(), l1.valor()));
+        List<Lance> melhorSelecao = resolverDivisaoEConquista(todosLances, quantidadeEnergiaDisponivel);
 
-        // Inicializa a chamada recursiva para dividir e conquistar
-        int melhorLucro = dividirConquistar(resultado, lancesModificaveis, new ArrayList<>(), 0, lancesModificaveis.size() - 1);
-        resultado.setLucroMaximizado(melhorLucro);
-        resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+        resultado.setLancesSelecionados(melhorSelecao);
+        resultado.setLucroMaximizado(melhorSelecao.stream().mapToInt(Lance::valor).sum());
     }
 
-    private int dividirConquistar(MelhorResultado resultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int inicio, int fim) {
-        if (inicio > fim) {
-            return 0; // Caso base: nenhum lance para selecionar
+    private List<Lance> resolverDivisaoEConquista(List<Lance> lances, int quantidadeEnergiaDisponivel) {
+        if (lances.isEmpty() || quantidadeEnergiaDisponivel <= 0) {
+            return new ArrayList<>();
         }
 
-        // Caso base: apenas um lance disponível
-        if (inicio == fim) {
-            Lance lanceUnico = todosLances.get(inicio);
-            if (lanceUnico.quantidade() <= 8000) {
-                lancesSelecionados.add(lanceUnico);
-                return lanceUnico.valor();
+        if (lances.size() == 1) {
+            Lance lance = lances.get(0);
+            if (lance.quantidade() <= quantidadeEnergiaDisponivel) {
+                List<Lance> result = new ArrayList<>();
+                result.add(lance);
+                return result;
             } else {
-                return 0;
+                return new ArrayList<>();
             }
         }
 
-        int meio = (inicio + fim) / 2;
+        int meio = lances.size() / 2;
+        List<Lance> esquerda = resolverDivisaoEConquista(new ArrayList<>(lances.subList(0, meio)), quantidadeEnergiaDisponivel);
+        List<Lance> direita = resolverDivisaoEConquista(new ArrayList<>(lances.subList(meio, lances.size())), quantidadeEnergiaDisponivel);
 
-        // Recursivamente calcular o lucro máximo para as duas metades
-        int lucroEsquerda = dividirConquistar(resultado, todosLances, new ArrayList<>(lancesSelecionados), inicio, meio);
-        int lucroDireita = dividirConquistar(resultado, todosLances, new ArrayList<>(lancesSelecionados), meio + 1, fim);
-
-        // Calcular o lucro máximo considerando lances que cruzam a divisão
-        int lucroCruzado = encontrarMaximoCruzado(resultado, todosLances, lancesSelecionados, inicio, meio, fim);
-
-        // Determinar o lucro máximo global
-        return Math.max(Math.max(lucroEsquerda, lucroDireita), lucroCruzado);
+        return combinarListas(direita, esquerda, quantidadeEnergiaDisponivel);
     }
 
-    private int encontrarMaximoCruzado(MelhorResultado resultado, List<Lance> todosLances, List<Lance> lancesSelecionados, int inicio, int meio, int fim) {
-        // Encontrar o lucro máximo considerando lances que cruzam a divisão entre as duas metades
-        // Percorrer da metade ao início
-        int lucroMaximoEsquerda = 0;
-        int lucroAtual = 0;
-        int quantidadeEsquerda = 0;
+    private List<Lance> combinarListas(List<Lance> direita, List<Lance> esquerda, int quantidadeEnergiaDisponivel) {
+        List<Lance> lancesSelecionados = new ArrayList<>();
+        List<Lance> todosLances = new ArrayList<>(direita);
+        todosLances.addAll(esquerda);
 
-        for (int i = meio; i >= inicio; i--) {
-            quantidadeEsquerda += todosLances.get(i).quantidade();
-            if (quantidadeEsquerda <= 8000) {
-                lucroAtual += todosLances.get(i).valor();
-                lancesSelecionados.add(todosLances.get(i));
-                lucroMaximoEsquerda = Math.max(lucroMaximoEsquerda, lucroAtual);
+        // Ordenar por valor/quantidade (eficiência) para maximizar o lucro
+        todosLances.sort((l1, l2) -> {
+            double efficiency1 = (double) l1.valor() / l1.quantidade();
+            double efficiency2 = (double) l2.valor() / l2.quantidade();
+            return Double.compare(efficiency2, efficiency1);
+        });
+
+        final int[] quantidadeTotalInserida = {0};
+
+        for (Lance lance : todosLances) {
+            if (quantidadeTotalInserida[0] + lance.quantidade() <= quantidadeEnergiaDisponivel) {
+                lancesSelecionados.add(lance);
+                quantidadeTotalInserida[0] += lance.quantidade();
             }
         }
 
-        // Percorrer da metade + 1 ao fim
-        int lucroMaximoDireita = 0;
-        lucroAtual = 0;
-        int quantidadeDireita = 0;
+        // Tentar encontrar melhorias ao remover lances de menor eficiência e adicionar de maior eficiência
+        boolean melhoria = true;
+        while (melhoria) {
+            melhoria = false;
+            List<Lance> possiveisAdicionar = todosLances.stream()
+                    .filter(l -> !lancesSelecionados.contains(l) && l.quantidade() + quantidadeTotalInserida[0] <= quantidadeEnergiaDisponivel)
+                    .collect(Collectors.toList());
 
-        for (int i = meio + 1; i <= fim; i++) {
-            quantidadeDireita += todosLances.get(i).quantidade();
-            if (quantidadeDireita <= 8000) {
-                lucroAtual += todosLances.get(i).valor();
-                lancesSelecionados.add(todosLances.get(i));
-                lucroMaximoDireita = Math.max(lucroMaximoDireita, lucroAtual);
+            for (Lance lanceRemover : new ArrayList<>(lancesSelecionados)) {
+                for (Lance lanceAdicionar : possiveisAdicionar) {
+                    if (lanceAdicionar.valor() > lanceRemover.valor() &&
+                            quantidadeTotalInserida[0] - lanceRemover.quantidade() + lanceAdicionar.quantidade() <= quantidadeEnergiaDisponivel) {
+                        lancesSelecionados.remove(lanceRemover);
+                        lancesSelecionados.add(lanceAdicionar);
+                        quantidadeTotalInserida[0] = quantidadeTotalInserida[0] - lanceRemover.quantidade() + lanceAdicionar.quantidade();
+                        melhoria = true;
+                        break;
+                    }
+                }
+                if (melhoria) {
+                    break;
+                }
             }
         }
 
-        // Combinar os resultados das duas metades
-        int lucroMaximo = lucroMaximoEsquerda + lucroMaximoDireita;
+        // Tentar adicionar qualquer lance restante que ainda caiba na capacidade
+        List<Lance> lancesNaoSelecionados = todosLances.stream()
+                .filter(l -> !lancesSelecionados.contains(l))
+                .collect(Collectors.toList());
 
-        // Atualizar o resultado global se necessário
-        if (lucroMaximo > resultado.getLucroMaximizado()) {
-            resultado.setLucroMaximizado(lucroMaximo);
-            resultado.setLancesSelecionados(new ArrayList<>(lancesSelecionados));
+        for (Lance lance : lancesNaoSelecionados) {
+            if (quantidadeTotalInserida[0] + lance.quantidade() <= quantidadeEnergiaDisponivel) {
+                lancesSelecionados.add(lance);
+                quantidadeTotalInserida[0] += lance.quantidade();
+            }
         }
 
-        return lucroMaximo;
+        return lancesSelecionados;
     }
+
+
+
 }
