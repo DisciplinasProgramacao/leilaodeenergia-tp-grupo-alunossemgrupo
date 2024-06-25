@@ -794,6 +794,19 @@ soluções obtidas. Se a lista de lances estiver vazia ou se a quantidade de ene
 retorna uma lista vazia. Se houver apenas um lance, verifica se ele pode ser aceito e retorna uma lista 
 com ele ou uma lista vazia.
 
+```java
+int meio = lances.size() / 2;
+List<Lance> esquerda = resolverDivisaoEConquista(new ArrayList<>(lances.subList(0, meio)), quantidadeEnergiaDisponivel);
+List<Lance> direita = resolverDivisaoEConquista(new ArrayList<>(lances.subList(meio, lances.size())), quantidadeEnergiaDisponivel);
+
+return combinarListas(direita, esquerda, quantidadeEnergiaDisponivel);
+```
+
+- Divide a lista de lances em duas metades.
+- Resolve recursivamente cada metade da lista.
+- Combina as soluções das duas metades chamando o método `combinarListas`.
+
+
 ---
 
 ```java
@@ -864,6 +877,89 @@ ordenando todos os lances pela eficiência (valor/quantidade) em ordem decrescen
 os lances mais eficientes sem exceder a quantidade de energia disponível. Depois, realiza uma melhoria iterativa,
 tentando substituir lances menos eficientes por lances mais eficientes até que não haja mais melhorias possíveis. Finalmente, tenta adicionar qualquer lance restante que ainda caiba na capacidade de energia disponível.
 
+```java
+List<Lance> lancesSelecionados = new ArrayList<>();
+List<Lance> todosLances = new ArrayList<>(direita);
+todosLances.addAll(esquerda);
+```
+
+- Combina as duas listas de lances (direita e esquerda) em uma única lista.
+
+```java
+todosLances.sort((l1, l2) -> {
+double efficiency1 = (double) l1.valor() / l1.quantidade();
+double efficiency2 = (double) l2.valor() / l2.quantidade();
+        return Double.compare(efficiency2, efficiency1);
+});
+```
+
+- Ordena todos os lances pela eficiência (valor/quantidade) em ordem decrescente para maximizar o lucro.
+
+```java
+final int[] quantidadeTotalInserida = {0};
+
+for (Lance lance : todosLances) {
+        if (quantidadeTotalInserida[0] + lance.quantidade() <= quantidadeEnergiaDisponivel) {
+            lancesSelecionados.add(lance);
+            quantidadeTotalInserida[0] += lance.quantidade();
+        }
+}
+```
+
+- Cria um array para acompanhar a quantidade total de energia usada.
+- Itera sobre a lista ordenada e seleciona os lances que cabem na quantidade de energia disponível.
+
+```java
+    boolean melhoria = true;
+    while (melhoria) {
+        melhoria = false;
+        List<Lance> possiveisAdicionar = todosLances.stream()
+            .filter(l -> !lancesSelecionados.contains(l) && l.quantidade() + quantidadeTotalInserida[0] <= quantidadeEnergiaDisponivel)
+            .collect(Collectors.toList());
+```
+
+- Tenta melhorar a seleção substituindo lances menos eficientes por lances mais eficientes até que não haja mais melhorias possíveis.
+
+```java
+        for (Lance lanceRemover : new ArrayList<>(lancesSelecionados)) {
+            for (Lance lanceAdicionar : possiveisAdicionar) {
+                if (lanceAdicionar.valor() > lanceRemover.valor() &&
+                    quantidadeTotalInserida[0] - lanceRemover.quantidade() + lanceAdicionar.quantidade() <= quantidadeEnergiaDisponivel) {
+                lancesSelecionados.remove(lanceRemover);
+                lancesSelecionados.add(lanceAdicionar);
+                quantidadeTotalInserida[0] = quantidadeTotalInserida[0] - lanceRemover.quantidade() + lanceAdicionar.quantidade();
+                melhoria = true;
+                break;
+                }
+            }
+            if (melhoria) {
+                break;
+        }
+    }
+}
+```
+
+- Se a troca de lances for realizada, o processo de melhoria continua até que não haja mais trocas possíveis.
+
+```java
+List<Lance> lancesNaoSelecionados = todosLances.stream()
+            .filter(l -> !lancesSelecionados.contains(l))
+            .collect(Collectors.toList());
+
+    for (Lance lance : lancesNaoSelecionados) {
+        if (quantidadeTotalInserida[0] + lance.quantidade() <= quantidadeEnergiaDisponivel) {
+            lancesSelecionados.add(lance);
+            quantidadeTotalInserida[0] += lance.quantidade();
+        }
+    }
+
+    return lancesSelecionados;
+```
+
+- Obtém a lista de lances que ainda não foram selecionados.
+- Adiciona qualquer lance restante que ainda caiba na capacidade de energia disponível.
+- Retorna a lista de lances selecionados que maximiza o lucro dentro da quantidade de energia disponível.
+
 ---
 
 
@@ -899,17 +995,27 @@ Neste caso, utilize os mesmos conjuntos de tamanho T utilizados no backtracking.
 | 32          | 17290 | 15307 | 17305 | 15826 | 13945 | 17748 | 14959 | 14481 | 14309 | 14393 | 15556,3            |
 | 33          | 17028 | 16308 | 15647 | 14528 | 16205 | 17425 | 17212 | 18868 | 15911 | 15793 | 16492,5            |
 | 25          | 26725 | 40348 |       |       |       |       |       |       |       |       | 33536,5            |
+
 *[Tabela de maior lucro obtido - Divisão e Conquista]*
 
+A análise dos resultados dos lances revela uma tendência clara: aumentar o número de lances geralmente 
+leva a um aumento no lucro. Observando os dados, percebe-se que o melhor lucro tende a crescer conforme 
+a quantidade de lances aumenta, evidenciando que a exploração de mais opções pode resultar em melhores 
+resultados. No entanto, essa relação não é linear e, após cerca de 30 lances, o incremento no lucro começa 
+a estabilizar, indicando uma diminuição dos retornos marginais.
 
-Além dos cenários apresentados, foram executados dois conjuntos adicionais fornecidos pelo prof. Caram, conjunto um e
-dois. A relação das informações obtidas com a execução desses conjuntos são elencadas na tabela abaixo.
+A variabilidade dos resultados dentro de cada quantidade de lances é significativa, sugerindo que fatores como a estratégia adotada e a aleatoriedade do processo também desempenham papéis cruciais nos lucros obtidos.
 
 | Conjunto | Quantidade lances | Lances selecionados | Lucro máximo | Tempo execução (seg) |
 |----------|-------------------|---------------------|--------------|----------------------|
 | Um       | 25                | 19                  | R$ 26.725,00 | 10                   |
 | Dois     | 25                | 21                  | R$ 40.348,00 | 10                   |
 
+Em resumo, mais lances tendem a aumentar os lucros até um certo ponto, após o qual os ganhos adicionais 
+se tornam menores. A análise dos dados fornece insights valiosos para a tomada de decisões, destacando a 
+importância de uma estratégia bem pensada e da consideração dos fatores variáveis que afetam os resultados
+finais. Os casos especiais de 25 lances mostram o potencial de se obter lucros extraordinários quando se 
+utiliza conjuntos específicos ou condições ideais.
 
 ## Algoritmo por programação dinâmica
 
