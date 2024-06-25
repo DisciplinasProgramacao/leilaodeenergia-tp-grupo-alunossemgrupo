@@ -694,9 +694,22 @@ arquivos: `exec-log.xls` e `hist-log.xls`.
 | 330               | 22443 | 25800 | 21933 | 23440 | 23287 | 23378 | 23746 | 22497 | 27116 | 24047 | 23.769             |
 
 **O que concluir sobre as execuções?**
+
 Quando analisamos os resultados das execuções dos dois algoritmos gulosos percebemos ambos tem um tempo de execução muito bom, na tabela parece que os dados não foram calculados e estão vazios, mas isso aconteceu porque para todos os conjuntos de dados testados o tempo de execução não passou de 1 segundo, a tabela não registra tempos em milésimos por isso apenas podemos concluir que foir bem rápido. Quanto aos resultados, notamos que o que opta pelo melhor valor por megawatt tem o melhor lucro, dessa forma ele pegou os lances mais valiosos e que compensam mais para formar a solução, no outro tipo de guloso, muitas boas soluções possíveis foram descartadas porque ele estava apenas pegando os de menor megawatt e assim tentando agrupar o maior número de lances, o problema disso é que você pode até conseguir um bom número de lances, mas o valor deles somados é menor, arrecando menos lucro na sua solução.
 
 Em comparação com outros algoritmos, nenhum deles teve um tempo de execução tão bom quanto o Guloso, porém conseguiram achar soluções mais lucrativas do que o guloso. No primeiro algoritmo guloso, que prezava pelos lances de maior valor por megawatt, tivemos um resultado não muito descrepente do que o melhor possível, isso é uma vantagem de se escolher um bom critério guloso, agora o segundo que apenas tentava agrupar a maior quantidade de lance, teve um lucro bem divergente daqueles algoritmos que garantem o melhor resultado.
+
+**Resultados Conjunto Caram**
+
+Guloso Valor por Megawatt Decrescente:
+C1: T: 0s | R: 26725
+C2: T: 0s | R: 39271
+
+Guloso Megawatt Decrescente:
+C1: T: 0s | R: 26725
+C2: T: 0s | R: 39408
+
+Nesse conjunto de dados vemos um resultado inusitado. O critério guloso menos promissor trouxe um valor maior para o segundo conjunto de dados, mas a diferença não foi tão grande. O critério de valor por megawatt na ordem decrescente ficou atrás por uma diferença de 137 no valor. Vale ressaltar que ambos tiverem o tempo de 0s também pela baixa complexidade que o algoritmo necessita.
 
 ## Algoritmo de divisão e conquista
 
